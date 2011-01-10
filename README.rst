@@ -46,23 +46,21 @@ Convenience Commands
     If a virtualenv environment is active, change the current working 
     directory to the active virtualenv base directory. If a virtualenv 
     environment is not active, change the current working directory to 
-    the base directory of the default Python.
-
-    ``cd-`` will return you to the last directory you were in before calling ``cdvirtualenv``.
+    the base directory of the default Python. ``cd-`` will return you 
+    to the last directory you were in before calling ``cdvirtualenv``.
 
 ``cdsitepackages``
     If a virtualenv environment is active, change the current working 
     directory to the active virtualenv's site-packages directory. If 
     a virtualenv environment is not active, change the current working 
-    directory to the default Python's site-packages directory.
-
-    ``cd-`` will return you to the last directory you were in before calling ``cdsitepackages``.
+    directory to the default Python's site-packages directory. ``cd-`` 
+    will return you to the last directory you were in before calling 
+    ``cdsitepackages``.
 
 ``lssitepackages``
     If a virtualenv environment is active, list that environment's 
-    site-packages. If a virtualenv environment is not active, 
-    list the default Python's site-packages.
-
-    Output includes a basic listing of the site-packages directory, 
-    the contents of easy-install.pth, and the contents of 
-    virtualenv_path_extensions.pth (used by ``add2virtualenv``).
+    site-packages. If a virtualenv environment is not active, list the 
+    default Python's site-packages. Output includes a basic listing of 
+    the site-packages directory, the contents of easy-install.pth, 
+    and the contents of virtualenv_path_extensions.pth (used by 
+    ``add2virtualenv``).
