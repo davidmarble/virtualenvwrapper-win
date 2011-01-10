@@ -14,31 +14,25 @@ Optional: Add an environment variable WORKON_HOME to specify the path to store e
 Main Commands
 -------------
 ``mkvirtualenv <name>``
-
     Create a new virtualenv environment named *<name>*.  The environment will 
     be created in WORKON_HOME.
 
 ``lsvirtualenv``
-
     List all of the enviornments stored in WORKON_HOME.
 
 ``rmvirtualenv <name>``
-
     Remove the environment *<name>*. Uses ``folder_delete.bat``.
 
 ``workon [<name>]``
-
     If *<name>* is specified, activate the environment named *<name>* (change 
     the working virtualenv to *<name>*). If no argument is specified, list 
     the available environments.
 
 ``deactivate``
-
     Deactivate the working virtualenv and switch back to the default system 
     Python.
 
 ``add2virtualenv <full_path>``
-
     If a virtualenv environment is active, appends *<full_path>* to 
     ``virtualenv_path_extensions.pth`` inside the environment's site-packages,
     which effectively adds *<full_path>* to the environment's PYTHONPATH. 
@@ -49,7 +43,6 @@ Main Commands
 Convenience Commands
 --------------------
 ``cdvirtualenv``
-
     If a virtualenv environment is active, change the current working 
     directory to the active virtualenv base directory. If a virtualenv 
     environment is not active, change the current working directory to 
@@ -58,7 +51,6 @@ Convenience Commands
     ``cd-`` will return you to the last directory you were in before calling ``cdvirtualenv``.
 
 ``cdsitepackages``
-
     If a virtualenv environment is active, change the current working 
     directory to the active virtualenv's site-packages directory. If 
     a virtualenv environment is not active, change the current working 
@@ -67,7 +59,6 @@ Convenience Commands
     ``cd-`` will return you to the last directory you were in before calling ``cdsitepackages``.
 
 ``lssitepackages``
-
     If a virtualenv environment is active, list that environment's 
     site-packages. If a virtualenv environment is not active, 
     list the default Python's site-packages.
