@@ -18,18 +18,18 @@ if defined VIRTUAL_ENV (
 )
 
 echo.
-echo dir /b %PYDIR%\Lib\site-packages
+echo dir /b "%PYDIR%\Lib\site-packages"
 echo ==============================================================================
-dir /b %PYDIR%\Lib\site-packages
+dir /b "%PYDIR%\Lib\site-packages"
 echo.
 echo %PYDIR%\Lib\site-packages\easy-install.pth
 echo ==============================================================================
-type %PYDIR%\Lib\site-packages\easy-install.pth
+type "%PYDIR%\Lib\site-packages\easy-install.pth"
 echo.
-if exist %PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth (
+if exist "%PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth" (
     echo %PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth
     echo ==============================================================================
-    type %PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth
+    type "%PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth"
     echo.
 )
 ENDLOCAL

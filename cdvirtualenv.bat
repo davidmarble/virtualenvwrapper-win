@@ -13,7 +13,7 @@ if not defined VIRTUAL_ENV (
 set _LAST_DIR=%CD%
 
 if defined VIRTUAL_ENV (
-    cd %VIRTUAL_ENV%
+    cd "%VIRTUAL_ENV%"
 ) else (
     cd %PYTHONHOME%
 )

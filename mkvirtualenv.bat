@@ -1,5 +1,5 @@
 @echo off
-   
+
 if [%1]==[] goto USAGE
 goto MKVIRTUALENV
 
@@ -16,12 +16,12 @@ if not defined WORKON_HOME (
 
 SETLOCAL EnableDelayedExpansion
 
-pushd %WORKON_HOME% 2>NUL && popd
+pushd "%WORKON_HOME%" 2>NUL && popd
 @if errorlevel 1 (
-    mkdir %WORKON_HOME%
+    mkdir "%WORKON_HOME%"
 )
 
-pushd %WORKON_HOME%\%1 2>NUL && popd
+pushd "%WORKON_HOME%\%1" 2>NUL && popd
 @if not errorlevel 1 (
     echo.
     echo  virtualenv "%1" already exists
@@ -29,12 +29,12 @@ pushd %WORKON_HOME%\%1 2>NUL && popd
     goto end
 )
 
-virtualenv.exe %WORKON_HOME%\%1
+virtualenv.exe "%WORKON_HOME%\%1"
 
 REM Add unsetting of VIRTUAL_ENV to deactivate.bat
-echo set VIRTUAL_ENV=>>%WORKON_HOME%\%1\Scripts\deactivate.bat
+echo set VIRTUAL_ENV=>>"%WORKON_HOME%\%1\Scripts\deactivate.bat"
 
-ENDLOCAL & %WORKON_HOME%\%1\Scripts\activate.bat
+ENDLOCAL & "%WORKON_HOME%\%1\Scripts\activate.bat"
 echo.
 
 :END

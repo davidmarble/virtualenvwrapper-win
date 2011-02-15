@@ -26,7 +26,7 @@ if not defined WORKON_HOME (
 set _LAST_DIR=%CD%
 
 if defined VIRTUAL_ENV (
-    echo %1>>%VIRTUAL_ENV%\Lib\site-packages\virtualenv_path_extensions.pth
+    echo %1>>"%VIRTUAL_ENV%\Lib\site-packages\virtualenv_path_extensions.pth"
     echo.
     echo %1 added to %VIRTUAL_ENV%\Lib\site-packages\virtualenv_path_extensions.pth
     echo.
@@ -37,7 +37,7 @@ if defined VIRTUAL_ENV (
     for %%i in (python.exe) do set PYTHONHOME=%%~dp$PATH:i
 
     :KEEPON
-    echo %1>>%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth
+    echo %1>>"%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
     echo.
     echo %1 added to %PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth
     echo.

@@ -7,7 +7,7 @@ if not defined WORKON_HOME (
 set _LAST_DIR=%CD%
 
 if defined VIRTUAL_ENV (
-    cd %VIRTUAL_ENV%\Lib\site-packages
+    cd "%VIRTUAL_ENV%\Lib\site-packages"
 ) else (
     if defined PYTHONHOME (
         goto KEEPON
@@ -15,7 +15,7 @@ if defined VIRTUAL_ENV (
     for %%i in (python.exe) do set PYTHONHOME=%%~dp$PATH:i
 
     :KEEPON
-    cd %PYTHONHOME%\Lib\site-packages
+    cd "%PYTHONHOME%\Lib\site-packages"
 )
 
 :END

@@ -1,3 +1,5 @@
+@echo off
+
 SetLocal EnableDelayedExpansion
 
 if [%1]==[] goto USAGE
@@ -10,7 +12,7 @@ echo.
 goto END
 
 :FDEL
-for /d /r %CD% %%d in (%1) do @if exist "%%d" rd /s/q "%%d"
+for /d /r "%CD%" %%d in (%1) do @if exist "%%d" rd /s/q "%%d"
 REM for /d /r %CD% %d in (.svn) do @if exist "%d" rd /s/q "%d"
 REM for /d /r . %d in (%1) do @if exist "%d" rd /s/q "%d"
 REM for /f "usebackq" %%d in ("dir %1 /ad/b/s") do rd /s/q "%%d"

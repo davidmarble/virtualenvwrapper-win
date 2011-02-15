@@ -15,15 +15,15 @@ if not defined WORKON_HOME (
 )
 
 if defined VIRTUAL_ENV (
-    if [%VIRTUAL_ENV%]==[%WORKON_HOME%\%1] call %WORKON_HOME%\%1\Scripts\deactivate.bat
+    if [%VIRTUAL_ENV%]==[%WORKON_HOME%\%1] call "%WORKON_HOME%\%1\Scripts\deactivate.bat"
 )
 
-pushd %WORKON_HOME% 2>NUL && popd
+pushd "%WORKON_HOME%" 2>NUL && popd
 @if errorlevel 1 (
-    mkdir %WORKON_HOME%
+    mkdir "%WORKON_HOME%"
 )
 
-pushd %WORKON_HOME%\%1 2>NUL && popd
+pushd "%WORKON_HOME%\%1" 2>NUL && popd
 @if errorlevel 1 (
     echo.
     echo  virtualenv "%1" does not exist
@@ -33,11 +33,11 @@ pushd %WORKON_HOME%\%1 2>NUL && popd
 
 SETLOCAL EnableDelayedExpansion
 set _CURRDIR=%CD%
-cd %WORKON_HOME%\%1
+cd "%WORKON_HOME%\%1"
 call folder_delete.bat *
 cd ..
 rmdir %1
-cd %_CURRDIR%
+cd "%_CURRDIR%"
 echo.
 echo.  Deleted %WORKON_HOME%\%1 
 echo.
