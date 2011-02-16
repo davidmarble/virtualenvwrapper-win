@@ -3,7 +3,7 @@ virtualenvwrapper-win
 
 This is a port of Doug Hellmann's 'virtualenvwrapper <http://www.doughellmann.com/projects/virtualenvwrapper/>`_ to Windows batch scripts. The idea behind virtualenvwrapper is to ease usage of Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool for creating isolated Python virtual environments, each with their own libraries and site-packages.
 
-Note: These scripts have only been tested on Windows 7. They will probably work on other Windows versions. They do not require Powershell.
+These should work on any version of Windows (Windows XP, Windows Vista, Windows 7). They do not require Powershell.
 
 Installation
 ------------
