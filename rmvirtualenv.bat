@@ -33,11 +33,11 @@ pushd "%WORKON_HOME%\%1" 2>NUL && popd
 
 SETLOCAL EnableDelayedExpansion
 set _CURRDIR=%CD%
-cd "%WORKON_HOME%\%1"
+cd /d "%WORKON_HOME%\%1"
 call folder_delete.bat *
 cd ..
 rmdir %1
-cd "%_CURRDIR%"
+cd /d "%_CURRDIR%"
 echo.
 echo.  Deleted %WORKON_HOME%\%1 
 echo.
