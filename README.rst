@@ -7,7 +7,13 @@ These should work on any version of Windows (Windows XP, Windows Vista, Windows 
 
 Installation
 ------------
-Put all virtualenvwrapper-win scripts somewhere in your path.
+**For Windows only**
+
+Run ``pip install virtualenvwrapper-win``
+
+or 
+
+Download the source and run ``python setup.py install``
 
 Optional: Add an environment variable WORKON_HOME to specify the path to store environments. By default, this is ``%USERPROFILE%\Envs``.
 
