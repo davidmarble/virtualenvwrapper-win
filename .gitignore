@@ -1,0 +1,5 @@
+*.pyc
+*~
+build
+dist
+virtualenvwrapper_win.egg-info
