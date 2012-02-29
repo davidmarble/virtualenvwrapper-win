@@ -26,7 +26,7 @@ pushd "%WORKON_HOME%" 2>NUL && popd
 pushd "%WORKON_HOME%\%ENVNAME%" 2>NUL && popd
 @if not errorlevel 1 (
     echo.
-    echo  virtualenv "%ENVNAME" already exists
+    echo  virtualenv "%ENVNAME%" already exists
     echo.
     goto end
 )
