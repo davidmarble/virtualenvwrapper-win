@@ -78,7 +78,8 @@ Convenience Commands
     added to the environment using ``add2virtualenv``.
 
 ``cdprojectdir``
-		If a virtualenv environment is active and a projectdir has been defined,
-		change the current working directory to active virtualenv's project directory.
-		``cd-`` will return you to the last directory you were in before calling 
-    ``cdprojectdir``
+    If a virtualenv environment is active and a projectdir has been defined,
+    change the current working directory to active virtualenv's project directory.
+    ``cd-`` will return you to the last directory you were in before calling 
+    ``cdprojectdir``.
+    
