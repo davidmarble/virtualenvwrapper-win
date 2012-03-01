@@ -82,4 +82,4 @@ Convenience Commands
     change the current working directory to active virtualenv's project directory.
     ``cd-`` will return you to the last directory you were in before calling 
     ``cdprojectdir``.
-    
+
