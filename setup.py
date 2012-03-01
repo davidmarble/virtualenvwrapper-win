@@ -55,7 +55,10 @@ setup(
         'scripts/lsvirtualenv.bat',
         'scripts/mkvirtualenv.bat',
         'scripts/rmvirtualenv.bat',
-        'scripts/workon.bat', ],
+        'scripts/workon.bat',
+        'scripts/cdprojectdir.bat',
+        'scripts/setprojectdir.bat'
+         ],
 
     install_requires=['virtualenv', ],
 

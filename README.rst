@@ -70,3 +70,16 @@ Convenience Commands
     the site-packages directory, the contents of easy-install.pth, 
     and the contents of virtualenv_path_extensions.pth (used by 
     ``add2virtualenv``).
+
+``setprojectdir <full_path>``
+    If a virtualenv environment is active, define *<full_path>* as project 
+    directory containing the source code.  This allows the use of ``cdprojectdir``
+    to change the working directory. In addition, the directory will be 
+    added to the environment using ``add2virtualenv``.
+
+``cdprojectdir``
+    If a virtualenv environment is active and a projectdir has been defined,
+    change the current working directory to active virtualenv's project directory.
+    ``cd-`` will return you to the last directory you were in before calling 
+    ``cdprojectdir``.
+
