@@ -1,9 +1,13 @@
 @echo off
 
+if defined VIRTUAL_ENV (
+    call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+)
+
 if not defined WORKON_HOME (
     set WORKON_HOME=%USERPROFILE%\Envs
 )
-    
+
 if [%1]==[] goto LIST
 goto WORKON
 

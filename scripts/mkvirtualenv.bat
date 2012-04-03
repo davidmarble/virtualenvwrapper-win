@@ -14,11 +14,16 @@ if not defined WORKON_HOME (
     set WORKON_HOME=%USERPROFILE%\Envs
 )
 
-if defined PYTHONHOME (
-	goto KEEPON
+if defined VIRTUAL_ENV (
+	call "%VIRTUAL_ENV%\Scripts\deactivate.bat" 
 )
-for %%i in (python.exe) do set PYTHONHOME=%%~dp$PATH:i
-:KEEPON
+
+if defined PYTHONHOME (
+	goto HOMEOK
+)
+FOR /F "tokens=*" %%i in ('where python.exe') do set PYTHONHOME=%%~dpi
+SET PYTHONHOME=%PYTHONHOME:~0,-1%
+:HOMEOK
 
 call :GET_ENVNAME %*
 
@@ -44,7 +49,8 @@ REM virtualenv.exe %*
 python.exe "%PYTHONHOME%\Scripts\virtualenv-script.py" %* 2>NUL
 popd
 
-REM Edit PYTHONPATH to include the VIRTUAL_ENV scripts.
+REM In activate.bat, add VIRTUAL_ENV directories to PYTHONPATH and
+REM set PYTHONHOME to the VIRTUAL_ENV.
 REM This should be a change adopted by virtualenv.
 >>"%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat" (
 	echo.
@@ -57,9 +63,12 @@ REM This should be a change adopted by virtualenv.
 	echo.
 	echo.:SKIPPYTHONPATH
 	echo.set PYTHONPATH=%%VIRTUAL_ENV%%\Scripts;%%VIRTUAL_ENV%%\Lib;%%VIRTUAL_ENV%%\Lib\site-packages;%%PYTHONPATH%%
+	echo.
+	echo.set PYTHONHOME=%%VIRTUAL_ENV%%
 )
 
-REM Add unsetting of VIRTUAL_ENV to deactivate.bat
+REM In deactivate.bat, reset PYTHONPATH to its former value
+REM and unset VIRTUAL_ENV
 >>"%WORKON_HOME%\%ENVNAME%\Scripts\deactivate.bat" (
 	echo.
 	echo.if defined _OLD_VIRTUAL_PYTHONPATH (
@@ -68,8 +77,7 @@ REM Add unsetting of VIRTUAL_ENV to deactivate.bat
 	echo.set VIRTUAL_ENV=
 )
 
-
-ENDLOCAL & "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
+ENDLOCAL & call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
 echo.
 goto END
 

@@ -4,41 +4,28 @@ if not defined WORKON_HOME (
     set WORKON_HOME=%USERPROFILE%\Envs
 )
 
-if not defined VIRTUAL_ENV (
-    if not defined PYTHONHOME (
-        call :SETPH
-    )
+if defined PYTHONHOME (
+	goto MAIN
 )
+FOR /F "tokens=*" %%i in ('where python.exe') do set PYTHONHOME=%%~dpi
+SET PYTHONHOME=%PYTHONHOME:~0,-1%
 
-SETLOCAL EnableDelayedExpansion
-if defined VIRTUAL_ENV (
-    set PYDIR=%VIRTUAL_ENV%
-) else (
-    set PYDIR=%PYTHONHOME%
-)
-
+:MAIN
 echo.
-echo dir /b "%PYDIR%\Lib\site-packages"
+echo dir /b "%PYTHONHOME%\Lib\site-packages"
 echo ==============================================================================
-dir /b "%PYDIR%\Lib\site-packages"
+dir /b "%PYTHONHOME%\Lib\site-packages"
 echo.
-echo %PYDIR%\Lib\site-packages\easy-install.pth
+echo %PYTHONHOME%\Lib\site-packages\easy-install.pth
 echo ==============================================================================
-type "%PYDIR%\Lib\site-packages\easy-install.pth"
+type "%PYTHONHOME%\Lib\site-packages\easy-install.pth"
 echo.
-if exist "%PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth" (
-    echo %PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth
+if exist "%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth" (
+    echo %PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth
     echo ==============================================================================
-    type "%PYDIR%\Lib\site-packages\virtualenv_path_extensions.pth"
+    type "%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
     echo.
 )
-ENDLOCAL
 goto END
-
-
-:SETPH
-SETLOCAL
-for %%i in (python.exe) do set PH=%%~dp$PATH:i
-ENDLOCAL & set PYTHONHOME=%PH:~0,-1%
 
 :END

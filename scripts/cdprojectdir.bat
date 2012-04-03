@@ -11,7 +11,7 @@ goto CHANGEDIR
 
 	if not defined VIRTUAL_ENV (
 	   echo .
-	   echo a virtualenv need to be activated
+	   echo a virtualenv must be activated
 	   goto USAGE
 	)
 

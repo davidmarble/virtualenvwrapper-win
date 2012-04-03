@@ -1,9 +1,5 @@
 @echo off
 
-if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
-)
-
 if defined PYTHONHOME (
 	goto MAIN
 )
@@ -11,7 +7,12 @@ FOR /F "tokens=*" %%i in ('where python.exe') do set PYTHONHOME=%%~dpi
 SET PYTHONHOME=%PYTHONHOME:~0,-1%
 
 :MAIN
-set _LAST_DIR=%CD%
-cd /d "%PYTHONHOME%\Lib\site-packages"
+SETLOCAL EnableDelayedExpansion
+if defined VIRTUAL_ENV (
+    set PY="%VIRTUAL_ENV%\Scripts\python.exe"
+) else (
+    set PY="%PYTHONHOME%\python.exe"
+)
+ENDLOCAL & %PY% %*
 
 :END

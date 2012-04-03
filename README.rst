@@ -1,7 +1,7 @@
 virtualenvwrapper-win
 =====================
 
-This is a port of Doug Hellmann's 'virtualenvwrapper <http://www.doughellmann.com/projects/virtualenvwrapper/>`_ to Windows batch scripts. The idea behind virtualenvwrapper is to ease usage of Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool for creating isolated Python virtual environments, each with their own libraries and site-packages.
+This is a port of Doug Hellmann's `virtualenvwrapper <http://www.doughellmann.com/projects/virtualenvwrapper/>`_ to Windows batch scripts. The idea behind virtualenvwrapper is to ease usage of Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool for creating isolated Python virtual environments, each with their own libraries and site-packages.
 
 These should work on any version of Windows (Windows XP, Windows Vista, Windows 7). They do not require Powershell.
 
@@ -9,11 +9,19 @@ Installation
 ------------
 **For Windows only**
 
-Run ``pip install virtualenvwrapper-win``
+Installed scripts are placed in ``%PYTHONHOME%\Scripts``.
 
-or 
+To install, run the following in an elevated command prompt::
 
-Download the source and run ``python setup.py install``
+    pip install virtualenvwrapper-win
+    pyassoc
+
+or download the source and run the following in an elevated command prompt::
+
+    python setup.py install
+    pyassoc
+
+**PYASSOC.BAT**: The batch script ``pyassoc`` requires an elevated command prompt or that UAC is disabled. This script associates .py files with ``python.bat``, a simple batch file that calls the right ``python.exe`` based on whether you have an active virtualenv. This allows you to call python scripts from the command line and have the right python interpreter invoked. Take a look at the source -- it's incredibly simple but the best way I've found to handle conditional association of a file extension.
 
 Optional: Add an environment variable WORKON_HOME to specify the path to store environments. By default, this is ``%USERPROFILE%\Envs``.
 

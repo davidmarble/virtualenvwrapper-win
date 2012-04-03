@@ -4,23 +4,14 @@ if not defined WORKON_HOME (
     set WORKON_HOME=%USERPROFILE%\Envs
 )
 
-if not defined VIRTUAL_ENV (
-    if not defined PYTHONHOME (
-        call :SETPH
-    )
+if defined PYTHONHOME (
+	goto MAIN
 )
+FOR /F "tokens=*" %%i in ('where python.exe') do set PYTHONHOME=%%~dpi
+SET PYTHONHOME=%PYTHONHOME:~0,-1%
 
+:MAIN
 set _LAST_DIR=%CD%
-
-if defined VIRTUAL_ENV (
-    cd /d "%VIRTUAL_ENV%"
-) else (
-    cd /d "%PYTHONHOME%"
-)
-
-:SETPH
-SETLOCAL
-for %%i in (python.exe) do set PH=%%~dp$PATH:i
-ENDLOCAL & set PYTHONHOME=%PH:~0,-1%
+cd /d "%PYTHONHOME%"
 
 :END
