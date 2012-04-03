@@ -21,9 +21,10 @@ or download the source and run the following in an elevated command prompt::
     python setup.py install
     pyassoc
 
-**PYASSOC.BAT**: The batch script ``pyassoc`` requires an elevated command prompt or that UAC is disabled. This script associates .py files with ``python.bat``, a simple batch file that calls the right ``python.exe`` based on whether you have an active virtualenv. This allows you to call python scripts from the command line and have the right python interpreter invoked. Take a look at the source -- it's incredibly simple but the best way I've found to handle conditional association of a file extension.
+**Optional**: Add an environment variable WORKON_HOME to specify the path to store environments. By default, this is ``%USERPROFILE%\Envs``.
 
-Optional: Add an environment variable WORKON_HOME to specify the path to store environments. By default, this is ``%USERPROFILE%\Envs``.
+**Note**: ``pyassoc``
+    Note that the batch script ``pyassoc`` requires an elevated command prompt or that UAC is disabled. This script associates .py files with ``python.bat``, a simple batch file that calls the right ``python.exe`` based on whether you have an active virtualenv. This allows you to call python scripts from the command line and have the right python interpreter invoked. Take a look at the source -- it's incredibly simple but the best way I've found to handle conditional association of a file extension.
 
 Main Commands
 -------------
