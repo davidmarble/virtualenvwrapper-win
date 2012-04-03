@@ -44,8 +44,30 @@ REM virtualenv.exe %*
 python.exe "%PYTHONHOME%\Scripts\virtualenv-script.py" %* 2>NUL
 popd
 
+REM Edit PYTHONPATH to include the VIRTUAL_ENV scripts.
+REM This should be a change adopted by virtualenv.
+>>"%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat" (
+	echo.
+	echo.if defined _OLD_VIRTUAL_PYTHONPATH (
+	echo.	set PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%
+	echo.	goto SKIPPYTHONPATH
+	echo.^)
+	echo.
+	echo.set _OLD_VIRTUAL_PYTHONPATH=%%PYTHONPATH%%
+	echo.
+	echo.:SKIPPYTHONPATH
+	echo.set PYTHONPATH=%%VIRTUAL_ENV%%\Scripts;%%VIRTUAL_ENV%%\Lib;%%VIRTUAL_ENV%%\Lib\site-packages;%%PYTHONPATH%%
+)
+
 REM Add unsetting of VIRTUAL_ENV to deactivate.bat
-echo set VIRTUAL_ENV=>>"%WORKON_HOME%\%ENVNAME%\Scripts\deactivate.bat"
+>>"%WORKON_HOME%\%ENVNAME%\Scripts\deactivate.bat" (
+	echo.
+	echo.if defined _OLD_VIRTUAL_PYTHONPATH (
+	echo.	set PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%
+	echo.^)
+	echo.set VIRTUAL_ENV=
+)
+
 
 ENDLOCAL & "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
 echo.
