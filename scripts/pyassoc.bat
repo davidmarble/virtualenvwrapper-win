@@ -21,19 +21,19 @@ reg query "HKU\S-1-5-19" >NUL 2>NUL
 	echo.
 	GOTO END
 )
-SETLOCAL EnableDelayedExpansion
+
+assoc .pyc=Python.CompiledFile >NUL 2>NUL
+ftype Python.CompiledFile="%PYTHONHOME%\Scripts\python.bat" "%%1" %%* >NUL 2>NUL
 
 assoc .py=Python.File >NUL 2>NUL
-ftype Python.File="%PYTHONHOME%\Scripts\python.bat "%%1" %%*" >NUL 2>NUL
+ftype Python.File="%PYTHONHOME%\Scripts\python.bat" "%%1" %%* >NUL 2>NUL
 @IF ERRORLEVEL 0 (
 	echo.
-	echo.    .py files will launch with "%PYTHONHOME%\Scripts\python.bat "%%1" %%*"
+	echo.    .py files will launch with "%PYTHONHOME%\Scripts\python.bat" "%%1" %%*
 	echo.
 ) ELSE (
 	echo.
 	echo.    FAILED to set .py files association.
 )
-
-ENDLOCAL
 
 :END
