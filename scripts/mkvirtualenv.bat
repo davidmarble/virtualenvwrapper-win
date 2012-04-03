@@ -14,6 +14,12 @@ if not defined WORKON_HOME (
     set WORKON_HOME=%USERPROFILE%\Envs
 )
 
+if defined PYTHONHOME (
+	goto KEEPON
+)
+for %%i in (python.exe) do set PYTHONHOME=%%~dp$PATH:i
+:KEEPON
+
 call :GET_ENVNAME %*
 
 SETLOCAL EnableDelayedExpansion
@@ -32,7 +38,10 @@ pushd "%WORKON_HOME%\%ENVNAME%" 2>NUL && popd
 )
 
 pushd "%WORKON_HOME%"
-virtualenv.exe %*
+REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
+REM so call the script directly
+REM virtualenv.exe %*
+python.exe "%PYTHONHOME%\Scripts\virtualenv-script.py" %* 2>NUL
 popd
 
 REM Add unsetting of VIRTUAL_ENV to deactivate.bat
