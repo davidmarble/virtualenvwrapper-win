@@ -8,6 +8,10 @@ if not defined WORKON_HOME (
     set WORKON_HOME=%USERPROFILE%\Envs
 )
 
+if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
+			set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
+	)
+
 if [%1]==[] goto LIST
 goto WORKON
 
@@ -33,6 +37,10 @@ pushd "%WORKON_HOME%\%1" 2>NUL && popd
     goto end
 )
 
-ENDLOCAL & "%WORKON_HOME%\%1\Scripts\activate.bat"
+ENDLOCAL & call "%WORKON_HOME%\%1\Scripts\activate.bat"
+
+if EXIST "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
+		call cdproject.bat
+	)
 
 :END
