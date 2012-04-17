@@ -18,6 +18,10 @@ if defined VIRTUAL_ENV (
     if [%VIRTUAL_ENV%]==[%WORKON_HOME%\%1] call "%WORKON_HOME%\%1\Scripts\deactivate.bat"
 )
 
+if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
+			set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
+	)
+
 pushd "%WORKON_HOME%" 2>NUL && popd
 @if errorlevel 1 (
     mkdir "%WORKON_HOME%"
@@ -34,6 +38,10 @@ pushd "%WORKON_HOME%\%1" 2>NUL && popd
 SETLOCAL EnableDelayedExpansion
 set _CURRDIR=%CD%
 cd /d "%WORKON_HOME%\%1"
+if EXIST "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
+		del "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
+	)
+
 call folder_delete.bat *
 cd ..
 rmdir %1

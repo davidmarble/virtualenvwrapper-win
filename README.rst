@@ -40,8 +40,9 @@ Main Commands
 
 ``workon [<name>]``
     If *<name>* is specified, activate the environment named *<name>* (change 
-    the working virtualenv to *<name>*). If no argument is specified, list 
-    the available environments.
+    the working virtualenv to *<name>*). If a project directory has been defined,
+	we will change into it. 
+	If no argument is specified, list the available environments. 
 
 ``deactivate``
     Deactivate the working virtualenv and switch back to the default system 
@@ -82,13 +83,13 @@ Convenience Commands
 
 ``setprojectdir <full_path>``
     If a virtualenv environment is active, define *<full_path>* as project 
-    directory containing the source code.  This allows the use of ``cdprojectdir``
+    directory containing the source code.  This allows the use of ``cdproject``
     to change the working directory. In addition, the directory will be 
     added to the environment using ``add2virtualenv``.
 
-``cdprojectdir``
+``cdproject``
     If a virtualenv environment is active and a projectdir has been defined,
     change the current working directory to active virtualenv's project directory.
     ``cd-`` will return you to the last directory you were in before calling 
-    ``cdprojectdir``.
+    ``cdproject``.
 

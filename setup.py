@@ -5,7 +5,7 @@ AUTHOR = 'davidmarble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.0.4'
+VERSION = '1.0.4.1'
 PROJECT_URL = 'https://github.com/%s/%s/' % (AUTHOR, PROJECT)
 
 from setuptools import setup
@@ -56,7 +56,7 @@ setup(
         'scripts/mkvirtualenv.bat',
         'scripts/rmvirtualenv.bat',
         'scripts/workon.bat',
-        'scripts/cdprojectdir.bat',
+        'scripts/cdproject.bat',
         'scripts/setprojectdir.bat',
 		'scripts/pyassoc.bat',
 		'scripts/python.bat'
