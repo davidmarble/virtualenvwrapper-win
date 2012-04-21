@@ -33,8 +33,10 @@ goto SETPROJECTDIR
 		@if errorlevel 1 (
 			mkdir "%1"
 		)
-		echo PRJDIR = "%1"
-		echo PRJfile = "%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
+		REM echo project directory = "%1"
+		REM echo PRJfile = "%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
+		echo configured project directory for %VIRTUAL_ENV%.
+		
 		set /p =%1>%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME% <NUL
 		call add2virtualenv.bat %1
 		
