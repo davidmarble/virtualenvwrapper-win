@@ -1,9 +1,16 @@
 virtualenvwrapper-win
 =====================
 
-This is a port of Doug Hellmann's `virtualenvwrapper <http://www.doughellmann.com/projects/virtualenvwrapper/>`_ to Windows batch scripts. The idea behind virtualenvwrapper is to ease usage of Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool for creating isolated Python virtual environments, each with their own libraries and site-packages.
+This is a port of Doug Hellmann's `virtualenvwrapper <http://www.doughellmann.com/projects/virtualenvwrapper/>`_ 
+to Windows batch scripts. The idea behind virtualenvwrapper is to ease usage of 
+Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool 
+for creating isolated Python virtual environments, each with their own libraries 
+and site-packages.
 
-These should work on any version of Windows (Windows XP, Windows Vista, Windows 7). They do not require Powershell.
+These should work on any version of Windows (Windows XP, Windows Vista, Windows 7). 
+They do not require Powershell. **However**, they depend on an executable 
+`where.exe` being in your path, which is only provided in Vista and 7. If you are 
+using XP, try [the answer to this post on  superuser.com](http://superuser.com/questions/249725/where-to-download-where-exe-tool-for-windows-xp) to get a suitable where.exe (unsupported and untested).
 
 Installation
 ------------
@@ -58,12 +65,11 @@ Main Commands
     
 Convenience Commands
 --------------------
-``cdvirtualenv``
-    If a virtualenv environment is active, change the current working 
-    directory to the active virtualenv base directory. If a virtualenv 
-    environment is not active, change the current working directory to 
-    the base directory of the default Python. ``cd-`` will return you 
-    to the last directory you were in before calling ``cdvirtualenv``.
+``cdproject``
+    If a virtualenv environment is active and a projectdir has been defined,
+    change the current working directory to active virtualenv's project directory.
+    ``cd-`` will return you to the last directory you were in before calling 
+    ``cdproject``.
 
 ``cdsitepackages``
     If a virtualenv environment is active, change the current working 
@@ -72,6 +78,13 @@ Convenience Commands
     directory to the default Python's site-packages directory. ``cd-`` 
     will return you to the last directory you were in before calling 
     ``cdsitepackages``.
+
+``cdvirtualenv``
+    If a virtualenv environment is active, change the current working 
+    directory to the active virtualenv base directory. If a virtualenv 
+    environment is not active, change the current working directory to 
+    the base directory of the default Python. ``cd-`` will return you 
+    to the last directory you were in before calling ``cdvirtualenv``.
 
 ``lssitepackages``
     If a virtualenv environment is active, list that environment's 
@@ -87,9 +100,8 @@ Convenience Commands
     to change the working directory. In addition, the directory will be 
     added to the environment using ``add2virtualenv``.
 
-``cdproject``
-    If a virtualenv environment is active and a projectdir has been defined,
-    change the current working directory to active virtualenv's project directory.
-    ``cd-`` will return you to the last directory you were in before calling 
-    ``cdproject``.
+``toggleglobalsitepackages``
+    If a virtualenv environment is active, toggle between having the 
+    global site-packages in the PYTHONPATH or just the virtualenv's
+    site-packages.
 
