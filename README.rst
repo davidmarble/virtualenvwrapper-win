@@ -7,10 +7,13 @@ Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool
 for creating isolated Python virtual environments, each with their own libraries 
 and site-packages.
 
-These should work on any version of Windows (Windows XP, Windows Vista, Windows 7). 
-They do not require Powershell. **However**, they depend on an executable 
-`where.exe` being in your path, which is only provided in Vista and 7. If you are 
-using XP, try [the answer to this post on  superuser.com](http://superuser.com/questions/249725/where-to-download-where-exe-tool-for-windows-xp) to get a suitable where.exe (unsupported and untested).
+These scripts are only tested on **Windows 7** in **regular command prompt**. 
+**They will not work in Powershell.** There are other virtualenvwrapper 
+projects out there for Powershell. 
+
+They should work on any version of Windows (Windows XP, Windows Vista, Windows 7). 
+**However**, they depend on an executable `where.exe` being in your path, which 
+is only provided in Vista and 7. If you are using XP, try [the answer to this post on  superuser.com](http://superuser.com/questions/249725/where-to-download-where-exe-tool-for-windows-xp) to get a suitable where.exe (unsupported and untested).
 
 Installation
 ------------
