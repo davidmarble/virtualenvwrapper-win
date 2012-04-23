@@ -3,7 +3,7 @@
 if defined PYTHONHOME (
 	goto MAIN
 )
-FOR /F "tokens=*" %%i in ('where python.exe') do set PYTHONHOME=%%~dpi
+FOR /F "tokens=*" %%i in ('whereis python.exe') do set PYTHONHOME=%%~dpi
 SET PYTHONHOME=%PYTHONHOME:~0,-1%
 
 :MAIN

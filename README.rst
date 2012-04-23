@@ -7,13 +7,10 @@ Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool
 for creating isolated Python virtual environments, each with their own libraries 
 and site-packages.
 
-These scripts are only tested on **Windows 7** in **regular command prompt**. 
-**They will not work in Powershell.** There are other virtualenvwrapper 
-projects out there for Powershell. 
+These scripts should work on any version of Windows (Windows XP, Windows Vista, Windows 7). 
 
-They should work on any version of Windows (Windows XP, Windows Vista, Windows 7). 
-**However**, they depend on an executable `where.exe` being in your path, which 
-is only provided in Vista and 7. If you are using XP, try [the answer to this post on  superuser.com](http://superuser.com/questions/249725/where-to-download-where-exe-tool-for-windows-xp) to get a suitable where.exe (unsupported and untested).
+However, they only work in the **regular command prompt**. They **will not work in Powershell.** There are other virtualenvwrapper projects out there for Powershell. 
+
 
 Installation
 ------------
@@ -108,3 +105,9 @@ Convenience Commands
     global site-packages in the PYTHONPATH or just the virtualenv's
     site-packages.
 
+``whereis <file>``
+    A batch file used in many of the scripts above. Returns directory locations 
+    of `file` and `file` with any executable extensions. So you can call 
+    ``whereis python`` to find all executables starting with ``python`` or 
+    ``whereis python.exe`` for an exact match.
+    
