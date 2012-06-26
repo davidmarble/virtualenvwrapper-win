@@ -21,7 +21,7 @@ if defined VIRTUAL_ENV (
 if defined PYTHONHOME (
 	goto HOMEOK
 )
-FOR /F "tokens=*" %%i in ('whereis python.exe') do set PYTHONHOME=%%~dpi
+FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
 SET PYTHONHOME=%PYTHONHOME:~0,-1%
 :HOMEOK
 
