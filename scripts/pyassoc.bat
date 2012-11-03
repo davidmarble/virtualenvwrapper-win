@@ -11,6 +11,14 @@ FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
 SET PYTHONHOME=%PYTHONHOME:~0,-1%
 
 :MAIN
+
+if not "%~1"=="all_users" (
+	set classes_key=HKCU\Software\Classes
+	GOTO SKIP_MODE_CHECKING
+)
+
+set classes_key=HKLM\Software\Classes
+
 REM Detect if the user is running in elevated mode.
 REM Relies on requiring admin privileges to read the LOCAL SERVICE account reg key.
 reg query "HKU\S-1-5-19" >NUL 2>NUL
@@ -22,11 +30,14 @@ reg query "HKU\S-1-5-19" >NUL 2>NUL
 	GOTO END
 )
 
-assoc .pyc=Python.CompiledFile >NUL 2>NUL
-ftype Python.CompiledFile="%PYTHONHOME%\Scripts\python.bat" "%%1" %%* >NUL 2>NUL
+:SKIP_MODE_CHECKING
 
-assoc .py=Python.File >NUL 2>NUL
-ftype Python.File="%PYTHONHOME%\Scripts\python.bat" "%%1" %%* >NUL 2>NUL
+reg add "%classes_key%\.py" /f /t REG_SZ /d "Python.File" >NUL 2>NUL
+reg add "%classes_key%\Python.File\shell\open\command" /f /t REG_SZ /d "%PYTHONHOME%\Scripts\python.bat \"%%1\" %%*" >NUL 2>NUL
+
+reg add "%classes_key%\.pyc" /f /t REG_SZ /d "Python.CompiledFile" >NUL 2>NUL
+reg add "%classes_key%\Python.CompiledFile\shell\open\command" /f /t REG_SZ /d "%PYTHONHOME%\Scripts\python.bat \"%%1\" %%*" >NUL 2>NUL
+
 @IF ERRORLEVEL 0 (
 	echo.
 	echo.    .py files will launch with "%PYTHONHOME%\Scripts\python.bat" "%%1" %%*
@@ -37,3 +48,4 @@ ftype Python.File="%PYTHONHOME%\Scripts\python.bat" "%%1" %%* >NUL 2>NUL
 )
 
 :END
+set classes_key=
