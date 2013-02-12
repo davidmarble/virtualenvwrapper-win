@@ -1,7 +1,7 @@
 @echo off
 
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
     
 :LIST
