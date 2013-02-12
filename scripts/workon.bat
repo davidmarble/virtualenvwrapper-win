@@ -5,7 +5,7 @@ if defined VIRTUAL_ENV (
 )
 
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
 
 if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
