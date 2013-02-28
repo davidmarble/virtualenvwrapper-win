@@ -11,7 +11,7 @@ goto END
 
 :MKVIRTUALENV
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set WORKON_HOME="%USERPROFILE%\Envs"
 )
 
 if defined VIRTUAL_ENV (
