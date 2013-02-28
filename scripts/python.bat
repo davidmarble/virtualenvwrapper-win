@@ -1,7 +1,7 @@
 @echo off
 
 if defined PYTHONHOME (
-	goto MAIN
+    goto MAIN
 )
 FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
 SET PYTHONHOME=%PYTHONHOME:~0,-1%

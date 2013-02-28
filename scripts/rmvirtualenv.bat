@@ -19,8 +19,8 @@ if defined VIRTUAL_ENV (
 )
 
 if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
-			set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
-	)
+    set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
+)
 
 pushd "%WORKON_HOME%" 2>NUL && popd
 @if errorlevel 1 (
@@ -39,8 +39,8 @@ SETLOCAL EnableDelayedExpansion
 set _CURRDIR=%CD%
 cd /d "%WORKON_HOME%\%1"
 if EXIST "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
-		del "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
-	)
+    del "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
+)
 
 call folder_delete.bat *
 cd ..

@@ -1,7 +1,7 @@
 @echo off
 
 if defined PYTHONHOME (
-	goto MAIN
+    goto MAIN
 )
 FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
 SET PYTHONHOME=%PYTHONHOME:~0,-1%
@@ -15,7 +15,7 @@ if not defined VIRTUAL_ENV (
 )
 
 if defined _OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES (
-	set PYTHONPATH=%_OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES%
+    set PYTHONPATH=%_OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES%
     set _OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES=
     echo.
     echo  Enabled global site-packages
