@@ -74,7 +74,6 @@ REM and unset VIRTUAL_ENV
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%
     echo.^)
-    echo.set VIRTUAL_ENV=
 )
 
 ENDLOCAL & call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
