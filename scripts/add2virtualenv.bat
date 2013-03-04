@@ -20,7 +20,7 @@ goto END
 
 :ADD2
 if not defined WORKON_HOME (
-    set WORKON_HOME="%USERPROFILE%\Envs"
+    set WORKON_HOME=%USERPROFILE%\Envs
 )
 
 if defined PYTHONHOME (
