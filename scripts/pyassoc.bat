@@ -13,8 +13,8 @@ SET PYTHONHOME=%PYTHONHOME:~0,-1%
 :MAIN
 
 if not "%~1"=="all_users" (
-	set classes_key=HKCU\Software\Classes
-	GOTO SKIP_MODE_CHECKING
+    set classes_key=HKCU\Software\Classes
+    GOTO SKIP_MODE_CHECKING
 )
 
 set classes_key=HKLM\Software\Classes
