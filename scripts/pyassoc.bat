@@ -21,7 +21,7 @@ set classes_key=HKLM\Software\Classes
 
 REM Detect if the user is running in elevated mode.
 REM Relies on requiring admin privileges to read the LOCAL SERVICE account reg key.
-reg query "HKU\S-1-5-19" >NUL 2>NUL
+reg.exe query "HKU\S-1-5-19" >NUL 2>NUL
 @IF ERRORLEVEL 1 (
     echo.
     echo.    You need elevated privileges to run this command.
@@ -32,11 +32,11 @@ reg query "HKU\S-1-5-19" >NUL 2>NUL
 
 :SKIP_MODE_CHECKING
 
-reg add "%classes_key%\.py" /f /t REG_SZ /d "Python.File" >NUL 2>NUL
-reg add "%classes_key%\Python.File\shell\open\command" /f /t REG_SZ /d "%PYTHONHOME%\Scripts\python.bat \"%%1\" %%*" >NUL 2>NUL
+reg.exe add "%classes_key%\.py" /f /t REG_SZ /d "Python.File" >NUL 2>NUL
+reg.exe add "%classes_key%\Python.File\shell\open\command" /f /t REG_SZ /d "%PYTHONHOME%\Scripts\python.bat \"%%1\" %%*" >NUL 2>NUL
 
-reg add "%classes_key%\.pyc" /f /t REG_SZ /d "Python.CompiledFile" >NUL 2>NUL
-reg add "%classes_key%\Python.CompiledFile\shell\open\command" /f /t REG_SZ /d "%PYTHONHOME%\Scripts\python.bat \"%%1\" %%*" >NUL 2>NUL
+reg.exe add "%classes_key%\.pyc" /f /t REG_SZ /d "Python.CompiledFile" >NUL 2>NUL
+reg.exe add "%classes_key%\Python.CompiledFile\shell\open\command" /f /t REG_SZ /d "%PYTHONHOME%\Scripts\python.bat \"%%1\" %%*" >NUL 2>NUL
 
 @IF ERRORLEVEL 0 (
     echo.
