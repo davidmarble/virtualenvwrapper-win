@@ -16,22 +16,25 @@ Installation
 ------------
 **For Windows only**
 
-Installed scripts are placed in ``%PYTHONHOME%\Scripts``.
+Installed scripts are placed in the main directory of the active python installation. For example, if your default python is under C:\Python27\, these scripts will be in that same directory.
 
-To install, run the following::
+To install, run one of the following::
 
+    # using pip
     pip install virtualenvwrapper-win
-    pyassoc
 
-or download the source and run the following::
-
+    # using easy_install
+    pip install virtualenvwrapper-win
+    
+    # from source
+    git clone git://github.com/davidmarble/virtualenvwrapper-win.git
+    cd virtualenvwrapper-win
     python setup.py install
-    pyassoc
 
 **Optional**: Add an environment variable WORKON_HOME to specify the path to store environments. By default, this is ``%USERPROFILE%\Envs``.
 
-**Note**: ``pyassoc``
-    Note that the batch script ``pyassoc`` associates .py files with ``python.bat``, a simple batch file that calls the right ``python.exe`` based on whether you have an active virtualenv. This allows you to call python scripts from the command line and have the right python interpreter invoked. Take a look at the source -- it's incredibly simple but the best way I've found to handle conditional association of a file extension. **You will need to run this for each user, or alternatively run it in an elevated command prompt once.**
+**Note**: ``pywin``
+    If you use several versions of python, you can switch between them using `pywin <https://github.com/davidmarble/pywin>`_, a lightweight python 2.5-3.3 launcher and switcher I wrote for the Windows command line and MSYS/MINGW32. It's similar to the `py.exe launcher/switcher available in python 3.3 <http://docs.python.org/3/using/windows.html#launcher>`_, but written with basic Windows batch scripts and a shell script for MSYS/MINGW32 support. I use bash and command line shell tools from `msysgit <http://msysgit.github.com/>`_, based on MSYS/MINGW32, to do most of my python development on Windows.
 
 Main Commands
 -------------
@@ -55,13 +58,13 @@ Main Commands
     Deactivate the working virtualenv and switch back to the default system 
     Python.
 
-``add2virtualenv <full_path>``
-    If a virtualenv environment is active, appends *<full_path>* to 
+``add2virtualenv <full or relative path>``
+    If a virtualenv environment is active, appends *<path>* to 
     ``virtualenv_path_extensions.pth`` inside the environment's site-packages,
-    which effectively adds *<full_path>* to the environment's PYTHONPATH. 
-    If a virtualenv environment is not active, appends *<full_path>* to
+    which effectively adds *<path>* to the environment's PYTHONPATH. 
+    If a virtualenv environment is not active, appends *<path>* to
     ``virtualenv_path_extensions.pth`` inside the default Python's 
-    site-packages.
+    site-packages. If *<path>* doesn't exist, it will be created.
     
 Convenience Commands
 --------------------
@@ -94,11 +97,12 @@ Convenience Commands
     and the contents of virtualenv_path_extensions.pth (used by 
     ``add2virtualenv``).
 
-``setprojectdir <full_path>``
-    If a virtualenv environment is active, define *<full_path>* as project 
+``setprojectdir <full or relative path>``
+    If a virtualenv environment is active, define *<path>* as project 
     directory containing the source code.  This allows the use of ``cdproject``
     to change the working directory. In addition, the directory will be 
-    added to the environment using ``add2virtualenv``.
+    added to the environment using ``add2virtualenv``. If *<path>* doesn't 
+    exist, it will be created.
 
 ``toggleglobalsitepackages``
     If a virtualenv environment is active, toggle between having the 
@@ -106,8 +110,7 @@ Convenience Commands
     site-packages.
 
 ``whereis <file>``
-    A batch file used in many of the scripts above. Returns directory locations 
+    A script included for convenience. Returns directory locations 
     of `file` and `file` with any executable extensions. So you can call 
     ``whereis python`` to find all executables starting with ``python`` or 
     ``whereis python.exe`` for an exact match.
-    
