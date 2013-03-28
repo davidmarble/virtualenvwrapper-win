@@ -5,13 +5,12 @@ goto RMVIRTUALENV
 
 :USAGE
 echo.
-echo  Pass a name to remove a virtualenv
-echo.
+echo.    Pass a name to remove a virtualenv
 goto END
 
 :RMVIRTUALENV
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
 
 if defined VIRTUAL_ENV (
@@ -30,25 +29,24 @@ pushd "%WORKON_HOME%" 2>NUL && popd
 pushd "%WORKON_HOME%\%1" 2>NUL && popd
 @if errorlevel 1 (
     echo.
-    echo  virtualenv "%1" does not exist
-    echo.
+    echo.    virtualenv "%1" does not exist
     goto END
 )
 
-SETLOCAL EnableDelayedExpansion
-set _CURRDIR=%CD%
+set "_CURRDIR=%CD%"
 cd /d "%WORKON_HOME%\%1"
-if EXIST "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
+if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     del "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
 )
 
 call folder_delete.bat *
 cd ..
-rmdir %1
+rmdir "%1"
 cd /d "%_CURRDIR%"
 echo.
-echo.  Deleted %WORKON_HOME%\%1 
+echo.    Deleted %WORKON_HOME%\%1 
 echo.
-ENDLOCAL
+
+set _CURRDIR=
 
 :END

@@ -1,31 +1,33 @@
 @echo off
 
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
 
 if defined PYTHONHOME (
+    set "PYHOME=%PYTHONHOME%"
     goto MAIN
 )
-FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
-SET PYTHONHOME=%PYTHONHOME:~0,-1%
+for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+    set "PYHOME=%%a"
+)
 
 :MAIN
 echo.
-echo dir /b "%PYTHONHOME%\Lib\site-packages"
+echo dir /b "%PYHOME%\Lib\site-packages"
 echo ==============================================================================
-dir /b "%PYTHONHOME%\Lib\site-packages"
+dir /b "%PYHOME%\Lib\site-packages"
 echo.
-echo %PYTHONHOME%\Lib\site-packages\easy-install.pth
+echo %PYHOME%\Lib\site-packages\easy-install.pth
 echo ==============================================================================
-type "%PYTHONHOME%\Lib\site-packages\easy-install.pth"
+type "%PYHOME%\Lib\site-packages\easy-install.pth"
 echo.
-if exist "%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth" (
-    echo %PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth
+if exist "%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth" (
+    echo %PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth
     echo ==============================================================================
-    type "%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
+    type "%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
     echo.
 )
-goto END
 
 :END
+set PYHOME=

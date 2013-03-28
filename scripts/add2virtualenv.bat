@@ -20,19 +20,24 @@ goto END
 
 :ADD2
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
 
 if defined PYTHONHOME (
+    set "PYHOME=%PYTHONHOME%"
     goto MAIN
 )
-FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
-SET PYTHONHOME=%PYTHONHOME:~0,-1%
+for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+    set "PYHOME=%%a"
+)
 
 :MAIN
-echo %1>>"%PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
+REM Note that %1 is already quoted by setprojdir or by the prompt
+echo %1>>"%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
 echo.
-echo %1 added to %PYTHONHOME%\Lib\site-packages\virtualenv_path_extensions.pth
+echo.    %1 added to 
+echo.    %PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth
 echo.
 
 :END
+set PYHOME=

@@ -5,16 +5,13 @@ goto MKVIRTUALENV
 
 :USAGE
 echo.
-echo  Pass a name to create a new virtualenv
-echo.
+echo.    Pass a name to create a new virtualenv
 goto END
 
 :MKVIRTUALENV
 if not defined WORKON_HOME (
     set "WORKON_HOME=%USERPROFILE%\Envs"
 )
-
-SETLOCAL EnableDelayedExpansion
 
 if defined VIRTUAL_ENV (
     call "%VIRTUAL_ENV%\Scripts\deactivate.bat" 
@@ -39,8 +36,7 @@ pushd "%WORKON_HOME%" 2>NUL && popd
 pushd "%WORKON_HOME%\%ENVNAME%" 2>NUL && popd
 @if not errorlevel 1 (
     echo.
-    echo  virtualenv "%ENVNAME%" already exists
-    echo.
+    echo.    virtualenv "%ENVNAME%" already exists
     goto end
 )
 
@@ -56,23 +52,21 @@ REM This should be a change adopted by virtualenv.
 >>"%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat" (
     echo.:: In case user makes changes to PYTHONPATH
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
-    echo.    set PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%
+    echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
     echo.^) else (
-    echo.    set _OLD_VIRTUAL_PYTHONPATH=%%PYTHONPATH%%
+    echo.    set "_OLD_VIRTUAL_PYTHONPATH=%%PYTHONPATH%%"
     echo.^)
-    echo.
 )
 
 REM In deactivate.bat, reset PYTHONPATH to its former value
 >>"%WORKON_HOME%\%ENVNAME%\Scripts\deactivate.bat" (
     echo.
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
-    echo.    set PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%
+    echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
     echo.^)
 )
 
-ENDLOCAL & call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
-echo.
+call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
 goto END
 
 :GET_ENVNAME
@@ -82,3 +76,5 @@ goto END
 goto :eof
 
 :END
+set PYHOME=
+set ENVNAME=

@@ -3,17 +3,15 @@
 if [%1]==[] goto USAGE
 goto SETPROJECTDIR
 
-
 :USAGE
 echo.
-echo pass a full path to project directory while target virtualenv is activated
-echo.
+echo Pass in a full or relative path to the project directory.
+echo If the directory doesn't exist, it will be created.
 goto END
-
 
 :SETPROJECTDIR
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
 
 if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
@@ -22,27 +20,29 @@ if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
 
 if not defined VIRTUAL_ENV (
     echo.
-    echo No novirtualenv activated.
-    goto USAGE
-    
-) else (
-
-    pushd %1 2>NUL && popd
-    @if errorlevel 1 (
-        mkdir "%1"
-    )
-    REM echo project directory = "%1"
-    REM echo PRJfile = "%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
-    echo configured project directory for %VIRTUAL_ENV%.
-    
-    set /p =%1>%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME% <NUL
-    call add2virtualenv.bat %1
-    
+    echo A virtualenv must be activated.
+    goto USAGE    
 )
 
+set "CALLINGPATH=%CD%"
+set "PROJDIR=%1"
+pushd "%PROJDIR%" 2>NUL
+@if errorlevel 1 (
+    popd
+    mkdir "%PROJDIR%"
+    set "PROJDIR=%CALLINGPATH%\%PROJDIR%"
+) else (
+    set "PROJDIR=%CD%"
+    popd
+)
 
-    
+echo.
+echo.    "%PROJDIR%" is now the project directory for
+echo.    virtualenv "%VIRTUAL_ENV%"
 
+set /p ="%PROJDIR%">"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" <NUL
+call add2virtualenv.bat "%PROJDIR%"
 
+set PROJDIR=
 
 :END

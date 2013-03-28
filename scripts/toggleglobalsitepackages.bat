@@ -1,33 +1,32 @@
 @echo off
 
 if defined PYTHONHOME (
+    set "PYHOME=%PYTHONHOME%"
     goto MAIN
 )
-FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
-SET PYTHONHOME=%PYTHONHOME:~0,-1%
+for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+    set "PYHOME=%%a"
+)
 
 :MAIN
 if not defined VIRTUAL_ENV (
     echo.
     echo  You must have an active virtualenv to use this command.
-    echo.
     goto END
 )
 
-if defined _OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES (
-    set PYTHONPATH=%_OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES%
-    set _OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES=
+set "file=%PYHOME%\Lib\no-global-site-packages.txt"
+if exist "%file%" (
+    del "%file%"
     echo.
-    echo  Enabled global site-packages
+    echo.    Enabled global site-packages
     goto END
+) else (
+    type nul >>"%file%"
+    echo.
+    echo.    Disabled global site-packages
 )
-set _OLD_PYTHONPATH_WITH_GLOBAL_SITE_PACKAGES=%PYTHONPATH%
-setlocal enabledelayedexpansion
-set SEARCHTEXT=\site-packages
-set NEWPATH=!_OLD_VIRTUAL_PYTHONPATH:%SEARCHTEXT%=!
-endlocal & set PYTHONPATH=%VIRTUAL_ENV%\Scripts;%VIRTUAL_ENV%\Lib;%VIRTUAL_ENV%\Lib\site-packages;%NEWPATH%
-echo.
-echo  Disabled global site-packages
-echo.
 
 :END
+set file=
+set PYHOME=

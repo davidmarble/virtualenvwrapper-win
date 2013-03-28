@@ -1,17 +1,21 @@
 @echo off
 
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
+
+set "_LAST_DIR=%CD%"
 
 if defined PYTHONHOME (
+    set "PYHOME=%PYTHONHOME%"
     goto MAIN
 )
-FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
-SET PYTHONHOME=%PYTHONHOME:~0,-1%
+for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+    set "PYHOME=%%a"
+)
 
 :MAIN
-set _LAST_DIR=%CD%
-cd /d "%PYTHONHOME%\Lib\site-packages"
+cd /d "%PYHOME%\Lib\site-packages"
+set PYHOME=
 
 :END
