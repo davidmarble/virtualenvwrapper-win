@@ -33,8 +33,8 @@ To install, run one of the following::
 
 **Optional**: Add an environment variable WORKON_HOME to specify the path to store environments. By default, this is ``%USERPROFILE%\Envs``.
 
-**Note**: ``pywin``
-    If you use several versions of python, you can switch between them using `pywin <https://github.com/davidmarble/pywin>`_, a lightweight python 2.5-3.3 launcher and switcher I wrote for the Windows command line and MSYS/MINGW32. It's similar to the `py.exe launcher/switcher available in python 3.3 <http://docs.python.org/3/using/windows.html#launcher>`_, but written with basic Windows batch scripts and a shell script for MSYS/MINGW32 support. I use bash and command line shell tools from `msysgit <http://msysgit.github.com/>`_, based on MSYS/MINGW32, to do most of my python development on Windows.
+**Optional**: ``pywin`` python version switcher (not included)
+    If you use several versions of python, you can switch between them using a separate project `pywin <https://github.com/davidmarble/pywin>`_. It's a lightweight python 2.5-3.3 launcher and switcher I wrote for the Windows command line and MSYS/MINGW32. It's similar to the `py.exe launcher/switcher available in python 3.3 <http://docs.python.org/3/using/windows.html#launcher>`_, but written with basic Windows batch scripts and a shell script for MSYS/MINGW32 support. I use bash and command line shell tools from `msysgit <http://msysgit.github.com/>`_, based on MSYS/MINGW32, to do most of my python development on Windows.
 
 Main Commands
 -------------
