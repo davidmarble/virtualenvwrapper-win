@@ -11,23 +11,25 @@ goto END
 
 :MKVIRTUALENV
 if not defined WORKON_HOME (
-    set WORKON_HOME=%USERPROFILE%\Envs
+    set "WORKON_HOME=%USERPROFILE%\Envs"
 )
+
+SETLOCAL EnableDelayedExpansion
 
 if defined VIRTUAL_ENV (
     call "%VIRTUAL_ENV%\Scripts\deactivate.bat" 
 )
 
 if defined PYTHONHOME (
+    set "PYHOME=%PYTHONHOME%"
     goto HOMEOK
 )
-FOR /F "tokens=*" %%i in ('whereis.bat python.exe') do set PYTHONHOME=%%~dpi
-SET PYTHONHOME=%PYTHONHOME:~0,-1%
+for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+    set "PYHOME=%%a"
+)
 :HOMEOK
 
 call :GET_ENVNAME %*
-
-SETLOCAL EnableDelayedExpansion
 
 pushd "%WORKON_HOME%" 2>NUL && popd
 @if errorlevel 1 (
@@ -46,29 +48,22 @@ pushd "%WORKON_HOME%"
 REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
 REM so call the script directly
 REM virtualenv.exe %*
-python.exe "%PYTHONHOME%\Scripts\virtualenv-script.py" %* 2>NUL
+python.exe "%PYHOME%\Scripts\virtualenv-script.py" %* 2>NUL
 popd
 
-REM In activate.bat, add VIRTUAL_ENV directories to PYTHONPATH and
-REM set PYTHONHOME to the VIRTUAL_ENV.
+REM In activate.bat, keep track of PYTHONPATH.
 REM This should be a change adopted by virtualenv.
 >>"%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat" (
-    echo.
+    echo.:: In case user makes changes to PYTHONPATH
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%
-    echo.    goto SKIPPYTHONPATH
+    echo.^) else (
+    echo.    set _OLD_VIRTUAL_PYTHONPATH=%%PYTHONPATH%%
     echo.^)
     echo.
-    echo.set _OLD_VIRTUAL_PYTHONPATH=%%PYTHONPATH%%
-    echo.
-    echo.:SKIPPYTHONPATH
-    echo.set PYTHONPATH=%%VIRTUAL_ENV%%\Scripts;%%VIRTUAL_ENV%%\Lib;%%VIRTUAL_ENV%%\Lib\site-packages;%%PYTHONPATH%%
-    echo.
-    echo.set PYTHONHOME=%%VIRTUAL_ENV%%
 )
 
 REM In deactivate.bat, reset PYTHONPATH to its former value
-REM and unset VIRTUAL_ENV
 >>"%WORKON_HOME%\%ENVNAME%\Scripts\deactivate.bat" (
     echo.
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
