@@ -5,8 +5,8 @@ goto SETPROJECTDIR
 
 :USAGE
 echo.
-echo Pass in a full or relative path to the project directory.
-echo If the directory doesn't exist, it will be created.
+echo.    Pass in a full or relative path to the project directory.
+echo.    If the directory doesn't exist, it will be created.
 goto END
 
 :SETPROJECTDIR
@@ -43,6 +43,6 @@ echo.    virtualenv "%VIRTUAL_ENV%"
 set /p ="%PROJDIR%">"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" <NUL
 call add2virtualenv.bat "%PROJDIR%"
 
-set PROJDIR=
-
 :END
+set CALLINGPATH=
+set PROJDIR=

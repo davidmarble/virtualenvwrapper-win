@@ -1,21 +1,13 @@
 @echo off
 
 if [%1]==[] goto USAGE
-
-pushd %1 2>NUL && popd
-@if errorlevel 1 (
-    echo.
-    echo  Directory %1 does not exist
-    goto USAGE
-)
-
 goto ADD2
 
 :USAGE
 echo.
-echo  Pass the full path of a directory to add it to the current virtualenv
-echo  or non-virtualenv pythonpath.
-echo.
+echo.    Pass in a full or relative path of a directory to be added
+echo.    to the current virtualenv or non-virtualenv pythonpath.
+echo.    If the directory doesn't exist, it will be created.
 goto END
 
 :ADD2
@@ -31,13 +23,26 @@ for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_pre
     set "PYHOME=%%a"
 )
 
-:MAIN
+set "CALLINGPATH=%CD%"
+set "PROJDIR=%1"
+
+pushd "%PROJDIR%" 2>NUL
+@if errorlevel 1 (
+    popd
+    mkdir "%PROJDIR%"
+    set "PROJDIR=%CALLINGPATH%\%PROJDIR%"
+) else (
+    set "PROJDIR=%CD%"
+    popd
+)
+
 REM Note that %1 is already quoted by setprojdir or by the prompt
-echo %1>>"%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
+echo "%PROJDIR%">>"%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
 echo.
-echo.    %1 added to 
+echo.    "%PROJDIR%" added to
 echo.    %PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth
-echo.
 
 :END
+set CALLINGPATH=
 set PYHOME=
+set PROJDIR=
