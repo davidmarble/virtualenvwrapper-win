@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 
 import os
