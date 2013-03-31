@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.1.2'
+VERSION = '1.1.3'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 
 import os
@@ -56,19 +56,21 @@ if _being_installed():
     pass
 
 setup(
-    name = PROJECT,
-    version = VERSION,
+    name=PROJECT,
+    version=VERSION,
 
-    description = DESCRIPTION,
-    long_description = long_description,
+    description=DESCRIPTION,
+    long_description=long_description,
 
-    author = AUTHOR,
-    author_email = EMAIL,
-    url = PROJECT_URL,
+    author=AUTHOR,
+    author_email=EMAIL,
+    url=PROJECT_URL,
+    license="BSD 3-clause",
+    keywords="setuptools deployment installation distutils virtualenv virtualenvwrapper",
 
-    platforms = ['WIN32', 'WIN64', ],
+    platforms=['WIN32', 'WIN64',],
 
-    classifiers = [
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Win32 (MS Windows)',
         'License :: OSI Approved :: BSD License',
@@ -86,7 +88,7 @@ setup(
         'Intended Audience :: Developers',
         'Environment :: Console', ],
 
-    scripts = [scripts_loc + script for script in scripts],
+    scripts=[scripts_loc + script for script in scripts],
 
     install_requires=['virtualenv==1.9.1',],
     
@@ -94,7 +96,7 @@ setup(
     # pywin==0.2
 
     zip_safe=False,
-    )
+)
 
 if _being_installed():
     # post-install

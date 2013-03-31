@@ -51,9 +51,9 @@ Main Commands
 
 ``workon [<name>]``
     If *<name>* is specified, activate the environment named *<name>* (change 
-    the working virtualenv to *<name>*). If a project directory has been defined,
-	we will change into it. 
-	If no argument is specified, list the available environments. 
+    the working virtualenv to *<name>*). If a project directory has been 
+    defined, we will change into it. If no argument is specified, list the 
+    available environments. 
 
 ``deactivate``
     Deactivate the working virtualenv and switch back to the default system 
