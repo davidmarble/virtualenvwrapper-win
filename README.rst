@@ -24,7 +24,7 @@ To install, run one of the following::
     pip install virtualenvwrapper-win
 
     # using easy_install
-    pip install virtualenvwrapper-win
+    easy_install virtualenvwrapper-win
     
     # from source
     git clone git://github.com/davidmarble/virtualenvwrapper-win.git
