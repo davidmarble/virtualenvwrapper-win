@@ -27,7 +27,7 @@ if not defined VIRTUAL_ENV (
 set "CALLINGPATH=%CD%"
 set "PROJDIR=%1"
 pushd "%PROJDIR%" 2>NUL
-@if errorlevel 1 (
+if errorlevel 1 (
     popd
     mkdir "%PROJDIR%"
     set "PROJDIR=%CALLINGPATH%\%PROJDIR%"

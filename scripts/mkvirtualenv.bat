@@ -29,12 +29,12 @@ for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_pre
 set "ENVNAME=%~1"
 
 pushd "%WORKON_HOME%" 2>NUL && popd
-@if errorlevel 1 (
+if errorlevel 1 (
     mkdir "%WORKON_HOME%"
 )
 
 pushd "%WORKON_HOME%\%ENVNAME%" 2>NUL && popd
-@if not errorlevel 1 (
+if not errorlevel 1 (
     echo.
     echo.    virtualenv "%ENVNAME%" already exists
     goto end
