@@ -26,7 +26,7 @@ for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_pre
 )
 :HOMEOK
 
-call :GET_ENVNAME %*
+set "ENVNAME=%~1"
 
 pushd "%WORKON_HOME%" 2>NUL && popd
 @if errorlevel 1 (
@@ -44,8 +44,9 @@ pushd "%WORKON_HOME%"
 REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
 REM so call the script directly
 REM virtualenv.exe %*
-python.exe "%PYHOME%\Scripts\virtualenv-script.py" %* 2>NUL
+python.exe "%PYHOME%\Scripts\virtualenv-script.py" %*
 popd
+if errorlevel 2 goto END
 
 REM In activate.bat, keep track of PYTHONPATH.
 REM This should be a change adopted by virtualenv.
@@ -68,12 +69,6 @@ REM In deactivate.bat, reset PYTHONPATH to its former value
 
 call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
 goto END
-
-:GET_ENVNAME
-  set "ENVNAME=%~1"
-  shift
-  if not "%~1"=="" goto GET_ENVNAME
-goto :eof
 
 :END
 set PYHOME=
