@@ -15,34 +15,29 @@ if not defined WORKON_HOME (
     set "WORKON_HOME=%USERPROFILE%\Envs"
 )
 
-if defined PYTHONHOME (
-    set "PYHOME=%PYTHONHOME%"
-    goto MAIN
-)
-for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
-    set "PYHOME=%%a"
+if not defined VIRTUAL_ENV (
+    echo.
+    echo A virtualenv must be activated.
+    goto USAGE    
 )
 
-set "CALLINGPATH=%CD%"
 set "PROJDIR=%1"
 
 pushd "%PROJDIR%" 2>NUL
-@if errorlevel 1 (
+if errorlevel 1 (
     popd
     mkdir "%PROJDIR%"
-    set "PROJDIR=%CALLINGPATH%\%PROJDIR%"
+    set "PROJDIR=%CD%\%PROJDIR%"
 ) else (
     set "PROJDIR=%CD%"
     popd
 )
 
 REM Note that %1 is already quoted by setprojdir or by the prompt
-echo "%PROJDIR%">>"%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
+echo "%PROJDIR%">>"%VIRTUAL_ENV%\Lib\site-packages\virtualenv_path_extensions.pth"
 echo.
 echo.    "%PROJDIR%" added to
-echo.    %PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth
+echo.    %VIRTUAL_ENV%\Lib\site-packages\virtualenv_path_extensions.pth
 
 :END
-set CALLINGPATH=
-set PYHOME=
 set PROJDIR=

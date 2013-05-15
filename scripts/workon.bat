@@ -24,12 +24,12 @@ if defined VIRTUAL_ENV (
 )
 
 pushd "%WORKON_HOME%" 2>NUL && popd
-@if errorlevel 1 (
+if errorlevel 1 (
     mkdir "%WORKON_HOME%"
 )
 
 pushd "%WORKON_HOME%\%1" 2>NUL && popd
-@if errorlevel 1 (
+if errorlevel 1 (
     echo.
     echo.    virtualenv "%1" does not exist. Create it with "mkvirtualenv %1"
     goto END
