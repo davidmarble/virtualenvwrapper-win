@@ -18,8 +18,6 @@ if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
     set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
 )
 
-set "_LAST_DIR=%CD%"
-
 if not EXIST "%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     echo.
     echo No project directory found for current virtualenv
@@ -27,6 +25,7 @@ if not EXIST "%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
 )
 
 set /p ENVPRJDIR=<"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
+set "_LAST_DIR=%CD%"
 cd /d "%ENVPRJDIR%"
 set ENVPRJDIR=
 

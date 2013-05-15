@@ -1,18 +1,15 @@
 @echo off
 
-if not defined WORKON_HOME (
-    set "WORKON_HOME=%USERPROFILE%\Envs"
 if defined VIRTUAL_ENV (
     set "PYHOME=%VIRTUAL_ENV%"
     goto MAIN
 )
-
 if defined PYTHONHOME (
     set "PYHOME=%PYTHONHOME%"
-    goto MAIN
-)
-for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
-    set "PYHOME=%%a"
+) else (
+    for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+        set "PYHOME=%%a"
+    )
 )
 
 :MAIN
@@ -32,5 +29,4 @@ if exist "%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth" (
     echo.
 )
 
-:END
 set PYHOME=

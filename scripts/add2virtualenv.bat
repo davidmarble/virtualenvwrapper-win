@@ -21,14 +21,13 @@ if not defined VIRTUAL_ENV (
     goto USAGE    
 )
 
-set "CALLINGPATH=%CD%"
 set "PROJDIR=%1"
 
 pushd "%PROJDIR%" 2>NUL
 if errorlevel 1 (
     popd
     mkdir "%PROJDIR%"
-    set "PROJDIR=%CALLINGPATH%\%PROJDIR%"
+    set "PROJDIR=%CD%\%PROJDIR%"
 ) else (
     set "PROJDIR=%CD%"
     popd
@@ -41,6 +40,4 @@ echo.    "%PROJDIR%" added to
 echo.    %VIRTUAL_ENV%\Lib\site-packages\virtualenv_path_extensions.pth
 
 :END
-set CALLINGPATH=
-set PYHOME=
 set PROJDIR=

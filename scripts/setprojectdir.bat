@@ -24,13 +24,13 @@ if not defined VIRTUAL_ENV (
     goto USAGE    
 )
 
-set "CALLINGPATH=%CD%"
 set "PROJDIR=%1"
+
 pushd "%PROJDIR%" 2>NUL
 if errorlevel 1 (
     popd
     mkdir "%PROJDIR%"
-    set "PROJDIR=%CALLINGPATH%\%PROJDIR%"
+    set "PROJDIR=%CD%\%PROJDIR%"
 ) else (
     set "PROJDIR=%CD%"
     popd
@@ -44,5 +44,4 @@ set /p ="%PROJDIR%">"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" <NUL
 call add2virtualenv.bat "%PROJDIR%"
 
 :END
-set CALLINGPATH=
 set PROJDIR=

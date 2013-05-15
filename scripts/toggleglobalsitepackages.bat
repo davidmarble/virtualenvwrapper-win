@@ -1,14 +1,5 @@
 @echo off
 
-if defined PYTHONHOME (
-    set "PYHOME=%PYTHONHOME%"
-    goto MAIN
-)
-for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
-    set "PYHOME=%%a"
-)
-
-:MAIN
 if not defined VIRTUAL_ENV (
     echo.
     echo  You must have an active virtualenv to use this command.
@@ -29,4 +20,3 @@ if exist "%file%" (
 
 :END
 set file=
-set PYHOME=
