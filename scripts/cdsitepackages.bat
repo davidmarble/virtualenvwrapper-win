@@ -2,6 +2,9 @@
 
 if not defined WORKON_HOME (
     set "WORKON_HOME=%USERPROFILE%\Envs"
+if defined VIRTUAL_ENV (
+    set "PYHOME=%VIRTUAL_ENV%"
+    goto MAIN
 )
 
 set "_LAST_DIR=%CD%"

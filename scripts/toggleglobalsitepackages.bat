@@ -15,7 +15,7 @@ if not defined VIRTUAL_ENV (
     goto END
 )
 
-set "file=%PYHOME%\Lib\no-global-site-packages.txt"
+set "file=%VIRTUAL_ENV%\Lib\no-global-site-packages.txt"
 if exist "%file%" (
     del "%file%"
     echo.
