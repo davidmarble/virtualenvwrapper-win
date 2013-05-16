@@ -31,12 +31,12 @@ set "ARGS=%*"
 call :GET_ENVNAME %*
 
 pushd "%WORKON_HOME%" 2>NUL && popd
-@if errorlevel 1 (
+if errorlevel 1 (
     mkdir "%WORKON_HOME%"
 )
 
 pushd "%WORKON_HOME%\%ENVNAME%" 2>NUL && popd
-@if not errorlevel 1 (
+if not errorlevel 1 (
     echo.
     echo.    virtualenv "%ENVNAME%" already exists
     goto END

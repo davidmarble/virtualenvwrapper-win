@@ -27,7 +27,7 @@ for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_pre
 set "PROJDIR=%1"
 
 pushd "%PROJDIR%" 2>NUL
-@if errorlevel 1 (
+if errorlevel 1 (
     popd
     mkdir "%PROJDIR%"
     set "PROJDIR=%CD%\%PROJDIR%"
