@@ -37,7 +37,7 @@ pushd "%WORKON_HOME%\%1" 2>NUL && popd
 
 call "%WORKON_HOME%\%1\Scripts\activate.bat"
 
-if EXIST "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
+if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     call cdproject.bat
 )
 
