@@ -8,31 +8,8 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.1.3'
+VERSION = '1.1.4'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
-
-import os
-import sys
-import shutil
-from setuptools import setup
-
-long_description = ''
-try:
-    long_description = open('README.rst', 'rt').read()
-except IOError:
-    pass
-
-PYTHONHOME = sys.exec_prefix
-
-def _easy_install_marker():
-    return (len(sys.argv) == 5 and sys.argv[2] == 'bdist_egg' and
-            sys.argv[3] == '--dist-dir' and 'egg-dist-tmp-' in sys.argv[-1])
-
-def _being_installed():
-    if "--help" in sys.argv[1:] or "-h" in sys.argv[1:]:
-        return False
-    return 'install' in sys.argv[1:] or _easy_install_marker()
-
 scripts_loc = 'scripts/'
 scripts = [
     'add2virtualenv.bat',
@@ -51,11 +28,48 @@ scripts = [
     'workon.bat',
 ]
 
-if _being_installed():
-    # pre-install
+import os
+import sys
+import shutil
+import codecs
+from setuptools import setup
+from setuptools.command.install import install as _setuptools_install
+
+long_description = ''
+try:
+    long_description = open('README.rst', 'rt').read()
+except IOError:
     pass
 
+PYTHONHOME = sys.exec_prefix
+
+class install(_setuptools_install):
+    def run(self):
+        # pre-install
+        _setuptools_install.run(self)
+        # post-install
+        # Re-write install-record to take into account new file locations
+        if self.record:
+            newlist = []
+            with codecs.open(self.record, 'r', 'utf-8') as f:
+                files = f.readlines()
+            for f in files:
+                fname = f.strip()
+                for script in scripts:
+                    if fname.endswith(script):
+                        newname = fname.replace('Scripts\\','')
+                        # try:
+                        #     os.remove(dst)
+                        # except:
+                        #     pass
+                        shutil.move(fname, newname)
+                        fname = newname
+                newlist.append(fname)
+            with codecs.open(self.record, 'w', 'utf-8') as f:
+                f.write('\n'.join(newlist))
+
 setup(
+    cmdclass={'install': install},
     name=PROJECT,
     version=VERSION,
 
@@ -97,15 +111,3 @@ setup(
 
     zip_safe=False,
 )
-
-if _being_installed():
-    # post-install
-    # Move scripts to PYTHONHOME
-    for script in scripts:
-        src = os.path.join(PYTHONHOME, 'Scripts', script)
-        dst = os.path.join(PYTHONHOME, script)
-        # try:
-        #     os.remove(dst)
-        # except:
-        #     pass
-        shutil.move(src, dst)
