@@ -31,7 +31,16 @@ if errorlevel 1 (
 pushd "%WORKON_HOME%\%1" 2>NUL && popd
 if errorlevel 1 (
     echo.
-    echo.    virtualenv "%1" does not exist. Create it with "mkvirtualenv %1"
+    echo.    virtualenv "%1" does not exist.
+    echo.    Create it with "mkvirtualenv %1"
+    goto END
+)
+
+if not exist "%WORKON_HOME%\%1\Scripts\activate.bat" (
+    echo.
+    echo.    %WORKON_HOME%\%1
+    echo.    doesn't contain a virtualenv ^(yet^).
+    echo.    Create it with "mkvirtualenv %1"
     goto END
 )
 
