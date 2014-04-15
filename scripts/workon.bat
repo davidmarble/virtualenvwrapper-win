@@ -51,6 +51,8 @@ if defined WORKON_OLDTITLE (
 
 if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     call cdproject.bat
+) else (
+    cd /d "%WORKON_HOME%\%1"
 )
 
 :END
