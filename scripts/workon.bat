@@ -45,6 +45,9 @@ if not exist "%WORKON_HOME%\%1\Scripts\activate.bat" (
 )
 
 call "%WORKON_HOME%\%1\Scripts\activate.bat"
+if defined WORKON_OLDTITLE (
+    title %1 ^(VirtualEnv^)
+)
 
 if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     call cdproject.bat
