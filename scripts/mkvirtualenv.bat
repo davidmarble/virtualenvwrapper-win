@@ -45,8 +45,8 @@ if not errorlevel 1 (
 pushd "%WORKON_HOME%"
 REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
 REM so call the script directly
-REM virtualenv.exe %*
-python.exe "%PYHOME%\Scripts\virtualenv-script.py" %ARGS%
+virtualenv.exe %*
+REM python.exe "%PYHOME%\Scripts\virtualenv-script.py" %ARGS%
 popd
 if errorlevel 2 goto END
 
