@@ -2,4 +2,6 @@
 *~
 build
 dist
+Include
+Lib
 virtualenvwrapper_win.egg-info
