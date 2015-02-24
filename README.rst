@@ -16,7 +16,7 @@ Installation
 ------------
 **For Windows only**
 
-Installed scripts are placed in the main directory of the active python installation. For example, if your default python is under ``C:\Python27\``, these scripts will be in that same directory.
+To use these scripts from any directory, make sure the ``Scripts`` subdirectory of Python is in your PATH. For example, if python is installed in ``C:\Python27\``, you should make sure ``C:\Python27\Scripts`` is in your PATH.
 
 To install, run one of the following::
 
