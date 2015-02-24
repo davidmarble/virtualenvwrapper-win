@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.1.5-nt-1'
+VERSION = '1.1.6'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 scripts_loc = 'scripts/'
 scripts = [
@@ -99,6 +99,7 @@ setup(
         'Programming Language :: Python :: 3.1',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Intended Audience :: Developers',
         'Environment :: Console', ],
 

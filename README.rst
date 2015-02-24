@@ -7,7 +7,7 @@ Ian Bicking's `virtualenv <http://pypi.python.org/pypi/virtualenv>`_, a tool
 for creating isolated Python virtual environments, each with their own libraries 
 and site-packages.
 
-These scripts should work on any version of Windows (Windows XP, Windows Vista, Windows 7). 
+These scripts should work on any version of Windows (Windows XP, Windows Vista, Windows 7/8). 
 
 However, they only work in the **regular command prompt**. They **will not work in Powershell.** There are other virtualenvwrapper projects out there for Powershell. 
 
@@ -16,7 +16,7 @@ Installation
 ------------
 **For Windows only**
 
-Installed scripts are placed in the main directory of the active python installation. For example, if your default python is under C:\Python27\, these scripts will be in that same directory.
+Installed scripts are placed in the main directory of the active python installation. For example, if your default python is under ``C:\Python27\``, these scripts will be in that same directory.
 
 To install, run one of the following::
 
