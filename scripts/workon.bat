@@ -58,15 +58,13 @@ if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
     goto END
 )
 
-call "%WORKON_HOME%\%VENV%\Scripts\activate.bat"
 if defined WORKON_OLDTITLE (
     title %1 ^(VirtualEnv^)
 )
-
 if exist "%WORKON_HOME%\%VENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     call cdproject.bat
 ) else (
-    if %CHANGEDIR%==1(
+    if "%CHANGEDIR%"=="1" (
         cd /d "%WORKON_HOME%\%VENV%"
     )
 )
