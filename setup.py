@@ -43,7 +43,9 @@ except IOError:
 
 PYTHONHOME = sys.exec_prefix
 
+
 class install(_setuptools_install):
+
     def run(self):
         # pre-install
         _setuptools_install.run(self)
@@ -57,7 +59,7 @@ class install(_setuptools_install):
                 fname = f.strip()
                 for script in scripts:
                     if fname.endswith(script):
-                        newname = fname.replace('Scripts\\','')
+                        newname = fname.replace('Scripts\\', '')
                         # try:
                         #     os.remove(dst)
                         # except:
@@ -82,7 +84,7 @@ setup(
     license="BSD 3-clause",
     keywords="setuptools deployment installation distutils virtualenv virtualenvwrapper",
 
-    platforms=['WIN32', 'WIN64',],
+    platforms=['WIN32', 'WIN64', ],
 
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -105,7 +107,7 @@ setup(
 
     scripts=[scripts_loc + script for script in scripts],
 
-    install_requires=['virtualenv',],
+    install_requires=['virtualenv', ],
 
     # extras
     # pywin==0.2
