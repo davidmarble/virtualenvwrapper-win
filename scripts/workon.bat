@@ -19,6 +19,20 @@ dir /b /ad "%WORKON_HOME%"
 goto END
 
 :WORKON
+
+set VENV=%1
+shift
+
+:LOOP
+if not "%1"=="" (
+    if "%1"=="-c" (
+        SET CHANGEDIR=1
+        shift
+    )
+    shift
+    goto :LOOP
+)
+
 if defined VIRTUAL_ENV (
     call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
 )
@@ -28,31 +42,31 @@ if errorlevel 1 (
     mkdir "%WORKON_HOME%"
 )
 
-pushd "%WORKON_HOME%\%1" 2>NUL && popd
+pushd "%WORKON_HOME%\%VENV%" 2>NUL && popd
 if errorlevel 1 (
     echo.
-    echo.    virtualenv "%1" does not exist.
+    echo.    virtualenv "%VENV%" does not exist.
     echo.    Create it with "mkvirtualenv %1"
     goto END
 )
 
-if not exist "%WORKON_HOME%\%1\Scripts\activate.bat" (
+if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
     echo.
-    echo.    %WORKON_HOME%\%1
+    echo.    %WORKON_HOME%\%VENV%
     echo.    doesn't contain a virtualenv ^(yet^).
-    echo.    Create it with "mkvirtualenv %1"
+    echo.    Create it with "mkvirtualenv %VENV%"
     goto END
 )
 
-call "%WORKON_HOME%\%1\Scripts\activate.bat"
 if defined WORKON_OLDTITLE (
     title %1 ^(VirtualEnv^)
 )
-
-if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
+if exist "%WORKON_HOME%\%VENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     call cdproject.bat
 ) else (
-    cd /d "%WORKON_HOME%\%1"
+    if "%CHANGEDIR%"=="1" (
+        cd /d "%WORKON_HOME%\%VENV%"
+    )
 )
 
 :END
