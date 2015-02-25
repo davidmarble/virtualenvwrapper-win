@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.1.6'
+VERSION = '1.1.7'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 scripts_loc = 'scripts/'
 scripts = [
@@ -106,7 +106,7 @@ setup(
     scripts=[scripts_loc + script for script in scripts],
 
     install_requires=['virtualenv',],
-    
+
     # extras
     # pywin==0.2
 
