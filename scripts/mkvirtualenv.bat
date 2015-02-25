@@ -14,7 +14,7 @@ if not defined WORKON_HOME (
 )
 
 if defined VIRTUAL_ENV (
-    call "%VIRTUAL_ENV%\Scripts\deactivate.bat" 
+    call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
 )
 
 if defined PYTHONHOME (
@@ -42,21 +42,36 @@ if not errorlevel 1 (
     goto END
 )
 
+REM simple platform assumption
+REM using only for checking for Scripts/bin difference
+if exist "%~dp0..\pypy.exe" (
+  set "SCRIPTS_FOLDER=bin"
+) else (
+  set "SCRIPTS_FOLDER=Scripts"
+)
+
+
 pushd "%WORKON_HOME%"
 REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
 REM so call the script directly
 REM recent versions of virtualenv does not contain virtualenv-script.py..
-if exist "%PYHOME%\Scripts\virtualenv-script.py" (
-   python.exe "%PYHOME%\Scripts\virtualenv-script.py" %ARGS%
+REM using relative path instead %PYHOME% for compatibility with pypy
+if exist "%~dp0virtualenv-script.py" (
+  if exist "%~dp0..\python.exe" (
+      python.exe "%~dp0virtualenv-script.py" %ARGS%
+   ) else (
+      pypy.exe "%~dp0virtualenv-script.py" %ARGS%
+   )
 ) else (
-  virtualenv.exe %ARGS%
+REM using current mkvirtualenv.bat path to get path for virtualenv
+  %~dp0virtualenv.exe %ARGS%
 )
 popd
 if errorlevel 2 goto END
 
 REM In activate.bat, keep track of PYTHONPATH.
 REM This should be a change adopted by virtualenv.
->>"%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat" (
+>>"%WORKON_HOME%\%ENVNAME%\%SCRIPTS_FOLDER%\activate.bat" (
     echo.:: In case user makes changes to PYTHONPATH
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
@@ -66,14 +81,14 @@ REM This should be a change adopted by virtualenv.
 )
 
 REM In deactivate.bat, reset PYTHONPATH to its former value
->>"%WORKON_HOME%\%ENVNAME%\Scripts\deactivate.bat" (
+>>"%WORKON_HOME%\%ENVNAME%\%SCRIPTS_FOLDER%\deactivate.bat" (
     echo.
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
     echo.^)
 )
 
-call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
+call "%WORKON_HOME%\%ENVNAME%\%SCRIPTS_FOLDER%\activate.bat"
 goto END
 
 :GET_ENVNAME
