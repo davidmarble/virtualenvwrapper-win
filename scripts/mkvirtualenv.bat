@@ -74,6 +74,16 @@ REM In deactivate.bat, reset PYTHONPATH to its former value
 )
 
 call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
+
+REM Run postmkvirtualenv.bat
+
+if defined VIRTUALENVWRAPPER_HOOK_DIR (
+    if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat" (
+    	call "%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat"
+    )
+)
+
+
 goto END
 
 :GET_ENVNAME
