@@ -116,3 +116,8 @@ Convenience Commands
     of `file` and `file` with any executable extensions. So you can call
     ``whereis python`` to find all executables starting with ``python`` or
     ``whereis python.exe`` for an exact match.
+
+
+Hooks
+----------
+To run some commands after ``mkvirtualenv`` you can use hooks. First you need to define ``VIRTUALENVWRAPPER_HOOK_DIR`` variable. If it is set ``mkvirtualenv`` will run ``postmkvirtualenv.bat`` script from that directory.

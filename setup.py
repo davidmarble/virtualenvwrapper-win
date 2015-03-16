@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.1.7'
+VERSION = '1.2.0'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 scripts_loc = 'scripts/'
 scripts = [
@@ -40,6 +40,12 @@ try:
     long_description = open('README.rst', 'rt').read()
 except IOError:
     pass
+
+try:
+    long_description += open('CHANGELOG.rst', 'rt').read()
+except IOError:
+    pass
+
 
 PYTHONHOME = sys.exec_prefix
 
