@@ -51,7 +51,6 @@ PYTHONHOME = sys.exec_prefix
 
 
 setup(
-    # cmdclass={'install': install},
     name=PROJECT,
     version=VERSION,
 
