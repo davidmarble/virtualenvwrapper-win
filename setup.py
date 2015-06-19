@@ -50,34 +50,7 @@ except IOError:
 PYTHONHOME = sys.exec_prefix
 
 
-class install(_setuptools_install):
-
-    def run(self):
-        # pre-install
-        _setuptools_install.run(self)
-        # post-install
-        # Re-write install-record to take into account new file locations
-        if self.record:
-            newlist = []
-            with codecs.open(self.record, 'r', 'utf-8') as f:
-                files = f.readlines()
-            for f in files:
-                fname = f.strip()
-                for script in scripts:
-                    if fname.endswith(script):
-                        newname = fname.replace('Scripts\\', '')
-                        # try:
-                        #     os.remove(dst)
-                        # except:
-                        #     pass
-                        shutil.move(fname, newname)
-                        fname = newname
-                newlist.append(fname)
-            with codecs.open(self.record, 'w', 'utf-8') as f:
-                f.write('\n'.join(newlist))
-
 setup(
-    cmdclass={'install': install},
     name=PROJECT,
     version=VERSION,
 
