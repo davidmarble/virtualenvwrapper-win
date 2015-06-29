@@ -14,7 +14,7 @@ if not defined WORKON_HOME (
 )
 
 if defined VIRTUAL_ENV (
-    if [%VIRTUAL_ENV%]==[%WORKON_HOME%\%1] call "%WORKON_HOME%\%1\Scripts\deactivate.bat"
+    if ["%VIRTUAL_ENV%"]==["%WORKON_HOME%\%1"] call "%WORKON_HOME%\%1\Scripts\deactivate.bat"
 )
 
 if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
