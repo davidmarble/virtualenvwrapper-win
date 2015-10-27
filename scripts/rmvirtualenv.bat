@@ -41,10 +41,10 @@ if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
 
 call folder_delete.bat *
 cd ..
-rmdir "%1"
+rmdir "%1" /s /q
 cd /d "%_CURRDIR%"
 echo.
-echo.    Deleted %WORKON_HOME%\%1 
+echo.    Deleted %WORKON_HOME%\%1
 echo.
 
 set _CURRDIR=
