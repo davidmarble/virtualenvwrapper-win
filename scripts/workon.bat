@@ -71,4 +71,12 @@ if exist "%WORKON_HOME%\%VENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     )
 )
 
+if exist "%WORKON_HOME%\%VENV%\Scripts\postactivate.bat" (
+    call "%WORKON_HOME%\%VENV%\Scripts\postactivate.bat"
+)
+
+if exist "%WORKON_HOME%\%VENV%\Scripts\postdeactivate.bat" (
+    call "%WORKON_HOME%\%VENV%\Scripts\postdeactivate.bat"
+)
+
 :END
