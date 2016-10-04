@@ -75,6 +75,7 @@ REM In deactivate.bat, reset PYTHONPATH to its former value
 
 call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
 if not "%PROJECTDIR%"=="" call setprojectdir.bat "%PROJECTDIR%"
+if not "%REQFILE%"=="" start /b pip install -r "%REQFILE%"
 
 REM Run postmkvirtualenv.bat
 
@@ -88,13 +89,20 @@ if defined VIRTUALENVWRAPPER_HOOK_DIR (
 goto END
 
 :GET_OPTIONS
-    if /I not "%~1"=="-a" (
+    set CHECK=true
+    if /I not "%~1"=="-a" if /I not "%~1"=="-r" set CHECK=false
+    if not "%CHECK%"=="true" (
         set "ENVNAME=%~1"
         shift
     ) else (
-        shift & set PROJECTDIR=?
+        if /I "%~1"=="-a" (
+            shift & set PROJECTDIR=?
+        ) else (
+            shift & set REQFILE=?
+        )
     )
     if "%PROJECTDIR%"=="?" set "PROJECTDIR=%~1"
+    if "%REQFILE%"=="?" set "REQFILE=%~1"
     if not "%~1"=="" goto GET_OPTIONS
 goto :eof
 
@@ -102,3 +110,5 @@ goto :eof
 set PYHOME=
 set ENVNAME=
 set PROJECTDIR=
+set REQFILE=
+set CHECK=
