@@ -15,7 +15,12 @@ goto WORKON
 echo.
 echo Pass a name to activate one of the following virtualenvs:
 echo ==============================================================================
-dir /b /ad "%WORKON_HOME%"
+pushd "%WORKON_HOME%"
+for /d %%D in (*) do (
+    echo %%D
+    call virtualenvwrapper_run_hook "get_env_details" %%D
+)
+popd
 goto END
 
 :WORKON
