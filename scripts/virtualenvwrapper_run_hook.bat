@@ -3,8 +3,10 @@
 :: 
 ::     call virtualenvwrapper_run_hook "postactivate"
 ::
+setlocal
+
 if not defined WORKON_HOME ( 
-   echo WORKON_HOME not set
+   echo ERROR WORKON_HOME not set
    goto:eof
 )
 set HOOK_NAME=%~1
@@ -21,11 +23,17 @@ goto :exit
     :: printed, and can print additional information about that environment.
 
     :: call global hook
+    set "ENVNAME=%~2"
     if defined VIRTUALENVWRAPPER_HOOK_DIR (
         if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat" (
-	    :: echo args=%*
-            call "%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat" %~2
+	    endlocal
+            call "%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat" %ENVNAME%
         )
+    )
+    :: call local hook
+    if exist "%WORKON_HOME%\%ENVNAME%\bin\get_env_details.bat" (
+        endlocal
+        call "%WORKON_HOME%\%ENVNAME%\bin\get_env_details.bat" %ENVNAME%
     )
 
 
