@@ -39,7 +39,10 @@ if not "%1"=="" (
 )
 
 if defined VIRTUAL_ENV (
+    call virtualenvwrapper_run_hook "predeactivate"
+    set VIRTUALENVWRAPPER_LAST_VIRTUALENV=%VIRTUAL_ENV%
     call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+    call virtualenvwrapper_run_hook "postdeactivate"
 )
 
 pushd "%WORKON_HOME%" 2>NUL && popd
@@ -63,7 +66,10 @@ if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
     goto END
 )
 
+call virtualenvwrapper_run_hook "preactivate" "%VENV%"
 call "%WORKON_HOME%\%VENV%\Scripts\activate.bat"
+call virtualenvwrapper_run_hook "postactivate"
+
 if defined WORKON_OLDTITLE (
     title %1 ^(VirtualEnv^)
 )

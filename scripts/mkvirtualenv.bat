@@ -14,7 +14,10 @@ if not defined WORKON_HOME (
 )
 
 if defined VIRTUAL_ENV (
+    call virtualenvwrapper_run_hook "predeactivate"
+    set VIRTUALENVWRAPPER_LAST_VIRTUALENV=%ENVNAME%
     call "%VIRTUAL_ENV%\Scripts\deactivate.bat" 
+    call virtualenvwrapper_run_hook "postdeactivate"
 )
 
 if defined PYTHONHOME (
@@ -47,10 +50,15 @@ REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
 REM so call the script directly
 REM recent versions of virtualenv does not contain virtualenv-script.py..
 if exist "%PYHOME%\Scripts\virtualenv-script.py" (
-   python.exe "%PYHOME%\Scripts\virtualenv-script.py" %ARGS%
+    python.exe "%PYHOME%\Scripts\virtualenv-script.py" %ARGS%
 ) else (
-  virtualenv.exe %ARGS%
+    virtualenv.exe %ARGS%
 )
+:: premkvirtualenv is supposed to be called after virtualenv is created
+:: but before it is pointed to.. Not sure how to do that..
+:: this https://bitbucket.org/virtualenvwrapper/virtualenvwrapper/src/d2e5303bbe6ab2f33d318fadb71bc3162108e4cc/virtualenvwrapper.sh?at=master&fileviewer=file-view-default#virtualenvwrapper.sh-476
+:: is where it happens in the mother-project..
+call virtualenvwrapper_run_hook "premkvirtualenv"
 popd
 if errorlevel 2 goto END
 
@@ -73,15 +81,11 @@ REM In deactivate.bat, reset PYTHONPATH to its former value
     echo.^)
 )
 
+call virtualenvwrapper_run_hook "preactivate" "%ENVNAME%"
 call "%WORKON_HOME%\%ENVNAME%\Scripts\activate.bat"
+call virtualenvwrapper_run_hook "postactivate"
 
-REM Run postmkvirtualenv.bat
-
-if defined VIRTUALENVWRAPPER_HOOK_DIR (
-    if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat" (
-    	call "%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat"
-    )
-)
+call virtualenvwrapper_run_hook postmkvirtualenv
 
 
 goto END
