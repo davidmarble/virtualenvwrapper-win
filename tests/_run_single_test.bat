@@ -11,6 +11,7 @@ if defined VIRTUAL_ENV (
 :config
     set config.unique=%RANDOM%
     set config.workon_home=%TMP%\workon_home!config.unique!
+    set config.output=%TMP%\output!config.unique!
     set config.current_file=%~1
     set config.current_module=%~2
     set /a config.found_error=0
@@ -22,6 +23,7 @@ if %config.verbose% geq 1 (
 :setup_env
     set WORKON_HOME=%config.workon_home%
     mkdir %WORKON_HOME%
+    mkdir %config.output%
     set VIRTUAL_ENV=
 
 :execute_test
@@ -44,6 +46,7 @@ if %config.verbose% geq 1 (
 :teardown_env
     if defined VIRTUAL_ENV  call deactivate
     rmdir %WORKON_HOME% /s /q 2>nul
+    rmdir %config.output% /s /q 2>nul
 
 
 if %config.abort_on_fail% geq 1 (

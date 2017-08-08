@@ -1,4 +1,4 @@
-
+goto:eof
 :setup
     call mkvirtualenv cd-test
 
