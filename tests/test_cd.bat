@@ -1,29 +1,13 @@
-@echo off
-goto:eof
-
-call setup %~n0% 
-
-:onetime_setup
-    mkdir %WORKON_HOME%
-    set VIRTUAL_ENV=
-    call mkvirtualenv cd-test 2>NUL
-    call deactivate
 
 :setup
-    call workon cd-test
+    call mkvirtualenv cd-test
 
 
-:test_cdvirtualenv
-    call cdvirtualenv 2>NUL
-    call assertEquals test_cdvirtualenv "%CD%" "%VIRTUAL_ENV%"
+call _start_test cdvirtualenv
+    call cdvirtualenv
+    call assertEquals %CD% %VIRTUAL_ENV%
 
-:test_cdsitepackage
-    call cdvirtualenv 2>NUL
+call _start_test cdsitepackage
     call cdsitepackages
-    call assertEquals test_cdsitepackage "%CD%" "%VIRTUAL_ENV%\Lib\site-packages"
-
-
-
-:cleanup
-    rmdir %WORKON_HOME% /s /q
+    call assertEquals %CD% %VIRTUAL_ENV%\Lib\site-packages
 
