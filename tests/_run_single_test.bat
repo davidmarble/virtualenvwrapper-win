@@ -1,6 +1,12 @@
 @echo off
 setlocal enableDelayedExpansion
 
+:: 
+::  This command expects two parameters
+::   1. the file name (including extension)
+::   2. the module name (normally the file name without extension)
+::
+
 :: go to directory of this file
 cd /d %~dp0
 
@@ -44,10 +50,13 @@ if %config.verbose% geq 1 (
 )
 
 :teardown_env
-    if defined VIRTUAL_ENV  call deactivate
-    rmdir %WORKON_HOME% /s /q 2>nul
-    rmdir %config.output% /s /q 2>nul
-
+    if %config.teardown% geq 1 (
+        if defined VIRTUAL_ENV  call deactivate
+        rmdir %WORKON_HOME% /s /q 2>nul
+        rmdir %config.output% /s /q 2>nul
+    ) else (
+        pushd %config.output%
+    )
 
 if %config.abort_on_fail% geq 1 (
     if %config.found_error% geq 1 (

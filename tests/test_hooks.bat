@@ -1,25 +1,23 @@
-@echo off
+@echo on
 setlocal enabledelayedexpansion
 
+set CURDIR=%CD%
 
 :setup
     :: set global hook directory
-    set "VIRTUALENVWRAPPER_HOOK_DIR=%CD%\testhooks"
-    call mkvirtualenv workon-test1
+    set "VIRTUALENVWRAPPER_HOOK_DIR=%CD%\globalhoooks"
+    call mkvirtualenv hooktest1 --no-setuptools --no-pip --no-wheel
+    cd %CURDIR%
     xcopy localhooks\*.* %VIRTUAL_ENV%\Scripts
     call workon
     call deactivate
-    call workon workon-test1
+    call workon hooktest1
+    @echo on
+    call tree %config.output%
+    @echo on
 
-call _start_test get_env_details_hook
-    call assertExsists %config.output%\get_env_details.global
-    call assertExsists %config.output%\get_env_details.global.args
-    
-call _start_test mkvirtualenv_hook
-    
+call _start_test get_env_details_called
+    call assertExists %config.output%\get_env_details.local
 
-call _start_test workon_activate_hook
-    call :setup
-    call workon workon-test1
-    set /p hookoutput=<%OUTPUT_DIR%\hookoutput.txt
-    call assertEquals test_workon_activate_hooks "%hookoutput%" "GLOBAL_post_activate_hook"
+call _start_test get_env_details_correct_args
+    call assertExists %config.output%\get_env_details.local.args hooktest1

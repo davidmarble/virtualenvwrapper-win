@@ -49,6 +49,8 @@ pushd "%WORKON_HOME%"
 REM As of Python 2.7, calling virtualenv.exe causes a new window to open,
 REM so call the script directly
 REM recent versions of virtualenv does not contain virtualenv-script.py..
+
+echo CALLING VIRTUALENV with %ARGS%
 if exist "%PYHOME%\Scripts\virtualenv-script.py" (
     python.exe "%PYHOME%\Scripts\virtualenv-script.py" %ARGS%
 ) else (

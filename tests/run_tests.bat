@@ -11,6 +11,7 @@ setlocal enableDelayedExpansion
     set /a config.verbose=0
     set /a config.passing_tests=0
     set /a config.failing_tests=0
+    set /a config.teardown=1
 
 :getopt
     if [%1]==[-v]               set /a config.verbose+=1
@@ -21,6 +22,9 @@ setlocal enableDelayedExpansion
     if [%1]==[-q]               set /a config.supress_output+=1
     if [%1]==[--quiet]          set /a config.supress_output+=1
     if [%1]==[--suppress-output]    set /a config.supress_output+=1
+    if [%1]==[-z]               set /a config.teardown-=1
+    if [%1]==[-f]               (set config.fname=%2 & shift)
+    if [%1]==[-t]               (set config.tname=%2 & shift)
 
     shift
     if not [%1]==[] goto:getopt
@@ -73,5 +77,7 @@ goto:eof
     echo.   -v                          be verbose (can be repeated for increased verboseness)
     echo.   -x, --abort-on-fail         quit the rest of the files on failure
     echo.   -q, --supress-output        supress output from tests
-
+    echo.   -z                          don't tear down virtualenv and output dir
+    echo.   -f ^<filename^>               only run tests from ^<filename^>
+    echo.   -t ^<testname^>               only run tests named ^<testname^>
     echo.

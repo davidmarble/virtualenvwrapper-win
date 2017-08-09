@@ -3,6 +3,7 @@
 :: 
 ::     call virtualenvwrapper_run_hook "postactivate"
 ::
+echo RUN_HOOK[%1][%*] workon_home=%WORKON_HOME% hookdir=%VIRTUALENVWRAPPER_HOOK_DIR%
 setlocal
 
 if not defined WORKON_HOME ( 
@@ -10,6 +11,7 @@ if not defined WORKON_HOME (
    goto:eof
 )
 if defined VIRTUALENVWRAPPER_HOOK_DIR (
+    echo DEBUG: WE HAVE the HOOK DIR [%VIRTUALENVWRAPPER_HOOK_DIR%]
     if "%VIRTUALENVWRAPPER_HOOK_DIR%" == "" (
         echo ERROR empty VIRTUALENVWRAPPER_HOOK_DIR variable
         exit 1
@@ -18,6 +20,7 @@ if defined VIRTUALENVWRAPPER_HOOK_DIR (
 set HOOK_NAME=%~1
 shift
 call :%HOOK_NAME% %*
+echo AFTER_HOOK[%HOOK_NAME%]
 goto :exit
 
 
@@ -37,9 +40,9 @@ goto :exit
         )
     )
     :: call local hook
-    if exist "%WORKON_HOME%\%ENVNAME%\bin\get_env_details.bat" (
+    if exist "%WORKON_HOME%\%ENVNAME%\Scripts\get_env_details.bat" (
         endlocal
-        call "%WORKON_HOME%\%ENVNAME%\bin\get_env_details.bat" %ENVNAME%
+        call "%WORKON_HOME%\%ENVNAME%\Scripts\get_env_details.bat" %ENVNAME%
     )
     goto:eof
 
@@ -59,9 +62,9 @@ goto :exit
         )
     )
     :: call local hook
-    if exist "%WORKON_HOME%\%ENVNAME%\bin\preactivate.bat" (
+    if exist "%WORKON_HOME%\%ENVNAME%\Scripts\preactivate.bat" (
         endlocal
-        call "%WORKON_HOME%\%ENVNAME%\bin\preactivate.bat"
+        call "%WORKON_HOME%\%ENVNAME%\Scripts\preactivate.bat"
     )
     goto:eof
 
@@ -83,9 +86,9 @@ goto :exit
         )
     )
     :: call local hook
-    if exist "%WORKON_HOME%\%ENVNAME%\bin\postactivate.bat" (
+    if exist "%WORKON_HOME%\%ENVNAME%\Scripts\postactivate.bat" (
         endlocal
-        call "%WORKON_HOME%\%ENVNAME%\bin\postactivate.bat"
+        call "%WORKON_HOME%\%ENVNAME%\Scripts\postactivate.bat"
     )
 
     goto:eof
@@ -107,9 +110,9 @@ goto :exit
         )
     )
     :: call local hook
-    if exist "%WORKON_HOME%\%ENVNAME%\bin\postdeactivate.bat" (
+    if exist "%WORKON_HOME%\%ENVNAME%\Scripts\postdeactivate.bat" (
         endlocal
-        call "%WORKON_HOME%\%ENVNAME%\bin\postdeactivate.bat"
+        call "%WORKON_HOME%\%ENVNAME%\Scripts\postdeactivate.bat"
     )
     goto:eof
 
@@ -127,9 +130,9 @@ goto :exit
         )
     )
     :: call local hook
-    if exist "%WORKON_HOME%\%ENVNAME%\bin\postdeactivate.bat" (
+    if exist "%WORKON_HOME%\%ENVNAME%\Scripts\postdeactivate.bat" (
         endlocal
-        call "%WORKON_HOME%\%ENVNAME%\bin\postdeactivate.bat"
+        call "%WORKON_HOME%\%ENVNAME%\Scripts\postdeactivate.bat"
     )
     goto:eof
 
