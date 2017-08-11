@@ -71,4 +71,13 @@ if exist "%WORKON_HOME%\%VENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     )
 )
 
+REM Run postactivate.bat
+
+if defined VIRTUALENVWRAPPER_HOOK_DIR (
+    if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat" (
+    	call "%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat"
+    )
+)
+
+
 :END
