@@ -2,7 +2,7 @@
 ::
 ::  sample test file
 ::
-
+goto:eof
 :: the test files are run from run_tests.bat
 
 rem first call setup.bat to define the testing environment %1 is the current

@@ -10,11 +10,11 @@ if "%2" == "" (
 )
 
 if /I [%1]==[%2] (
-    echo.  ^>^> OK   %config.current_module%:%config.current_test%  1>&2
-    set /a config.passing_tests+=1
+    rem echo.  ^>^> OK   %config.current_module%:%config.current_test%  [%1] and [%2] are equal 1>&2
+    call _log OK %config.current_module%:%config.current_test%  [%1] and [%2] are equal
     exit /b 0
 ) else (
-    echo.  ^>^> FAIL %config.current_module%:%config.current_test%  [%1] and [%2] are not equal  1>&2
-    set /a config.failing_tests+=1
+    rem echo.  ^>^> FAIL %config.current_module%:%config.current_test%  [%1] and [%2] are not equal  1>&2
+    call _log FAIL %config.current_module%:%config.current_test%  [%1] and [%2] are not equal
     exit /b 1
 )
