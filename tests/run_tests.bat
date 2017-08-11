@@ -31,6 +31,7 @@ setlocal enableDelayedExpansion
 
 :: go to tests directory
 pushd %~dp0
+    call _log begin logfile.txt
     pushd ..
         :: add the source and tests directories to the path
         path %CD%\scripts;%CD%\tests;%PATH%
@@ -53,6 +54,11 @@ pushd %~dp0
     )
 
 popd
+
+call _log end
+
+exit /b %config.failing_tests%
+
 goto:eof
 
 

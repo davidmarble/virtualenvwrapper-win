@@ -1,6 +1,7 @@
-goto:eof
+
+
 :setup
-    call mkvirtualenv cd-test
+    call mkvirtualenv cd-test --no-download --no-wheel --no-setuptools --no-pip
 
 
 call _start_test cdvirtualenv

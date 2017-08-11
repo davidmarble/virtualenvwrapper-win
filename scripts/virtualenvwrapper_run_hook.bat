@@ -81,7 +81,7 @@ goto :exit
     :: call global hook
     if defined VIRTUALENVWRAPPER_HOOK_DIR (
         if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat" (
-	        endlocal
+            endlocal
             call "%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat"
         )
     )

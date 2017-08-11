@@ -1,4 +1,6 @@
 @echo off
+set "__callingpath=%CALLINGPATH%"
+set "__projdir=%PROJDIR%"
 
 if [%1]==[] goto USAGE
 goto SETPROJECTDIR
@@ -44,5 +46,5 @@ set /p ="%PROJDIR%">"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" <NUL
 call add2virtualenv.bat "%PROJDIR%"
 
 :END
-set CALLINGPATH=
-set PROJDIR=
+set "CALLINGPATH=%__callingpath%"
+set "PROJDIR=%__projdir%"
