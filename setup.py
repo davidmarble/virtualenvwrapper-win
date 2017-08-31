@@ -24,6 +24,7 @@ scripts = [
     'rmvirtualenv.bat',
     'setprojectdir.bat',
     'toggleglobalsitepackages.bat',
+    'virtualenvwrapper_run_hook.bat',
     'whereis.bat',
     'workon.bat',
 ]
