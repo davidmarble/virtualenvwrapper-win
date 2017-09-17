@@ -1,3 +1,9 @@
+.. please add any noteable changes here as part of a PR
+
+-------
+Changes
+-------
+
 Version 1.2.2
 =====================================
 *   -a, -i, and -r options are now available (@thebjorn)

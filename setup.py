@@ -42,7 +42,7 @@ except IOError:
     pass
 
 try:
-    long_description += open('CHANGELOG.rst', 'rt').read()
+    long_description += '\n' + open('CHANGELOG.rst', 'rt').read()
 except IOError:
     pass
 
