@@ -5,8 +5,11 @@ setlocal enableDelayedExpansion
 cd /d %~dp0
 
 if defined VIRTUAL_ENV (
-    call deactivate
-)
+        if exist "%VIRTUAL_ENV%\Scripts\deactivate.bat" (
+            call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+        )
+        set VIRTUAL_ENV=
+    )
 
 :config
     set config.unique=%RANDOM%
@@ -20,18 +23,18 @@ if %config.verbose% geq 1 (
 )
 
 :setup_env
-    set WORKON_HOME=%config.workon_home%
-    mkdir %WORKON_HOME%
+    set "WORKON_HOME=%config.workon_home%"
+    mkdir "%WORKON_HOME%"
     set VIRTUAL_ENV=
 
 :execute_test
     if %config.supress_output% geq 1 (
         echo on
-        call %config.current_file% 1>nul
+        call ""%config.current_file%" 1>nul
         @echo off
     ) else (
         echo on
-        call %config.current_file%
+        call "%config.current_file%"
         @echo off
     )
     if ERRORLEVEL 1     set /a config.found_error+=1
@@ -42,8 +45,13 @@ if %config.verbose% geq 1 (
 )
 
 :teardown_env
-    if defined VIRTUAL_ENV  call deactivate
-    rmdir %WORKON_HOME% /s /q 2>nul
+    if defined VIRTUAL_ENV (
+        if exist "%VIRTUAL_ENV%\Scripts\deactivate.bat" (
+            call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+        )
+        set VIRTUAL_ENV=
+    )
+    rmdir "%WORKON_HOME%" /s /q 2>nul
 
 
 if %config.abort_on_fail% geq 1 (

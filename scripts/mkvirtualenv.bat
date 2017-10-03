@@ -121,9 +121,11 @@ if "%venvwrapper.envname%"=="" (
 
 :: exit any current virtualenv..
 if defined VIRTUAL_ENV (
-    call "%VIRTUAL_ENV%\%venvwrapper.scriptsdir%\deactivate.bat" 
+    if exist "%VIRTUAL_ENV%\Scripts\deactivate.bat" (
+        call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+    )
+    set VIRTUAL_ENV=
 )
-
 
 if not exist "%WORKON_HOME%\*" (
     echo. %WORKON_HOME% is not a directory, creating
@@ -161,7 +163,7 @@ if %venvwrapper.debug% equ 1 (
 )
 :: call virtualenv
 pushd "%WORKON_HOME%"
-    %venvwrapper.virtualenv_executable% %venvwrapper.virtualenv_args% %venvwrapper.envname%
+    "%venvwrapper.virtualenv_executable%" %venvwrapper.virtualenv_args% %venvwrapper.envname%
 popd
 if errorlevel 2 goto:cleanup
 
@@ -194,7 +196,7 @@ if not "%venvwrapper.install_packages%"=="" call :pipinstall "%venvwrapper.insta
 
 :: handle -r
 if not "%venvwrapper.requirements_file%"=="" (
-    call %VIRTUAL_ENV%\Scripts\pip install -r "%venvwrapper.requirements_file%"
+    call "%VIRTUAL_ENV%\Scripts\pip" install -r "%venvwrapper.requirements_file%"
 )
 
 :: Run postmkvirtualenv.bat
@@ -212,7 +214,7 @@ goto:cleanup
         set packages=%~1
         for /F "tokens=1*" %%g in ("%packages%") do (
             :: XXX should use --disable-pip-version-check (but only if pip version >= 6)
-            if not "%%g"=="" call %VIRTUAL_ENV%\Scripts\pip install %%g
+            if not "%%g"=="" call "%VIRTUAL_ENV%\Scripts\pip" install %%g
             if not "%%h"=="" call :pipinstall "%%h"
         )
     endlocal

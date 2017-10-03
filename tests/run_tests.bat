@@ -56,13 +56,12 @@ pushd %~dp0
     :: use forfiles to filter out directories, and for so we stay in the same shell..
     for /f "tokens=*" %%f in ('forfiles /m test_*.bat /c "cmd /c if @isdir==FALSE echo @file @fname"') do (
         if %config.call_single_test% geq 1 (
-            :: echo python -c "import sys;sys.exit('%config.single_test%' in '%%f'.split()[0])"
+            :: echo python -c "import sys;sys.exit('%config.single_test%' in '%%f')"
             python -c "import sys;sys.exit('%config.single_test%' in '%%f')"
             if errorlevel 1 (
                 call _run_single_test %%f
             )
         ) else (
-            echo running all tests
             call _run_single_test %%f
         )
 
