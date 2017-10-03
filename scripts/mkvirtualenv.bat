@@ -148,7 +148,7 @@ if not exist "%WORKON_HOME%\*" (
     )
 
 :: Check if venv exists (could be a file name, but don't care - still can't use it)
-if exist %WORKON_HOME%\%venvwrapper.envname% (
+if exist "%WORKON_HOME%\%venvwrapper.envname%" (
     call :error_message virtualenv "%venvwrapper.envname%" already exists
     call :cleanup
     exit /b 3
