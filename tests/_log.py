@@ -5,7 +5,6 @@ Note: Output written to stdout will be executed in the parent shell.
 import sys
 import os
 import datetime
-import argparse
 
 
 def log(cmd, args, fname):
@@ -14,7 +13,7 @@ def log(cmd, args, fname):
             fp.write(msg)
 
     if cmd == 'begin':
-        logfilename = arg
+        logfilename = args
         with open(logfilename, 'w') as fp:
             fp.write('start: %s\n' % datetime.datetime.now())
         sys.stdout.write('set "config.logfile=%s"\n' % logfilename)
@@ -64,7 +63,7 @@ def summary(lines):
 def main():
     cmd = sys.argv[1]
     msg = ' '.join(sys.argv[2:])
-    fname = os.environ['config.logfile']
+    fname = os.environ.get('config.logfile')
     return log(cmd, msg, fname)
 
 
