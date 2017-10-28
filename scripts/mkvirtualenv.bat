@@ -76,15 +76,21 @@ set /a debug=0
     )
 
     set "cur=%1"
+    if %debug% equ 1 (
+        echo DEBUG cur=%cur%
+    )
     :: is cur in virualenv_param_options?
     call set filteredvar=%%virualenv_param_options:*%cur%=%%
+    if %debug% equ 1 (
+        echo DEBUG filteredvar=%filteredvar%
+    )
 
     if %ouropt% equ 0 (
         if "%cur:~0,1%"=="-" (
             :: starts with a dash (we found an option)
             if not "%filteredvar%"=="%virualenv_param_options%" (
                 :: this is one of virtualenv's options that take a parameter
-                set "venvargs=%venvargs% %1=%2"
+                set "venvargs=%venvargs% %1 %2"
                 shift
             ) else (
                 set "venvargs=%venvargs% %1"
