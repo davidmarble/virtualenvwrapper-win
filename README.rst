@@ -166,18 +166,6 @@ run with no arguments and a list of the virtual environments is printed.
 The hook is run once for each environment, after the name is printed, and can
 print additional information about that environment.
 
-.. _scripts-initialize:
-    
-    initialize
-    ==========
-    
-      :Global/Local: global
-      :Arguments: None
-    
-    ``%VIRTUALENVWRAPPER_HOOK_DIR%/initialize`` is sourced when ``virtualenvwrapper.sh``
-    is loaded into your environment.  Use it to adjust global settings
-    when virtualenvwrapper is enabled.
-
 .. _scripts-premkvirtualenv:
 
 premkvirtualenv
@@ -203,32 +191,6 @@ postmkvirtualenv
 ``%VIRTUALENVWRAPPER_HOOK_DIR%/postmkvirtualenv.bat`` is sourced after the new environment
 is created and activated. If the ``-a`` <project_path> flag was used,
 the link to the project directory is set up before this script is sourced.
-
-.. _scripts-precpvirtualenv:
-    
-    precpvirtualenv
-    ===============
-    
-      :Global/Local: global
-      :Arguments: name of original environment, name of new environment
-    
-    ``%VIRTUALENVWRAPPER_HOOK_DIR%/precpvirtualenv`` is run  after
-    the source environment is duplicated and made relocatable, but before
-    the ``premkvirtualenv`` hook is run or the current environment is
-    switched to point to the new env. The current working directory for
-    the script is ``%WORKON_HOME%`` and the names of the source and new
-    environments are passed as arguments to the script.
-
-.. _scripts-postcpvirtualenv:
-
-    postcpvirtualenv
-    ================
-    
-      :Global/Local: global
-      :Arguments: none
-    
-    ``%VIRTUALENVWRAPPER_HOOK_DIR%/postcpvirtualenv`` is sourced after the new environment
-    is created and activated.
 
 .. _scripts-preactivate:
 
@@ -316,51 +278,3 @@ postrmvirtualenv
 The ``%VIRTUALENVWRAPPER_HOOK_DIR%/postrmvirtualenv.bat`` script is run
  after the environment is removed. The full path to the
 environment directory is passed as an argument to the script.
-
-.. _scripts-premkproject:
-
-    premkproject
-    ============
-    
-      :Global/Local: global
-      :Arguments: name of new project
-      :Sourced/Run: run
-    
-    ``%WORKON_HOME%/premkproject`` is run  after the
-    virtual environment is created and after the current environment is
-    switched to point to the new env, but before the new project directory
-    is created. The current working directory for the script is
-    ``$PROJECT_HOME`` and the name of the new project is passed as an
-    argument to the script.
-
-.. _scripts-postmkproject:
-    
-    postmkproject
-    =============
-    
-      :Global/Local: global
-      :Arguments: none
-      :Sourced/Run: sourced
-    
-    ``%WORKON_HOME%/postmkproject`` is sourced after the new environment
-    and project directories are created and the virtualenv is activated.
-    The current working directory is the project directory.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
