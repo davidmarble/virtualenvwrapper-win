@@ -1,3 +1,4 @@
+=====================
 virtualenvwrapper-win
 =====================
 
@@ -32,10 +33,10 @@ To install, run one of the following::
     python setup.py install   # or pip install .
 
 .. important:: **Optional**: Add an environment variable WORKON_HOME to specify the path to store environments.
-	       By default, this is ``%USERPROFILE%\Envs``.
+           By default, this is ``%USERPROFILE%\Envs``.
 
 .. tip:: **Optional**: **pywin** python version switcher (not included)
-	  
+      
    If you use several versions of python, you can switch between them
    using a separate project `pywin
    <https://github.com/davidmarble/pywin>`_. It's a lightweight
@@ -62,7 +63,7 @@ Main Commands
       -r requirements_file  requirements_file is passed to
                             pip install -r requirements_file
 
-    any other options are passed on to the ``virtualenv`` command.			    
+    any other options are passed on to the ``virtualenv`` command.                
 
 ``lsvirtualenv``
     List all of the enviornments stored in WORKON_HOME.
@@ -141,7 +142,225 @@ Convenience Commands
 
 Hooks
 -----
-To run some commands after ``mkvirtualenv`` you can use hooks. First
-you need to define ``VIRTUALENVWRAPPER_HOOK_DIR`` variable. If it is
-set ``mkvirtualenv`` will run ``postmkvirtualenv.bat`` script from
-that directory.
+You can run code before/after most actions that virtualevwrapper performs
+by creating files with the appropriate names (hooks).
+
+To define global hooks you must put the hook files in the directory
+pointed to by the ``VIRTUALENVWRAPPER_HOOK_DIR`` environment variable.
+
+Local hooks are placed in the ``%VIRTUAL_ENV%\Scripts`` directory.
+
+The following hooks and semantics are defined:
+
+
+.. _scripts-get_env_details:
+
+get_env_details
+===============
+
+  :Global/Local: both
+  :Arguments: env name
+
+``%VIRTUALENVWRAPPER_HOOK_DIR%/get_env_details.bat`` is run when ``workon`` is 
+run with no arguments and a list of the virtual environments is printed.  
+The hook is run once for each environment, after the name is printed, and can
+print additional information about that environment.
+
+.. _scripts-initialize:
+    
+    initialize
+    ==========
+    
+      :Global/Local: global
+      :Arguments: None
+    
+    ``%VIRTUALENVWRAPPER_HOOK_DIR%/initialize`` is sourced when ``virtualenvwrapper.sh``
+    is loaded into your environment.  Use it to adjust global settings
+    when virtualenvwrapper is enabled.
+
+.. _scripts-premkvirtualenv:
+
+premkvirtualenv
+===============
+
+  :Global/Local: global
+  :Arguments: name of new environment
+
+``%VIRTUALENVWRAPPER_HOOK_DIR%/premkvirtualenv.bat`` is run  after
+the virtual environment is created but before the current environment
+is switched to point to the new env. The current working directory for
+the script is ``%WORKON_HOME%`` and the name of the new environment is
+passed as an argument to the script.
+
+.. _scripts-postmkvirtualenv:
+
+postmkvirtualenv
+================
+
+  :Global/Local: global
+  :Arguments: none
+
+``%VIRTUALENVWRAPPER_HOOK_DIR%/postmkvirtualenv.bat`` is sourced after the new environment
+is created and activated. If the ``-a`` <project_path> flag was used,
+the link to the project directory is set up before this script is sourced.
+
+.. _scripts-precpvirtualenv:
+    
+    precpvirtualenv
+    ===============
+    
+      :Global/Local: global
+      :Arguments: name of original environment, name of new environment
+    
+    ``%VIRTUALENVWRAPPER_HOOK_DIR%/precpvirtualenv`` is run  after
+    the source environment is duplicated and made relocatable, but before
+    the ``premkvirtualenv`` hook is run or the current environment is
+    switched to point to the new env. The current working directory for
+    the script is ``%WORKON_HOME%`` and the names of the source and new
+    environments are passed as arguments to the script.
+
+.. _scripts-postcpvirtualenv:
+
+    postcpvirtualenv
+    ================
+    
+      :Global/Local: global
+      :Arguments: none
+    
+    ``%VIRTUALENVWRAPPER_HOOK_DIR%/postcpvirtualenv`` is sourced after the new environment
+    is created and activated.
+
+.. _scripts-preactivate:
+
+preactivate
+===========
+
+  :Global/Local: global, local
+  :Arguments: environment name
+
+The global ``%VIRTUALENVWRAPPER_HOOK_DIR%/preactivate.bat`` script is run before the new
+environment is enabled.  The environment name is passed as the first
+argument.
+
+The local ``%VIRTUAL_ENV%\Scripts/preactivate.bat`` hook is run before the new
+environment is enabled.  The environment name is passed as the first
+argument.
+
+.. _scripts-postactivate:
+
+postactivate
+============
+
+  :Global/Local: global, local
+  :Arguments: none
+
+The global ``%VIRTUALENVWRAPPER_HOOK_DIR%/postactivate.bat`` script is sourced 
+after the new environment is enabled. ``%VIRTUAL_ENV%`` refers to the new
+environment at the time the script runs.
+
+The local ``%VIRTUAL_ENV%\Scripts/postactivate.bat`` script is sourced after
+the new environment is enabled. ``%VIRTUAL_ENV%`` refers to the new
+environment at the time the script runs.
+
+
+.. _scripts-predeactivate:
+
+predeactivate
+=============
+
+  :Global/Local: local, global
+  :Arguments: none
+
+The local ``%VIRTUAL_ENV%\Scripts/predeactivate.bat`` script is sourced before the
+current environment is deactivated, and can be used to disable or
+clear settings in your environment. ``%VIRTUAL_ENV%`` refers to the old
+environment at the time the script runs.
+
+The global ``%VIRTUALENVWRAPPER_HOOK_DIR%/predeactivate.bat`` script is sourced before the
+current environment is deactivated.  ``%VIRTUAL_ENV%`` refers to the
+old environment at the time the script runs.
+
+.. _scripts-postdeactivate:
+
+postdeactivate
+==============
+
+  :Global/Local: local, global
+  :Arguments: none
+
+The ``%VIRTUAL_ENV%\Scripts/postdeactivate.bat`` script is sourced after the
+current environment is deactivated, and can be used to disable or
+clear settings in your environment.  The path to the environment just
+deactivated is available in ``VIRTUALENVWRAPPER_LAST_VIRTUALENV``.
+
+.. _scripts-prermvirtualenv:
+
+prermvirtualenv
+===============
+
+  :Global/Local: global
+  :Arguments: environment name
+
+The ``%VIRTUALENVWRAPPER_HOOK_DIR%/prermvirtualenv.bat`` script is run 
+before the environment is removed. The full path to the
+environment directory is passed as an argument to the script.
+
+.. _scripts-postrmvirtualenv:
+
+postrmvirtualenv
+================
+
+  :Global/Local: global
+  :Arguments: environment name
+
+The ``%VIRTUALENVWRAPPER_HOOK_DIR%/postrmvirtualenv.bat`` script is run
+ after the environment is removed. The full path to the
+environment directory is passed as an argument to the script.
+
+.. _scripts-premkproject:
+
+    premkproject
+    ============
+    
+      :Global/Local: global
+      :Arguments: name of new project
+      :Sourced/Run: run
+    
+    ``%WORKON_HOME%/premkproject`` is run  after the
+    virtual environment is created and after the current environment is
+    switched to point to the new env, but before the new project directory
+    is created. The current working directory for the script is
+    ``$PROJECT_HOME`` and the name of the new project is passed as an
+    argument to the script.
+
+.. _scripts-postmkproject:
+    
+    postmkproject
+    =============
+    
+      :Global/Local: global
+      :Arguments: none
+      :Sourced/Run: sourced
+    
+    ``%WORKON_HOME%/postmkproject`` is sourced after the new environment
+    and project directories are created and the virtualenv is activated.
+    The current working directory is the project directory.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
