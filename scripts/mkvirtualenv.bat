@@ -77,15 +77,21 @@ set /a debug=0
     )
 
     set "cur=%1"
+    if %debug% equ 1 (
+        echo DEBUG cur=%cur%
+    )
     :: is cur in virualenv_param_options?
     call set filteredvar=%%virualenv_param_options:*%cur%=%%
+    if %debug% equ 1 (
+        echo DEBUG filteredvar=%filteredvar%
+    )
 
     if %ouropt% equ 0 (
         if "%cur:~0,1%"=="-" (
             :: starts with a dash (we found an option)
             if not "%filteredvar%"=="%virualenv_param_options%" (
                 :: this is one of virtualenv's options that take a parameter
-                set "venvargs=%venvargs% %1=%2"
+                set "venvargs=%venvargs% %1 %2"
                 shift
             ) else (
                 set "venvargs=%venvargs% %1"
@@ -124,10 +130,12 @@ if "%venvwrapper.envname%"=="" (
 if defined VIRTUAL_ENV (
     call virtualenvwrapper_run_hook "predeactivate"
     set VIRTUALENVWRAPPER_LAST_VIRTUALENV=%ENVNAME%
-    call "%VIRTUAL_ENV%\%venvwrapper.scriptsdir%\deactivate.bat"
+    if exist "%VIRTUAL_ENV%\%venvwrapper.scriptsdir%\deactivate.bat" (
+        call "%VIRTUAL_ENV%\%venvwrapper.scriptsdir%\deactivate.bat"
+    )
     call virtualenvwrapper_run_hook "postdeactivate"
+    set VIRTUAL_ENV=
 )
-
 
 if not exist "%WORKON_HOME%\*" (
     echo. %WORKON_HOME% is not a directory, creating
@@ -150,7 +158,7 @@ if not exist "%WORKON_HOME%\*" (
     )
 
 :: Check if venv exists (could be a file name, but don't care - still can't use it)
-if exist %WORKON_HOME%\%venvwrapper.envname% (
+if exist "%WORKON_HOME%\%venvwrapper.envname%" (
     call :error_message virtualenv "%venvwrapper.envname%" already exists
     call :cleanup
     exit /b 3
@@ -219,7 +227,7 @@ if not "%venvwrapper.install_packages%"=="" call :pipinstall "%venvwrapper.insta
 
 :: handle -r
 if not "%venvwrapper.requirements_file%"=="" (
-    call %VIRTUAL_ENV%\Scripts\pip install -r "%venvwrapper.requirements_file%"
+    call "%VIRTUAL_ENV%\Scripts\pip" install -r "%venvwrapper.requirements_file%"
 )
 
 
@@ -231,7 +239,7 @@ goto:cleanup
         set packages=%~1
         for /F "tokens=1*" %%g in ("%packages%") do (
             :: XXX should use --disable-pip-version-check (but only if pip version >= 6)
-            if not "%%g"=="" call %VIRTUAL_ENV%\Scripts\pip install %%g
+            if not "%%g"=="" call "%VIRTUAL_ENV%\Scripts\pip" install %%g
             if not "%%h"=="" call :pipinstall "%%h"
         )
     endlocal

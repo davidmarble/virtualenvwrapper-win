@@ -21,11 +21,11 @@ call _start_test argparse_pass_flags
     call mkvirtualenv  --debug ---stop after-argparse  foo --no-download > %fname%
     call assertContains %fname% "venvwrapper.virtualenv_args= -v --no-download"
 
-call _start_test argparse_pass_flags
+call _start_test argparse_pass_param
     :: check that a parameter with value is passed through to virtualenv (--debug adds -v)
     set fname=%config.output%\%config.current_test%.output
     call mkvirtualenv  --debug ---stop after-argparse  foo --extra-search-dir=c:\wheelhouse > %fname%
-    call assertContains %fname% "venvwrapper.virtualenv_args= -v --extra-search-dir=c:\wheelhouse"
+    call assertContains %fname% "venvwrapper.virtualenv_args= -v --extra-search-dir c:\wheelhouse"
 
 
 call _start_test mkvirtualenv_r

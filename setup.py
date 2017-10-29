@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.2.1'
+VERSION = '1.2.3'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 scripts_loc = 'scripts/'
 scripts = [
@@ -43,7 +43,7 @@ except IOError:
     pass
 
 try:
-    long_description += open('CHANGELOG.rst', 'rt').read()
+    long_description += '\n' + open('CHANGELOG.rst', 'rt').read()
 except IOError:
     pass
 
