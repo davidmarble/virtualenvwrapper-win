@@ -161,7 +161,7 @@ get_env_details
   :Global/Local: both
   :Arguments: env name
 
-``%VIRTUALENVWRAPPER_HOOK_DIR%/get_env_details.bat`` is run when ``workon`` is 
+``%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat`` is run when ``workon`` is
 run with no arguments and a list of the virtual environments is printed.  
 The hook is run once for each environment, after the name is printed, and can
 print additional information about that environment.
@@ -174,7 +174,7 @@ premkvirtualenv
   :Global/Local: global
   :Arguments: name of new environment
 
-``%VIRTUALENVWRAPPER_HOOK_DIR%/premkvirtualenv.bat`` is run  after
+``%VIRTUALENVWRAPPER_HOOK_DIR%\premkvirtualenv.bat`` is run  after
 the virtual environment is created but before the current environment
 is switched to point to the new env. The current working directory for
 the script is ``%WORKON_HOME%`` and the name of the new environment is
@@ -188,7 +188,7 @@ postmkvirtualenv
   :Global/Local: global
   :Arguments: none
 
-``%VIRTUALENVWRAPPER_HOOK_DIR%/postmkvirtualenv.bat`` is sourced after the new environment
+``%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat`` is sourced after the new environment
 is created and activated. If the ``-a`` <project_path> flag was used,
 the link to the project directory is set up before this script is sourced.
 
@@ -200,11 +200,11 @@ preactivate
   :Global/Local: global, local
   :Arguments: environment name
 
-The global ``%VIRTUALENVWRAPPER_HOOK_DIR%/preactivate.bat`` script is run before the new
+The global ``%VIRTUALENVWRAPPER_HOOK_DIR%\preactivate.bat`` script is run before the new
 environment is enabled.  The environment name is passed as the first
 argument.
 
-The local ``%VIRTUAL_ENV%\Scripts/preactivate.bat`` hook is run before the new
+The local ``%VIRTUAL_ENV%\Scripts\preactivate.bat`` hook is run before the new
 environment is enabled.  The environment name is passed as the first
 argument.
 
@@ -216,11 +216,11 @@ postactivate
   :Global/Local: global, local
   :Arguments: none
 
-The global ``%VIRTUALENVWRAPPER_HOOK_DIR%/postactivate.bat`` script is sourced 
+The global ``%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat`` script is sourced
 after the new environment is enabled. ``%VIRTUAL_ENV%`` refers to the new
 environment at the time the script runs.
 
-The local ``%VIRTUAL_ENV%\Scripts/postactivate.bat`` script is sourced after
+The local ``%VIRTUAL_ENV%\Scripts\postactivate.bat`` script is sourced after
 the new environment is enabled. ``%VIRTUAL_ENV%`` refers to the new
 environment at the time the script runs.
 
@@ -233,12 +233,12 @@ predeactivate
   :Global/Local: local, global
   :Arguments: none
 
-The local ``%VIRTUAL_ENV%\Scripts/predeactivate.bat`` script is sourced before the
+The local ``%VIRTUAL_ENV%\Scripts\predeactivate.bat`` script is sourced before the
 current environment is deactivated, and can be used to disable or
 clear settings in your environment. ``%VIRTUAL_ENV%`` refers to the old
 environment at the time the script runs.
 
-The global ``%VIRTUALENVWRAPPER_HOOK_DIR%/predeactivate.bat`` script is sourced before the
+The global ``%VIRTUALENVWRAPPER_HOOK_DIR%\predeactivate.bat`` script is sourced before the
 current environment is deactivated.  ``%VIRTUAL_ENV%`` refers to the
 old environment at the time the script runs.
 
@@ -250,7 +250,7 @@ postdeactivate
   :Global/Local: local, global
   :Arguments: none
 
-The ``%VIRTUAL_ENV%\Scripts/postdeactivate.bat`` script is sourced after the
+The ``%VIRTUAL_ENV%\Scripts\postdeactivate.bat`` script is sourced after the
 current environment is deactivated, and can be used to disable or
 clear settings in your environment.  The path to the environment just
 deactivated is available in ``VIRTUALENVWRAPPER_LAST_VIRTUALENV``.
@@ -263,7 +263,7 @@ prermvirtualenv
   :Global/Local: global
   :Arguments: environment name
 
-The ``%VIRTUALENVWRAPPER_HOOK_DIR%/prermvirtualenv.bat`` script is run 
+The ``%VIRTUALENVWRAPPER_HOOK_DIR%\prermvirtualenv.bat`` script is run
 before the environment is removed. The full path to the
 environment directory is passed as an argument to the script.
 
@@ -275,6 +275,6 @@ postrmvirtualenv
   :Global/Local: global
   :Arguments: environment name
 
-The ``%VIRTUALENVWRAPPER_HOOK_DIR%/postrmvirtualenv.bat`` script is run
+The ``%VIRTUALENVWRAPPER_HOOK_DIR%\postrmvirtualenv.bat`` script is run
  after the environment is removed. The full path to the
 environment directory is passed as an argument to the script.
