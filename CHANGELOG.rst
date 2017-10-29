@@ -4,6 +4,13 @@
 Changes
 -------
 
+Version 1.2.3
+=====================================
+* Fixed a problem when the WORKON_HOME folder contained spaces.
+* Fixed a bug where cmd.com couldn't pass the Python executable to virtualenv
+  if the path included the drive letter.
+* Improved publish pipeline.
+
 Version 1.2.2
 =====================================
 *   -a, -i, and -r options are now available (@thebjorn)
