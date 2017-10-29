@@ -1,8 +1,15 @@
 @echo off
 
-if not defined WORKON_HOME (
-    set "WORKON_HOME=%USERPROFILE%\Envs"
-)
+:defaults
+    set "venvwrapper.original_args=%*"
+    set "venvwrapper.default_workon_home=%USERPROFILE%\Envs"
+    set "venvwrapper.scriptsdir=Scripts"
+    set /a venvwrapper.debug=0
+
+    :: make sure WORKON_HOME has a useful value
+    if not defined WORKON_HOME  set "WORKON_HOME=%venvwrapper.default_workon_home%"
+    set "venvwrapper.workon_home=%WORKON_HOME%"
+
 
 if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
     set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
@@ -12,16 +19,16 @@ if [%1]==[] goto LIST
 goto WORKON
 
 :LIST
-echo.
-echo Pass a name to activate one of the following virtualenvs:
-echo ==============================================================================
-pushd "%WORKON_HOME%"
-for /d %%D in (*) do (
-    echo %%D
-    call virtualenvwrapper_run_hook "get_env_details" %%D
-)
-popd
-goto END
+    echo.
+    echo Pass a name to activate one of the following virtualenvs:
+    echo ==============================================================================
+    pushd "%WORKON_HOME%"
+    for /d %%D in (*) do (
+        echo %%D
+        call virtualenvwrapper_run_hook "get_env_details" "%%D"
+    )
+    popd
+    goto:cleanup
 
 :WORKON
 
@@ -55,7 +62,7 @@ if errorlevel 1 (
     echo.
     echo.    virtualenv "%VENV%" does not exist.
     echo.    Create it with "mkvirtualenv %1"
-    goto END
+    goto:cleanup
 )
 
 if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
@@ -63,7 +70,7 @@ if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
     echo.    %WORKON_HOME%\%VENV%
     echo.    doesn't contain a virtualenv ^(yet^).
     echo.    Create it with "mkvirtualenv %VENV%"
-    goto END
+    goto:cleanup
 )
 
 call virtualenvwrapper_run_hook "preactivate" "%VENV%"
@@ -82,4 +89,8 @@ if exist "%WORKON_HOME%\%VENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     )
 )
 
-:END
+
+:cleanup
+    :: clear any variables that shouldn't escape
+    for /f "usebackq delims==" %%v in (`set venvwrapper.`) do @set "%%v="
+    goto:eof
