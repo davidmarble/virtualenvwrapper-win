@@ -79,7 +79,7 @@ def setversion(ctx, version):
 
 @task(
     help={
-        'clean': 'remove the dist/ directory before starting',
+        'clean': 'remove the build/ and dist/ directory before starting',
         'wheel': 'build wheel (in addition to sdist)',
         'upload': 'upload to PyPI after building'
     }
@@ -90,6 +90,7 @@ def build(ctx, clean=False, wheel=True, upload=False):
     os.chdir(DIRNAME)
     if clean:
         ctx.run('rmdir dist /s /q')
+        ctx.run('rmdir build /s /q')
 
     targets = 'sdist'
     if wheel:
