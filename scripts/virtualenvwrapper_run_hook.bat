@@ -3,15 +3,26 @@
 :: 
 ::     call virtualenvwrapper_run_hook "postactivate"
 ::
-echo RUN_HOOK[%1][%*] workon_home=%WORKON_HOME% hookdir=%VIRTUALENVWRAPPER_HOOK_DIR%
+if not defined venvwrapper.debug set /a venvwrapper.debug=0
+
+if defined venvwrapper.debug (
+    if %venvwrapper.debug% equ 1 (
+        echo RUN_HOOK[%1][%*] workon_home=%WORKON_HOME% hookdir=%VIRTUALENVWRAPPER_HOOK_DIR%
+    )
+)
+
 setlocal
 
-if not defined WORKON_HOME ( 
+if not defined WORKON_HOME (
    echo ERROR WORKON_HOME not set
    goto:eof
 )
 if defined VIRTUALENVWRAPPER_HOOK_DIR (
-    echo DEBUG: WE HAVE the HOOK DIR [%VIRTUALENVWRAPPER_HOOK_DIR%]
+    if defined venvwrapper.debug (
+        if %venvwrapper.debug% equ 1 (
+            echo DEBUG: WE HAVE the HOOK DIR [%VIRTUALENVWRAPPER_HOOK_DIR%]
+        )
+    )
     if "%VIRTUALENVWRAPPER_HOOK_DIR%" == "" (
         echo ERROR empty VIRTUALENVWRAPPER_HOOK_DIR variable
         exit 1
@@ -20,7 +31,11 @@ if defined VIRTUALENVWRAPPER_HOOK_DIR (
 set HOOK_NAME=%~1
 shift
 call :%HOOK_NAME% %*
-echo AFTER_HOOK[%HOOK_NAME%]
+if defined venvwrapper.debug (
+    if %venvwrapper.debug% equ 1 (
+        echo AFTER_HOOK[%HOOK_NAME%]
+    )
+)
 goto :exit
 
 
@@ -35,7 +50,7 @@ goto :exit
     set "ENVNAME=%~2"
     if defined VIRTUALENVWRAPPER_HOOK_DIR (
         if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat" (
-	    endlocal
+            endlocal
             call "%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat" %ENVNAME%
         )
     )
