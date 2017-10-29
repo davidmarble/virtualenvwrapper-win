@@ -6,3 +6,4 @@ Include
 Lib
 virtualenvwrapper_win.egg-info
 tests/logfile.txt
+.idea
