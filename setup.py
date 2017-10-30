@@ -26,6 +26,7 @@ scripts = [
     'toggleglobalsitepackages.bat',
     'whereis.bat',
     'workon.bat',
+    'virtualenvwrapper.bat',
 ]
 
 import os
