@@ -4,6 +4,10 @@
 Changes
 -------
 
+Version 1.2.4
+=====================================
+
+
 Version 1.2.3
 =====================================
 * Fixed a problem when the WORKON_HOME folder contained spaces.
