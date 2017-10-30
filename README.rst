@@ -139,6 +139,10 @@ Convenience Commands
     ``whereis python.exe`` for an exact match.
 
 
+``virtualenvwrapper``
+    Print a list of commands and their descriptions as basic help output.
+    (added in v.1.2.4)
+
 Hooks
 -----
 To run some commands after ``mkvirtualenv`` you can use hooks. First
