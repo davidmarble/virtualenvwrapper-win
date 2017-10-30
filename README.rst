@@ -155,14 +155,15 @@ The following hooks and semantics are defined:
 
 .. _scripts-get_env_details:
 
+
 get_env_details
 ===============
 
-  :Global/Local: both
-  :Arguments: env name
+    :Global/Local: both
+    :Arguments: env name
 
 ``%VIRTUALENVWRAPPER_HOOK_DIR%\get_env_details.bat`` is run when ``workon`` is
-run with no arguments and a list of the virtual environments is printed.  
+run with no arguments and a list of the virtual environments is printed.
 The hook is run once for each environment, after the name is printed, and can
 print additional information about that environment.
 
@@ -185,8 +186,8 @@ passed as an argument to the script.
 postmkvirtualenv
 ================
 
-  :Global/Local: global
-  :Arguments: none
+    :Global/Local: global
+    :Arguments: none
 
 ``%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat`` is sourced after the new environment
 is created and activated. If the ``-a`` <project_path> flag was used,
@@ -275,6 +276,6 @@ postrmvirtualenv
   :Global/Local: global
   :Arguments: environment name
 
-The ``%VIRTUALENVWRAPPER_HOOK_DIR%\postrmvirtualenv.bat`` script is run
- after the environment is removed. The full path to the
-environment directory is passed as an argument to the script.
+The ``%VIRTUALENVWRAPPER_HOOK_DIR%\postrmvirtualenv.bat`` script is run after
+the environment is removed. The full path to the environment directory is
+passed as an argument to the script.
