@@ -37,7 +37,7 @@ if [%~1]==[] goto:usage
     echo.
     echo.    Deleted %WORKON_HOME%\%1
     echo.
-
+    goto:eof
 
 :usage
     echo.
