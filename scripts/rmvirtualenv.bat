@@ -1,52 +1,49 @@
 @echo off
+::
+:: Remove a virtualenv passed in as an argument
+::
+if [%~1]==[] goto:usage
 
-if [%1]==[] goto USAGE
-goto RMVIRTUALENV
 
-:USAGE
-echo.
-echo.    Pass a name to remove a virtualenv
-goto END
+:rmvirtualenv
+    if not defined WORKON_HOME (
+        set "WORKON_HOME=%USERPROFILE%\Envs"
+    )
 
-:RMVIRTUALENV
-if not defined WORKON_HOME (
-    set "WORKON_HOME=%USERPROFILE%\Envs"
-)
+    if defined VIRTUAL_ENV (
+        if ["%VIRTUAL_ENV%"]==["%WORKON_HOME%\%~1"] call "%WORKON_HOME%\%~1\Scripts\deactivate.bat"
+    )
 
-if defined VIRTUAL_ENV (
-    if ["%VIRTUAL_ENV%"]==["%WORKON_HOME%\%1"] call "%WORKON_HOME%\%1\Scripts\deactivate.bat"
-)
+    if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
+        set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
+    )
 
-if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
-    set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
-)
+    pushd "%WORKON_HOME%" 2>NUL && popd
+    if errorlevel 1 (
+        mkdir "%WORKON_HOME%"
+    )
 
-pushd "%WORKON_HOME%" 2>NUL && popd
-if errorlevel 1 (
-    mkdir "%WORKON_HOME%"
-)
+    pushd "%WORKON_HOME%\%~1" 2>NUL && popd
+    if errorlevel 1 (
+        echo.
+        echo.    virtualenv %1 does not exist
+        goto:eof
+    )
 
-pushd "%WORKON_HOME%\%1" 2>NUL && popd
-if errorlevel 1 (
+    pushd "%WORKON_HOME%
+        rmdir "%~1" /s /q
+    popd
+
     echo.
-    echo.    virtualenv "%1" does not exist
-    goto END
-)
+    echo.    Deleted %WORKON_HOME%\%1
+    echo.
 
-set "_CURRDIR=%CD%"
-cd /d "%WORKON_HOME%\%1"
-if exist "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
-    del "%WORKON_HOME%\%1\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
-)
 
-call folder_delete.bat *
-cd ..
-rmdir "%1" /s /q
-cd /d "%_CURRDIR%"
-echo.
-echo.    Deleted %WORKON_HOME%\%1
-echo.
-
-set _CURRDIR=
-
-:END
+:usage
+    echo.
+    echo.Removes a virtualenv.
+    echo.
+    echo.Usage:  rmvirtualenv NAME
+    echo.
+    echo.    NAME       the name of the virtualenv to remove
+    echo.

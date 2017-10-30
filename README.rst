@@ -68,7 +68,7 @@ Main Commands
     List all of the enviornments stored in WORKON_HOME.
 
 ``rmvirtualenv <name>``
-    Remove the environment *<name>*. Uses ``folder_delete.bat``.
+    Remove the environment *<name>*.
 
 ``workon [<name>]``
     If *<name>* is specified, activate the environment named *<name>* (change
