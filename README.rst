@@ -133,8 +133,8 @@ Convenience Commands
     site-packages.
 
 ``whereis <file>``
-    A script included for convenience. Returns directory locations
-    of `file` and `file` with any executable extensions. So you can call
+    A script included for convenience. Returns the locations (on `%PATH%`)
+    that contain an executable `file`. You can call
     ``whereis python`` to find all executables starting with ``python`` or
     ``whereis python.exe`` for an exact match.
 
