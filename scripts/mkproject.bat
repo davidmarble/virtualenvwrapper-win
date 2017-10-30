@@ -18,7 +18,7 @@ goto END
 
 :MKPROJECT
 if not defined PROJECT_HOME (
-    set "PROJECT_HOME=%USERPROFILE%\.projects"
+    set "PROJECT_HOME=%USERPROFILE%\Projects"
 )
 
 pushd %PROJECT_HOME% 2>NUL && popd
