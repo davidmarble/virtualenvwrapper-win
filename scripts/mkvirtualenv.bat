@@ -76,8 +76,9 @@ set /a debug=0
     )
 
     set "cur=%1"
+    set "quotelesscur=%~1"
     if %debug% equ 1 (
-        echo DEBUG cur=%cur%
+        echo DEBUG cur=%cur% quotelesscur=%quotelesscur%
     )
     :: is cur in virualenv_param_options?
     call set filteredvar=%%virualenv_param_options:*%cur%=%%
@@ -86,7 +87,7 @@ set /a debug=0
     )
 
     if %ouropt% equ 0 (
-        if "%cur:~0,1%"=="-" (
+        if "%quotelesscur:~0,1%"=="-" (
             :: starts with a dash (we found an option)
             if not "%filteredvar%"=="%virualenv_param_options%" (
                 :: this is one of virtualenv's options that take a parameter
@@ -96,7 +97,8 @@ set /a debug=0
                 set "venvargs=%venvargs% %1"
             )
         ) else (
-            set "envname=%1"
+            set "envname=%cur%"
+            set "qlenvname=%quotelesscur%"
         )
     )
 
@@ -108,6 +110,7 @@ set /a debug=0
     set "venvwrapper.install_packages=%install_packages%"
     set "venvwrapper.virtualenv_args=%venvargs%"
     set "venvwrapper.envname=%envname%"
+    set "venvwrapper.quoteless_envname=%qlenvname%"
     set "venvwrapper.stop=%stop%"
     set /a venvwrapper.debug=%debug%
 )
@@ -119,7 +122,7 @@ if %venvwrapper.debug% equ 1 (
     if "%venvwrapper.stop%"=="after-argparse" goto:cleanup
 )
 
-if "%venvwrapper.envname%"=="" (
+if "%venvwrapper.quoteless_envname%"=="" (
     call :error_message You must specify a name for the virtualenv
     call :cleanup
     exit /b 1
@@ -154,7 +157,7 @@ if not exist "%WORKON_HOME%\*" (
     )
 
 :: Check if venv exists (could be a file name, but don't care - still can't use it)
-if exist "%WORKON_HOME%\%venvwrapper.envname%" (
+if exist "%WORKON_HOME%\%venvwrapper.quoteless_envname%" (
     call :error_message virtualenv "%venvwrapper.envname%" already exists
     call :cleanup
     exit /b 3
@@ -194,6 +197,9 @@ if errorlevel 2 goto:cleanup
 
 call "%WORKON_HOME%\%venvwrapper.envname%\Scripts\activate.bat"
 
+if %venvwrapper.debug% equ 1 (
+    echo DEBUG call setprojectdir.bat "%venvwrapper.project_path%"
+)
 :: handle -a
 if not "%venvwrapper.project_path%"=="" call setprojectdir.bat "%venvwrapper.project_path%"
 
@@ -214,6 +220,11 @@ if defined VIRTUALENVWRAPPER_HOOK_DIR (
 
 
 goto:cleanup
+
+:dequote
+    :: https://ss64.com/nt/syntax-dequote.html
+    for /f "delims=" %%A in ('echo %%%1%%') do set %1=%%~A
+    goto:eof
 
 :pipinstall
     setlocal
