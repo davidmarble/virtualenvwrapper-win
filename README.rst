@@ -119,6 +119,11 @@ Convenience Commands
     the site-packages directory, the contents of easy-install.pth,
     and the contents of virtualenv_path_extensions.pth (used by
     ``add2virtualenv``).
+	
+``mkproject``
+	If the environment variable PROJECT_HOME is set, create a new project 
+	directory in PROJECT_HOME and a virtualenv in WORKON_HOME.  The project path
+	will automatically be associated with the virtualenv on creation.
 
 ``setprojectdir <full or relative path>``
     If a virtualenv environment is active, define *<path>* as project
