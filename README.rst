@@ -68,7 +68,7 @@ Main Commands
     List all of the enviornments stored in WORKON_HOME.
 
 ``rmvirtualenv <name>``
-    Remove the environment *<name>*. Uses ``folder_delete.bat``.
+    Remove the environment *<name>*.
 
 ``workon [<name>]``
     If *<name>* is specified, activate the environment named *<name>* (change
@@ -138,11 +138,15 @@ Convenience Commands
     site-packages.
 
 ``whereis <file>``
-    A script included for convenience. Returns directory locations
-    of `file` and `file` with any executable extensions. So you can call
+    A script included for convenience. Returns the locations (on `%PATH%`)
+    that contain an executable `file`. You can call
     ``whereis python`` to find all executables starting with ``python`` or
     ``whereis python.exe`` for an exact match.
 
+
+``virtualenvwrapper``
+    Print a list of commands and their descriptions as basic help output.
+    (added in v.1.2.4)
 
 Hooks
 -----

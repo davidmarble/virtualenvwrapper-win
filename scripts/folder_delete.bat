@@ -1,5 +1,7 @@
 @echo off
-
+::
+:: this file is deprecated and will be removed in a future version
+::
 SETLOCAL EnableDelayedExpansion
 
 if [%1]==[] goto USAGE
