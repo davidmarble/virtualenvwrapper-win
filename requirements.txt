@@ -3,3 +3,4 @@
 virtualenv==15.1.0
 invoke==0.20.3
 twine==1.9.1
+readme_renderer==17.2

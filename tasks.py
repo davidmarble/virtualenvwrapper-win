@@ -92,6 +92,9 @@ def build(ctx, clean=False, wheel=True, upload=False):
         ctx.run('rmdir dist /s /q')
         ctx.run('rmdir build /s /q')
 
+    print("check README.rst syntax..")
+    r = ctx.run("python setup.py check --restructuredtext --strict")
+
     targets = 'sdist'
     if wheel:
         targets += ' bdist_wheel'
