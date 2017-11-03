@@ -13,5 +13,8 @@ call _start_test space_dir_test
     call assertEquals "%ERRORLEVEL%" "0"
 
 
+:: call _start_test mkproject_space_test
+
+
 :teardown_space_dir
     rmdir "%WORKON_HOME%" /s /q 2>nul

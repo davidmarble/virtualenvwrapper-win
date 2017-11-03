@@ -14,6 +14,7 @@ if defined VIRTUAL_ENV (
 :config
     set config.unique=%RANDOM%
     set config.workon_home=%TMP%\workon_home!config.unique!
+    set config.project_home=%TMP%\project_home!config.unique!
     set config.current_file=%~1
     set config.current_module=%~2
     set /a config.found_error=0
@@ -25,6 +26,7 @@ if %config.verbose% geq 1 (
 :setup_env
     set "WORKON_HOME=%config.workon_home%"
     mkdir "%WORKON_HOME%"
+    set "PROJECT_HOME=%config.project_home%"
     set VIRTUAL_ENV=
 
 :execute_test
