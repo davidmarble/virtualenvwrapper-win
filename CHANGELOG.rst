@@ -6,6 +6,7 @@ Changes
 
 Version 1.2.4
 =====================================
+* Added mkproject convenience script (@thehug0naut)
 * folder_delete.bat is deprecated and will be removed in a future version.
   You should be using `rmdir %dirname% /s /q` instead.
 

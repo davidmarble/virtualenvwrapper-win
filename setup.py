@@ -20,6 +20,7 @@ scripts = [
     'folder_delete.bat',
     'lssitepackages.bat',
     'lsvirtualenv.bat',
+	'mkproject.bat',
     'mkvirtualenv.bat',
     'rmvirtualenv.bat',
     'setprojectdir.bat',
