@@ -1,95 +1,133 @@
+.. _standard-layuot:
+
+Standard layout of a .bat file
+====================================
+
+.. warning:: This is WIP.
+
+The general layout should normally be:
+
+ - ``@echo off``
+ - descriptive comment
+ - default values
+ - option handling
+ - initialize variables
+ - the body of the script
+ - call cleanup and exit with a zero exit code (no errors)
+ - subroutines
+ - usage subroutine printing the end-user usage info
+ - cleanup subroutine
+
+each point is described below.
+
+Not all scripts need all sections.
+
+Descriptive comment
+---------------------
+This is a comment giving the name of the command and a short
+description of what the command does, targeted at developers developing
+virtualenvwrapper-win.
+
+Default values
+---------------------
+Set any default values here, e.g. default ``WORKON_HOME``, ``PROJECT_HOME`` directories.
+For debugging the option handling it can be useful to include the script's parameters
+when called (``%*``):
+
+.. code-block:: dosbatch
+
+    :: set default values
+        set "prefix.original_args=%*"
+        set "prefix.dirname=..default value.."
+
+Writing the section comment in column 0 and indenting the ``set ..`` commands makes
+the code easier to grok when you come back to it.
 
 
-@echo off
-::
-::  name - what it does
-::
-::
+Option Handling
+-----------------
+All scripts should handle the `-h` and `--help` options. If that is all, it can be
+handled by:
 
-:: set default values
-    set "prefix.original_args=%*"
-    set "prefix.dirname=..default value.."
+.. code-block:: dosbatch
 
-
-:: handle options
-if "%~1"=="" goto:usage & exit /b 0
-setlocal
-set /a __debug=0
-:getopts
-    set /a __handled=0
-    
-    if "%~1"=="--debug" (
-        set /a __debug=1
-	set /a __handled=1
-    )
     if "%~1"=="-h"      goto:usage & exit /b 0
     if "%~1"=="--help"  goto:usage & exit /b 0
 
-    if "%~1"=="--arg-with-value" (
-        set "__arg_with_value=%~2"
-	set /a __handled=1
+if calling the command with no arguments should display the usage, add:
+
+.. code-block:: dosbatch
+
+    if "%~1"==""      goto:usage & exit /b 0
+
+This version handles quoted and unquoted arguments, as well as arguments with and
+without spaces.
+
+More complex option handling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For more complex option handling you'll need to loop over the input parameters.
+The looplabel should be named ``:getopts``
+
+.. code-block:: dosbatch
+
+    :getopts
+        if "%~1"=="-f"  set /a prefix.flag_var=1
+
+        if "%~1"=="--arg-with-value" (
+            set "prefix.arg_with_value=%~2"
+            shift
+        )
+        shift
+        if not "%~1"=="" goto:getopts
+
+For even more complex option handling, where you need to mutate variables, use the
+following:
+
+.. code-block:: dosbatch
+
+    setlocal
+    :getopts
+        ...
+    (endlocal & rem export from setlocal block
+        :: variables set here escape, and variables set in the setlocal
+        :: block are still visible.
     )
 
-    if %__handled% equ 0 (
-        set "__positional_args=%__positional_args% %1"
-    )
+Initialize variables
+----------------------------------------------------------
 
-    shift
-    if __debug equ 1 (
-        echo.DEBUG:args %*
-    )
-    if not "%~1"=="" goto:getopts
-(endlocal & rem export from setlocal block
-    set /a prefix.debug=%__debug%
-    set "prefix.args=%__positional_args%"
-    set "prefix.arg_with_value=%__arg_with_value%"
-    set "prefix.dirname=..override dirname based on options.."
-)
+The body of the script
+----------------------------------------------------------
+Make sure any error conditions cause an error message to be printed, and a unique
+error number to be set (``exit /b n`` where ``n`` is the error number).
 
-:: set initial values
-   set "prefix.filename=%prefix.dirname%\.filename"
+A normal exit should set the errorlevel to 0 by ``exit /b 0``.
 
 
-:: script code goes here..
-    :: ...
-    if errorlevel 1 (
-        call :error_message text for error message.
-	call : cleanup
-	exit /b 1
-    )
-    :: ...
+
+Call cleanup and exit with a zero exit code (no errors)
+----------------------------------------------------------
+
+Subroutines
+----------------------------------------------------------
+
+usage subroutine printing the end-user usage info
+----------------------------------------------------------
+
+cleanup subroutine
+----------------------------------------------------------
+
+.. literalinclude:: _static/stdlayout.bat
+    :language: dosbatch
+    :linenos:
+    :lines: 90-92
 
 
-:: (end-of-script)
-goto:cleanup
-exit /b 0
-
-:: (start-of-subroutines)
-
-:error_message
-    echo.
-    echo.    ERROR: %*
-    echo.
-    goto:eof
 
 
-:usage
-    echo.
-    echo.toolname - description
-    echo.
-    echo.Usage:  toolname [...args...]
-    echo.
-    echo.Description
-    echo.
-    echo.tool options:
-    echo.  -y            answer yes to all prompts
-    echo.  -f|--force    force execution
-    echo.  --name NAME   set name to NAME
-    echo. ...
-    echo.
-    :: fall through
+Skeleton
+========
 
-:cleanup
-    for /f "usebackq delims==" %%v in (`set prefix.`) do @set "%%v="
-    goto:eof	
-    
+.. literalinclude:: _static/stdlayout.bat
+    :language: dosbatch
+    :linenos:
