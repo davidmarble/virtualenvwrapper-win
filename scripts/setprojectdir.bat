@@ -69,6 +69,7 @@ goto:eof
     echo.
     echo.    ERROR: %*
     echo.
+    goto:eof
 
 :usage
     echo.
