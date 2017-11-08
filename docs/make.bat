@@ -8,7 +8,7 @@ if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
 set SOURCEDIR=.
-set BUILDDIR=_build
+set BUILDDIR=../build/docs
 set SPHINXPROJ=virtualenvwrapper-win
 
 if "%1" == "" goto help

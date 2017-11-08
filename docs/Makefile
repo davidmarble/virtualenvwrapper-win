@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = virtualenvwrapper-win
 SOURCEDIR     = .
-BUILDDIR      = _build
+BUILDDIR      = ../build/docs
 
 # Put it first so that "make" without argument is like "make help".
 help:
