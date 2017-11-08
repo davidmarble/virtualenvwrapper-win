@@ -11,7 +11,7 @@ call _start_test mkproject_usage_from_noargs
 
     call mkproject > %fname%
 
-    set "usage=Pass a name to create a new"
+    set "usage=The new environment is automatically"
     call assertContains %fname% "%usage%
 
 
@@ -19,27 +19,14 @@ call _start_test mkproject_happy
     set fname=%config.output%\%config.current_test%.output
     pushd .
         call mkproject happy
-
-        :: no errors
-        call assertEquals %ERRORLEVEL% 0
-
-        :: we should end up in the new project dir
-        call assertEquals "%CD%" "%PROJECT_HOME%\happy"
+        set /a errno=%ERRORLEVEL%
+        set "curdir=%CD%"
     popd
 
-    echo.PROJECT_HOME = %PROJECT_HOME%
-    echo.-----------------------------
-    pushd "%PROJECT_HOME%"
-        dir /s
-    popd
+    call assertEquals %errno% 0
+    call assertEquals "%curdir%" "%PROJECT_HOME%\happy"
+    call assertContains "%VIRTUAL_ENV%\.project" "%curdir%"
 
-    echo.VIRTUAL_ENV = %VIRTUAL_ENV%
-    echo.-----------------------------
-    pushd "%VIRTUAL_ENV%"
-        dir
-    popd
-
-    type "%VIRTUAL_ENV%\.project"
 
 :cleanup
     set fname=
