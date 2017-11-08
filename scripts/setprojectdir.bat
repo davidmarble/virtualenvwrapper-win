@@ -63,7 +63,8 @@
 
     call add2virtualenv.bat "%vwsetproject.proj_path%"
 
-goto:eof
+goto:cleanup
+exit /b 0
 
 :error_msg
     echo.
