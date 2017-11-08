@@ -1,66 +1,84 @@
-@echo on
-
-
-:defaults
-    set "venvwrapper.original_args=%*"
-    set "venvwrapper.default_workon_home=%USERPROFILE%\Envs"
-    set "venvwrapper.scriptsdir=Scripts"
-::     set "venvwrapper
+@echo off
 ::
+::  setprojectdir PATH
 ::
-set "__callingpath=%CALLINGPATH%"
-set "__projdir=%PROJDIR%"
+::      make PATH  and copy it into %VIRTUAL_ENV%\.project
+::      call add2virtualenv.bat to include the project path into the
+::      python path of the virtualenv.
+::
+::  sets/creates WORKON_HOME, VIRTUALENVWRAPPER_PROJECT_FILENAME if not defined.
+::
+
+:: set default values
+    set "vwsetproject.callingpath=%CD%"
+    set "vwsetproject.projdir=%~1"
+
+    set "vwsetproject.default_workon_home=%USERPROFILE%\Envs"
+    set "vwsetproject.project_fname=.project"
+
+    set "vwsetproject.original_args=%*"
+    set "vwsetproject.scriptsdir=Scripts"
 
 
-:: print usage if no arguments given
-if "%~1"=="" goto:usage
+:getopts
+    :: print usage if no arguments given
+    if "%~1"==""        goto:usage & exit /b 0
+    if "%~1"=="-h"      goto:usage & exit /b 0
+    if "%~1"=="--help"  goto:usage & exit /b 0
 
 
-:setprojectdir
+:: ensure we can run
+
+    if not defined VIRTUAL_ENV (
+        call :error_msg A virtualenv must be activated.
+        call :usage
+        exit /b 1
+    )
+
     if not defined WORKON_HOME (
-        set "WORKON_HOME=%USERPROFILE%\Envs"
+        set "WORKON_HOME=%vwsetproject.default_workon_home%"
     )
 
     if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
-        set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
+        set "VIRTUALENVWRAPPER_PROJECT_FILENAME=%vwsetproject.project_fname%"
     )
 
-    if not defined VIRTUAL_ENV (
-        echo.
-        echo A virtualenv must be activated.
-        goto:usage
-    )
 
-    set "CALLINGPATH=%CD%"
-    set "PROJDIR=%~1"
-    pushd "%PROJDIR%" 2>NUL
+:: setprojectdir functionality
+    :: check projectdir
+    pushd "%vwsetproject.projdir%" 2>NUL && popd
     if errorlevel 1 (
-        popd
-        mkdir "%PROJDIR%"
-        set "PROJDIR=%CALLINGPATH%\%PROJDIR%"
-    ) else (
-        set "PROJDIR=%CD%"
-        popd
+        :: it doesn't exist, create it
+        mkdir "%vwsetproject.projdir%"
     )
 
+    pushd "%vwsetproject.projdir%"
+        set "vwsetproject.proj_path=%CD%"
+    popd
+
+    >"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" echo.%vwsetproject.proj_path%
     echo.
-    echo.    "%PROJDIR%" is now the project directory for
+    echo.    "%vwsetproject.proj_path%" is now the project directory for
     echo.    virtualenv "%VIRTUAL_ENV%"
 
-    set /p ="%PROJDIR%">"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" <NUL
-    call add2virtualenv.bat "%PROJDIR%"
+    call add2virtualenv.bat "%vwsetproject.proj_path%"
 
+goto:eof
+
+:error_msg
+    echo.
+    echo.    ERROR: %*
+    echo.
 
 :usage
     echo.
     echo.    Pass in a full or relative path to the project directory.
-    echo.    If the directory doesn't exist, it will be created.
+    echo.    If the directory doesn't exist, it will be created:
+    echo.
+    echo.        setprojectdir PATH
     echo.
     :: fall through
 
 :cleanup
-    set "CALLINGPATH=%__callingpath%"
-    set "PROJDIR=%__projdir%"
-
-    for /f "usebackq delims==" %%v in (`set venvwrapper.`) do @set "%%v="
+    for /f "usebackq delims==" %%v in (`set vwsetproject.`) do @set "%%v="
     goto:eof
