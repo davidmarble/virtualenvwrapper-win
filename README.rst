@@ -31,22 +31,27 @@ To install, run one of the following::
     cd virtualenvwrapper-win
     python setup.py install   # or pip install .
 
-.. important:: **Optional**: Add an environment variable WORKON_HOME to specify the path to store environments.
-	       By default, this is ``%USERPROFILE%\Envs``.
 
-.. tip:: **Optional**: **pywin** python version switcher (not included)
-	  
-   If you use several versions of python, you can switch between them
-   using a separate project `pywin
-   <https://github.com/davidmarble/pywin>`_. It's a lightweight
-   python 2.5-3.3 launcher and switcher I wrote for the Windows
-   command line and MSYS/MINGW32. It's similar to the `py.exe
-   launcher/switcher available in python 3.3
-   <http://docs.python.org/3/using/windows.html#launcher>`_, but
-   written with basic Windows batch scripts and a shell script for
-   MSYS/MINGW32 support. I use bash and command line shell tools from
-   `msysgit <http://msysgit.github.com/>`_, based on MSYS/MINGW32, to
-   do most of my python development on Windows.
+**Optional**:
+~~~~~~~~~~~~~
+Add an environment variable WORKON_HOME to specify the path to store environments.
+By default, this is ``%USERPROFILE%\Envs``.
+
+**Optional**:
+~~~~~~~~~~~~~
+**pywin** python version switcher (not included)
+      
+If you use several versions of python, you can switch between them
+using a separate project `pywin
+<https://github.com/davidmarble/pywin>`_. It's a lightweight
+python 2.5-3.3 launcher and switcher I wrote for the Windows
+command line and MSYS/MINGW32. It's similar to the `py.exe
+launcher/switcher available in python 3.3
+<http://docs.python.org/3/using/windows.html#launcher>`_, but
+written with basic Windows batch scripts and a shell script for
+MSYS/MINGW32 support. I use bash and command line shell tools from
+`msysgit <http://msysgit.github.com/>`_, based on MSYS/MINGW32, to
+do most of my python development on Windows.
 
 Main Commands
 -------------
@@ -62,7 +67,7 @@ Main Commands
       -r requirements_file  requirements_file is passed to
                             pip install -r requirements_file
 
-    any other options are passed on to the ``virtualenv`` command.			    
+    any other options are passed on to the ``virtualenv`` command.                
 
 ``lsvirtualenv``
     List all of the enviornments stored in WORKON_HOME.
@@ -119,11 +124,11 @@ Convenience Commands
     the site-packages directory, the contents of easy-install.pth,
     and the contents of virtualenv_path_extensions.pth (used by
     ``add2virtualenv``).
-	
+    
 ``mkproject``
-	If the environment variable PROJECT_HOME is set, create a new project 
-	directory in PROJECT_HOME and a virtualenv in WORKON_HOME.  The project path
-	will automatically be associated with the virtualenv on creation.
+    If the environment variable PROJECT_HOME is set, create a new project 
+    directory in PROJECT_HOME and a virtualenv in WORKON_HOME.  The project path
+    will automatically be associated with the virtualenv on creation.
 
 ``setprojectdir <full or relative path>``
     If a virtualenv environment is active, define *<path>* as project
