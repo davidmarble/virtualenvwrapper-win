@@ -4,7 +4,7 @@
 ::  provide the result on stderr
 ::
 
-if "%2" == "" (
+if "%~2" == "" (
     echo assertEquals requires two parameters^, got %*  1>&2
     exit /b 99
 )
