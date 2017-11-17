@@ -1,4 +1,4 @@
-@echo on
+@echo off
 ::
 ::  setprojectdir PATH
 ::
