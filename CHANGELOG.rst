@@ -29,7 +29,7 @@ Version 1.2.1
 *   scripts are now left in Scripts directory (@adamc55)
 
 Version 1.2.0 (16-03-2015)
--------------
+--------------------------
 
 Thanks to Christian Long (@christianmlong)
 *   ``mkvirtualenv`` hooks

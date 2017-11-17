@@ -1,6 +1,6 @@
 @echo off
 ::
-::  add2virtualenv PATH  - adds path to module search path in current virtualen
+::  add2virtualenv PATH  - adds path to module search path in current virtualenv
 ::
 
 :: set default values

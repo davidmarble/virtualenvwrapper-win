@@ -1,4 +1,3 @@
-@echo off
 
 set config.output=%TMP%\output%config.unique%
 mkdir %config.output%
@@ -11,15 +10,22 @@ call _start_test setproject_basic
     popd
     mkdir "%PROJECT_HOME%\nospace\pdir"
     call setprojectdir "%PROJECT_HOME%\nospace\pdir"
-    call assertEquals "%CD%" "%PROJECT_HOME%\nospace\pdir"
+    pushd .
+        call cdproject
+        call assertEquals "%CD%" "%PROJECT_HOME%\nospace\pdir"
+    popd
 
+call _start_test setproject_spaces
     mkdir "%PROJECT_HOME%\with space\pdir"
     call setprojectdir "%PROJECT_HOME%\with space\pdir"
-    call assertEquals "%CD%" "%PROJECT_HOME%\with space\pdir"
+    pushd .
+        call cdproject
+        call assertEquals "%CD%" "%PROJECT_HOME%\with space\pdir"
+    popd
 
 
 :cleanup
     set fname=
     set usage=
-    rmvirtualenv add2virtualenv_basic
+    rmvirtualenv setproj_basic
     rmdir "%config.output%" /s/q
