@@ -1,2 +1,2 @@
 @echo off
-python assertContains.py %*
+python "%~dp0\assertContains.py" %*

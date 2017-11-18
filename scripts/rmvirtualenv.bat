@@ -2,7 +2,7 @@
 ::
 :: Remove a virtualenv passed in as an argument
 ::
-if [%~1]==[] goto:usage
+if "%~1"=="" goto:usage
 
 
 :rmvirtualenv
@@ -35,7 +35,7 @@ if [%~1]==[] goto:usage
     popd
 
     echo.
-    echo.    Deleted %WORKON_HOME%\%1
+    echo.    Deleted %WORKON_HOME%\%~1
     echo.
     goto:eof
 

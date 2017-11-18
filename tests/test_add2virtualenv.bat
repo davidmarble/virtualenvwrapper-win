@@ -1,4 +1,4 @@
-@echo off
+
 
 set config.output=%TMP%\output%config.unique%
 mkdir %config.output%

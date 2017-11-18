@@ -59,13 +59,13 @@ set /a debug=0
 
     if [%1]==[-a] (
         set /a ouropt=1
-        set "project_path=%2"
+        set "project_path=%~2"
         shift
     )
 
     if [%1]==[-r] (
         set /a ouropt=1
-        set "requirements_file=%2"
+        set "requirements_file=%~2"
         shift
     )
 
@@ -178,7 +178,7 @@ if errorlevel 2 goto:cleanup
 
 :: In activate.bat, keep track of PYTHONPATH.
 :: This should be a change adopted by virtualenv.
->>"%WORKON_HOME%\%venvwrapper.envname%\Scripts\activate.bat" (
+>>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\activate.bat" (
     echo.:: In case user makes changes to PYTHONPATH
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
@@ -188,14 +188,14 @@ if errorlevel 2 goto:cleanup
 )
 
 :: In deactivate.bat, reset PYTHONPATH to its former value
->>"%WORKON_HOME%\%venvwrapper.envname%\Scripts\deactivate.bat" (
+>>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\deactivate.bat" (
     echo.
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
     echo.^)
 )
 
-call "%WORKON_HOME%\%venvwrapper.envname%\Scripts\activate.bat"
+call "%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\activate.bat"
 
 if %venvwrapper.debug% equ 1 (
     echo DEBUG call setprojectdir.bat "%venvwrapper.project_path%"
