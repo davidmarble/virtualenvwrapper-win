@@ -10,6 +10,8 @@ Basic usage::
 """
 # pragma: nocover
 from __future__ import print_function
+
+import glob
 import os
 import re
 import sys
@@ -81,16 +83,17 @@ def setversion(ctx, version):
     help={
         'clean': 'remove the build/ and dist/ directory before starting',
         'wheel': 'build wheel (in addition to sdist)',
+        'sign': 'sign the wheel',
         'upload': 'upload to PyPI after building'
     }
 )
-def build(ctx, clean=False, wheel=True, upload=False):
+def build(ctx, clean=False, wheel=True, sign=True, upload=False):
     """Build and publish (inv --help build for details)
     """
     os.chdir(DIRNAME)
     if clean:
-        ctx.run('rmdir dist /s /q')
-        ctx.run('rmdir build /s /q')
+        ctx.run('rmdir dist /s /q', warn=True)
+        ctx.run('rmdir build /s /q', warn=True)
 
     print("check README.rst syntax..")
     r = ctx.run("python setup.py check --restructuredtext --strict")
@@ -99,6 +102,11 @@ def build(ctx, clean=False, wheel=True, upload=False):
     if wheel:
         targets += ' bdist_wheel'
     ctx.run("python setup.py " + targets)
+
+    if wheel and sign:
+        for fname in glob.glob('dist/*.whl'):
+            ctx.run('wheel sign ' + fname)
+
     # ctx.run("python setup.py build_sphinx")
     if upload:
         ctx.run("twine upload dist/*")

@@ -32,13 +32,13 @@ To install, run one of the following::
     python setup.py install   # or pip install .
 
 
-**Optional**:
-~~~~~~~~~~~~~
+**WORKON_HOME (Optional)**
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Add an environment variable WORKON_HOME to specify the path to store environments.
 By default, this is ``%USERPROFILE%\Envs``.
 
-**Optional**:
-~~~~~~~~~~~~~
+**pywin (Optional)**
+~~~~~~~~~~~~~~~~~~~~
 **pywin** python version switcher (not included)
       
 If you use several versions of python, you can switch between them
