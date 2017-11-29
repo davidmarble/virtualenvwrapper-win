@@ -11,17 +11,17 @@ if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
 :: see mkvirtualenv for explanation
 :platform-detect-scripts-folder
 
-echo %~dp0 | FINDSTR /r "[\\]bin[\\].$"
+echo %~dp0 | FINDSTR /r "[\\]bin[\\].$" > nul 2>&1
 if not errorlevel 1 (
   set "SCRIPTS_FOLDER=bin"
-  echo Scripts are in bin\
+::  echo Scripts are in bin\
   goto :platform-detect-end
 )  
 
-echo %~dp0 | FINDSTR /r "[\\]Scripts[\\].$"
+echo %~dp0 | FINDSTR /r "[\\]Scripts[\\].$" > nul 2>&1
 if not errorlevel 1 (
   set "SCRIPTS_FOLDER=Scripts"
-  echo Scripts are in Scripts\
+::  echo Scripts are in Scripts\
   goto :platform-detect-end
 )  
 

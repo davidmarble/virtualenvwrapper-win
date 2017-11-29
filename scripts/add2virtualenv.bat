@@ -9,14 +9,14 @@ pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=pypy.exe"
   set "LIB_DIR="
-  echo Found pypy.
+::  echo Found pypy.
   goto :platform-detect-python-end
 )  
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=python.exe"
   set "LIB_DIR=Lib\"
-  echo Found python.
+::  echo Found python.
   goto :platform-detect-python-end
 )  
 echo No python installation found.
