@@ -19,10 +19,52 @@
 :: installed. The argument value is passed to pip -r to be installed.
 ::
 
+:: very simple platform detection: check whether pypy --version
+:: returns an error
+:: when it is not found, errorlevel will be 9009
+:: otherwise it will be 0
+:: we also check on the path to see whether we have been installed
+:: into "Scripts" or "bin"
+:platform-detect-python-exe
+pypy --version > nul 2>&1
+if not errorlevel 1 (
+  set "PYTHON_EXE=pypy.exe"
+  echo Found pypy.
+  goto :platform-detect-scripts-folder
+)  
+pypy --version > nul 2>&1
+if not errorlevel 1 (
+  set "PYTHON_EXE=python.exe"
+  echo Found python.
+  goto :platform-detect-scripts-folder
+)  
+call :error_message No python installation found.
+
+:platform-detect-scripts-folder
+
+
+echo %~dp0 | FINDSTR /r "[\\]bin[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=bin"
+  echo Scripts are in bin\
+  goto :platform-detect-end
+)  
+
+echo %~dp0 | FINDSTR /r "[\\]Scripts[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=Scripts"
+  echo Scripts are in Scripts\
+  goto :platform-detect-end
+)  
+
+call :error_message No scripts folder found. Platform not supported.
+
+:platform-detect-end
+
 :defaults
     set "venvwrapper.original_args=%*"
     set "venvwrapper.default_workon_home=%USERPROFILE%\Envs"
-    set "venvwrapper.scriptsdir=Scripts"
+    set "venvwrapper.scriptsdir=%SCRIPTS_FOLDER%"
 
     :: make sure WORKON_HOME has a useful value
     if not defined WORKON_HOME  set "WORKON_HOME=%venvwrapper.default_workon_home%"
@@ -130,8 +172,8 @@ if "%venvwrapper.quoteless_envname%"=="" (
 
 :: exit any current virtualenv..
 if defined VIRTUAL_ENV (
-    if exist "%VIRTUAL_ENV%\Scripts\deactivate.bat" (
-        call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+    if exist "%VIRTUAL_ENV%\%SCRIPTS_FOLDER%\deactivate.bat" (
+        call "%VIRTUAL_ENV%\%SCRIPTS_FOLDER%\deactivate.bat"
     )
     set VIRTUAL_ENV=
 )
@@ -151,7 +193,7 @@ if not exist "%WORKON_HOME%\*" (
     if defined PYTHONHOME (
         set "venvwrapper.pyhome=%PYTHONHOME%"
     ) else (
-        for /f "usebackq tokens=*" %%a in (`python.exe -c "import sys;print(sys.exec_prefix)"`) do (
+        for /f "usebackq tokens=*" %%a in (`%PYTHON_EXE% -c "import sys;print(sys.exec_prefix)"`) do (
             set "venvwrapper.pyhome=%%a"
         )
     )
@@ -178,7 +220,7 @@ if errorlevel 2 goto:cleanup
 
 :: In activate.bat, keep track of PYTHONPATH.
 :: This should be a change adopted by virtualenv.
->>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\activate.bat" (
+>>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\%SCRIPTS_FOLDER%\activate.bat" (
     echo.:: In case user makes changes to PYTHONPATH
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
@@ -188,14 +230,14 @@ if errorlevel 2 goto:cleanup
 )
 
 :: In deactivate.bat, reset PYTHONPATH to its former value
->>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\deactivate.bat" (
+>>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\%SCRIPTS_FOLDER%\deactivate.bat" (
     echo.
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
     echo.^)
 )
 
-call "%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\activate.bat"
+call "%WORKON_HOME%\%venvwrapper.quoteless_envname%\%SCRIPTS_FOLDER%\activate.bat"
 
 if %venvwrapper.debug% equ 1 (
     echo DEBUG call setprojectdir.bat "%venvwrapper.project_path%"
@@ -208,7 +250,7 @@ if not "%venvwrapper.install_packages%"=="" call :pipinstall "%venvwrapper.insta
 
 :: handle -r
 if not "%venvwrapper.requirements_file%"=="" (
-    call "%VIRTUAL_ENV%\Scripts\pip" install -r "%venvwrapper.requirements_file%"
+    call "%VIRTUAL_ENV%\%SCRIPTS_FOLDER%\pip" install -r "%venvwrapper.requirements_file%"
 )
 
 :: Run postmkvirtualenv.bat
@@ -231,7 +273,7 @@ goto:cleanup
         set packages=%~1
         for /F "tokens=1*" %%g in ("%packages%") do (
             :: XXX should use --disable-pip-version-check (but only if pip version >= 6)
-            if not "%%g"=="" call "%VIRTUAL_ENV%\Scripts\pip" install %%g
+            if not "%%g"=="" call "%VIRTUAL_ENV%\%SCRIPTS_FOLDER%\pip" install %%g
             if not "%%h"=="" call :pipinstall "%%h"
         )
     endlocal

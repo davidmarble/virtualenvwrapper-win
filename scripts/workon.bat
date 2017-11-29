@@ -8,6 +8,29 @@ if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
     set VIRTUALENVWRAPPER_PROJECT_FILENAME=.project
 )
 
+:: see mkvirtualenv for explanation
+:platform-detect-scripts-folder
+
+echo %~dp0 | FINDSTR /r "[\\]bin[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=bin"
+  echo Scripts are in bin\
+  goto :platform-detect-end
+)  
+
+echo %~dp0 | FINDSTR /r "[\\]Scripts[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=Scripts"
+  echo Scripts are in Scripts\
+  goto :platform-detect-end
+)  
+
+echo No scripts folder found. Platform not supported.
+goto :END 
+
+:platform-detect-end
+
+
 if [%1]==[] goto LIST
 goto WORKON
 
@@ -34,7 +57,7 @@ if not "%1"=="" (
 )
 
 if defined VIRTUAL_ENV (
-    call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+    call "%VIRTUAL_ENV%\%SCRIPTS_FOLDER%\deactivate.bat"
 )
 
 pushd "%WORKON_HOME%" 2>NUL && popd
@@ -50,7 +73,7 @@ if errorlevel 1 (
     goto END
 )
 
-if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
+if not exist "%WORKON_HOME%\%VENV%\%SCRIPTS_FOLDER%\activate.bat" (
     echo.
     echo.    %WORKON_HOME%\%VENV%
     echo.    doesn't contain a virtualenv ^(yet^).
@@ -58,7 +81,7 @@ if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
     goto END
 )
 
-call "%WORKON_HOME%\%VENV%\Scripts\activate.bat"
+call "%WORKON_HOME%\%VENV%\%SCRIPTS_FOLDER%\activate.bat"
 if defined WORKON_OLDTITLE (
     title %1 ^(VirtualEnv^)
 )

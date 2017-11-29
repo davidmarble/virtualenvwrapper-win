@@ -4,6 +4,28 @@
 ::
 if "%~1"=="" goto:usage
 
+:: see mkvirtualenv for explanation
+:platform-detect-scripts-folder
+
+echo %~dp0 | FINDSTR /r "[\\]bin[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=bin"
+  echo Scripts are in bin\
+  goto :platform-detect-end
+)  
+
+echo %~dp0 | FINDSTR /r "[\\]Scripts[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=Scripts"
+  echo Scripts are in Scripts\
+  goto :platform-detect-end
+)  
+
+echo No scripts folder found. Platform not supported.
+goto :END 
+
+:platform-detect-end
+
 
 :rmvirtualenv
     if not defined WORKON_HOME (
@@ -11,7 +33,7 @@ if "%~1"=="" goto:usage
     )
 
     if defined VIRTUAL_ENV (
-        if ["%VIRTUAL_ENV%"]==["%WORKON_HOME%\%~1"] call "%WORKON_HOME%\%~1\Scripts\deactivate.bat"
+        if ["%VIRTUAL_ENV%"]==["%WORKON_HOME%\%~1"] call "%WORKON_HOME%\%~1\%SCRIPTS_FOLDER%\deactivate.bat"
     )
 
     if not defined VIRTUALENVWRAPPER_PROJECT_FILENAME (
@@ -47,3 +69,5 @@ if "%~1"=="" goto:usage
     echo.
     echo.    NAME       the name of the virtualenv to remove
     echo.
+    
+:END    
