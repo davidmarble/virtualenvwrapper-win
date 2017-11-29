@@ -5,12 +5,14 @@
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=pypy.exe"
+  set "LIB_DIR="
   echo Found pypy.
   goto :platform-detect-python-end
 )  
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=python.exe"
+  set "LIB_DIR=Lib\"
   echo Found python.
   goto :platform-detect-python-end
 )  
@@ -33,18 +35,18 @@ for /f "usebackq tokens=*" %%a in (`%PYTHON_EXE% -c "import sys;print(sys.exec_p
 
 :MAIN
 echo.
-echo dir /b "%PYHOME%\Lib\site-packages"
+echo dir /b "%PYHOME%\%LIB_DIR%site-packages"
 echo ==============================================================================
-dir /b "%PYHOME%\Lib\site-packages"
+dir /b "%PYHOME%\%LIB_DIR%site-packages"
 echo.
-echo %PYHOME%\Lib\site-packages\easy-install.pth
+echo %PYHOME%\%LIB_DIR%site-packages\easy-install.pth
 echo ==============================================================================
-type "%PYHOME%\Lib\site-packages\easy-install.pth"
+type "%PYHOME%\%LIB_DIR%site-packages\easy-install.pth"
 echo.
-if exist "%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth" (
-    echo %PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth
+if exist "%PYHOME%\%LIB_DIR%site-packages\virtualenv_path_extensions.pth" (
+    echo %PYHOME%\%LIB_DIR%site-packages\virtualenv_path_extensions.pth
     echo ==============================================================================
-    type "%PYHOME%\Lib\site-packages\virtualenv_path_extensions.pth"
+    type "%PYHOME%\%LIB_DIR%site-packages\virtualenv_path_extensions.pth"
     echo.
 )
 

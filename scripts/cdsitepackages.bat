@@ -5,12 +5,14 @@
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=pypy.exe"
+  set "LIB_DIR="
   echo Found pypy.
   goto :platform-detect-python-end
 )  
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=python.exe"
+  set "LIB_DIR=Lib\"
   echo Found python.
   goto :platform-detect-python-end
 )  
@@ -33,7 +35,7 @@ for /f "usebackq tokens=*" %%a in (`%PYTHON_EXE% -c "import sys;print(sys.exec_p
 
 :MAIN
 set "_LAST_DIR=%CD%"
-cd /d "%PYHOME%\Lib\site-packages"
+cd /d "%PYHOME%\%LIB_DIR%site-packages"
 set PYHOME=
 
 :END

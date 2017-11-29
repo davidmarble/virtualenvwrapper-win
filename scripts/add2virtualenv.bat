@@ -8,12 +8,14 @@
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=pypy.exe"
+  set "LIB_DIR="
   echo Found pypy.
   goto :platform-detect-python-end
 )  
 pypy --version > nul 2>&1
 if not errorlevel 1 (
   set "PYTHON_EXE=python.exe"
+  set "LIB_DIR=Lib\"
   echo Found python.
   goto :platform-detect-python-end
 )  
@@ -24,7 +26,7 @@ goto:eof
 
 :: set default values
     set "vwadd2.proj_dir=%~1"
-    set "vwadd2.site_packages=Lib\site-packages"
+    set "vwadd2.site_packages=%LIB_DIR%site-packages"
     set "vwadd2.pth_file=virtualenv_path_extensions.pth"
 
 :getopts

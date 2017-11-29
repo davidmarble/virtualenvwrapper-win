@@ -9,6 +9,28 @@
 ::  sets/creates WORKON_HOME, VIRTUALENVWRAPPER_PROJECT_FILENAME if not defined.
 ::
 
+:: see mkvirtualenv for explanation
+:platform-detect-scripts-folder
+
+echo %~dp0 | FINDSTR /r "[\\]bin[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=bin"
+  echo Scripts are in bin\
+  goto :platform-detect-end
+)
+
+echo %~dp0 | FINDSTR /r "[\\]Scripts[\\].$"
+if not errorlevel 1 (
+  set "SCRIPTS_FOLDER=Scripts"
+  echo Scripts are in Scripts\
+  goto :platform-detect-end
+)
+
+echo No scripts folder found. Platform not supported.
+goto:eof
+
+:platform-detect-end
+
 :: set default values
     set "vwsetproject.callingpath=%CD%"
     set "vwsetproject.projdir=%~1"
@@ -17,7 +39,7 @@
     set "vwsetproject.project_fname=.project"
 
     set "vwsetproject.original_args=%*"
-    set "vwsetproject.scriptsdir=Scripts"
+    set "vwsetproject.scriptsdir=%SCRIPTS_FOLDER%"
 
 
 :getopts
