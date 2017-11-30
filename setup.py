@@ -20,7 +20,7 @@ scripts = [
     'folder_delete.bat',
     'lssitepackages.bat',
     'lsvirtualenv.bat',
-	'mkproject.bat',
+    'mkproject.bat',
     'mkvirtualenv.bat',
     'rmvirtualenv.bat',
     'setprojectdir.bat',
@@ -28,6 +28,7 @@ scripts = [
     'whereis.bat',
     'workon.bat',
     'virtualenvwrapper.bat',
+    'vwenv.bat',
 ]
 
 import os
