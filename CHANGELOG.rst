@@ -3,6 +3,10 @@
 Changes
 =======
 
+Version <next>
+--------------
+
+
 Version 1.2.4
 -------------
 * Fixed problems with spaces in workon, rmvirtualenv, mkproject, mkvirtualenv -a
