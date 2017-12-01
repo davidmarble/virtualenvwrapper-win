@@ -7,7 +7,6 @@ Version <next>
 --------------
 * added experimental support for pypy-based installations (#30) @wamserma
 
-
 Version 1.2.4
 -------------
 * Fixed problems with spaces in workon, rmvirtualenv, mkproject, mkvirtualenv -a
