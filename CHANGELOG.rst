@@ -10,7 +10,7 @@ Version <next>
 Version 1.2.4
 -------------
 * Fixed problems with spaces in workon, rmvirtualenv, mkproject, mkvirtualenv -a
-  when the virtaulenv name or project directory contained spaces (#89). @thebjorn
+  when the virtualenv name or project directory contained spaces (#89). @thebjorn
 * Fixed problems with spaces etc. in add2virtualenv and setprojectdir (#92, #93) @thebjorn
 * Added mkproject convenience script (@thehug0naut)
 * folder_delete.bat is deprecated and will be removed in a future version.
