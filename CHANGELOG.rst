@@ -6,6 +6,9 @@ Changes
 Version <next>
 --------------
 
+Version 1.2.5
+-------------
+* Bugfix release.
 
 Version 1.2.4
 -------------
