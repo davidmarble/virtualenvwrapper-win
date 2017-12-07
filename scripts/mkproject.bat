@@ -1,4 +1,4 @@
-@echo on
+@echo off
 ::
 :: Convenience script to create a project directory and an associated virtualenv
 ::
