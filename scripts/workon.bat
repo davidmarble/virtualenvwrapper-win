@@ -77,6 +77,12 @@ if exist "%WORKON_HOME%\%VENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
     )
 )
 
+if defined VIRTUALENVWRAPPER_HOOK_DIR (
+    if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat" (
+        call "%VIRTUALENVWRAPPER_HOOK_DIR%\postactivate.bat"
+    )
+)
+
 if exist "%WORKON_HOME%\%VENV%\Scripts\postactivate.bat" (
     call "%WORKON_HOME%\%VENV%\Scripts\postactivate.bat"
 )
