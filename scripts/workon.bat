@@ -20,7 +20,7 @@ goto END
 
 :WORKON
 
-set VENV=%1
+set "VENV=%~1"
 shift
 
 :LOOP

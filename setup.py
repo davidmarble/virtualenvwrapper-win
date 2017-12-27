@@ -8,7 +8,7 @@ AUTHOR = 'David Marble'
 EMAIL = 'davidmarble@gmail.com'
 DESCRIPTION = ('Port of Doug Hellmann\'s virtualenvwrapper '
                'to Windows batch scripts')
-VERSION = '1.2.1'
+VERSION = '1.2.5'
 PROJECT_URL = 'https://github.com/davidmarble/%s/' % (PROJECT)
 scripts_loc = 'scripts/'
 scripts = [
@@ -20,12 +20,15 @@ scripts = [
     'folder_delete.bat',
     'lssitepackages.bat',
     'lsvirtualenv.bat',
+    'mkproject.bat',
     'mkvirtualenv.bat',
     'rmvirtualenv.bat',
     'setprojectdir.bat',
     'toggleglobalsitepackages.bat',
     'whereis.bat',
     'workon.bat',
+    'virtualenvwrapper.bat',
+    'vwenv.bat',
 ]
 
 import os
@@ -42,7 +45,7 @@ except IOError:
     pass
 
 try:
-    long_description += open('CHANGELOG.rst', 'rt').read()
+    long_description += '\n' + open('CHANGELOG.rst', 'rt').read()
 except IOError:
     pass
 

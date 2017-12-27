@@ -1,53 +1,65 @@
 @echo off
+::
+:: Convenience script to create a project directory and an associated virtualenv
+::
+:: Syntax:
+:: 
+:: mkproject PROJ_DIR
+::
 
-if [%1]==[] goto USAGE
-goto MKVIRTUALENV
+:getopts
+    :: print usage if no arguments given
+    if "%~1"==""        goto:usage & exit /b 0
+    if "%~1"=="-h"      goto:usage & exit /b 0
+    if "%~1"=="--help"  goto:usage & exit /b 0
 
-
-:USAGE
-echo.
-echo.    Pass a name to create a new virtualenv and linked project
-goto END
-
-
-:LINKPROJECT
-call setprojectdir.bat "%PROJ%"
-call cdproject.bat
-goto END
-
-
-:MKPROJECT
+:: the environment variable PROJECT_HOME must be set for this script to work
 if not defined PROJECT_HOME (
-    set "PROJECT_HOME=%USERPROFILE%\.projects"
+    call :error_message set environment variable PROJECT_HOME to the directory where projects are stored.
+    exit /b 1
 )
 
-pushd %PROJECT_HOME% 2>NUL && popd
+set "PROJ_DIR=%PROJECT_HOME%\%~1"
+
+:: test if PROJECT_HOME exists (supporting network paths) and create it if it doesn't exist
+pushd "%PROJECT_HOME%" 2>NUL && popd
 if errorlevel 1 (
-    mkdir %PROJECT_HOME%
+    mkdir "%PROJECT_HOME%"
 )
 
-set "PROJ=%PROJECT_HOME%\%1"
-
-pushd %PROJ% 2>NUL && popd
+:: test if PROJ_DIR exists
+pushd "%PROJ_DIR%" 2>NUL && popd
 if errorlevel 1 (
-    mkdir %PROJ%
-    goto LINKPROJECT
+    mkdir "%PROJ_DIR%"
 ) else (
+    call :error_message project %PROJ_DIR% already exists
+    exit /b 2
+)
+
+:: use mkvirtualenv to create the environment and link it to the project folder
+call mkvirtualenv -a "%PROJ_DIR%" "%~1"
+
+:: move to the project directory
+call cdproject
+
+:: clean up and exit
+goto:cleanup
+exit /b 0
+
+:error_message
     echo.
-    echo.    project "%PROJ%" already exists
-    goto END
-)
+    echo.    ERROR: %*
+    echo.
+    goto:cleanup
 
-
-:MKVIRTUALENV
-call mkvirtualenv.bat %1
-
-if not defined VIRTUAL_ENV (
-    goto END
-)
-
-goto MKPROJECT
-
-
-:END
-set PROJ=
+:usage
+    echo.Usage:    mkproject PROJ_DIR
+    echo.
+    echo.  PROJ_DIR            The name of the project/envirnment to create.
+    echo.
+    echo.The new environment is automatically activated after being initialized.
+    :: fall through
+    
+:cleanup
+    set PROJ_DIR=
+    goto:eof

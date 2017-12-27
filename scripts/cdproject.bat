@@ -26,6 +26,11 @@ if not EXIST "%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%" (
 
 set "_LAST_DIR=%CD%"
 set /p ENVPRJDIR=<"%VIRTUAL_ENV%\%VIRTUALENVWRAPPER_PROJECT_FILENAME%"
+
+:: If path extracted from file contains env variables, the system will not find the path.
+:: This expands any env variables in the path.
+call set "ENVPRJDIR=%ENVPRJDIR%"
+
 cd /d "%ENVPRJDIR%"
 set ENVPRJDIR=
 
