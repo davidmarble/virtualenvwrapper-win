@@ -34,10 +34,12 @@ if not "%1"=="" (
 )
 
 if defined VIRTUAL_ENV (
+    SET "VIRTUAL_ENV_POSTDEACTIVATE=%VIRTUAL_ENV%\Scripts\postdeactivate.bat"
     call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
-    if exist "%VIRTUAL_ENV%\Scripts\postdeactivate.bat" (
-        call "%VIRTUAL_ENV%\Scripts\postdeactivate.bat"
+    if exist "%VIRTUAL_ENV_POSTDEACTIVATE%" (
+        call "%VIRTUAL_ENV_POSTDEACTIVATE%"
     )
+    SET VIRTUAL_ENV_POSTDEACTIVATE=
 )
 
 
