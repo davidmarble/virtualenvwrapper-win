@@ -40,6 +40,12 @@ if defined VIRTUAL_ENV (
         call "%VIRTUAL_ENV_POSTDEACTIVATE%"
     )
     SET VIRTUAL_ENV_POSTDEACTIVATE=
+    if defined VIRTUALENVWRAPPER_HOOK_DIR (
+        if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postdeactivate.bat" (
+            call "%VIRTUALENVWRAPPER_HOOK_DIR%\postdeactivate.bat"
+        )
+    )
+
 )
 
 
