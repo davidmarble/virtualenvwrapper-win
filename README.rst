@@ -120,4 +120,6 @@ Convenience Commands
 
 Hooks
 ----------
-To run some commands after ``mkvirtualenv`` you can use hooks. First you need to define ``VIRTUALENVWRAPPER_HOOK_DIR`` variable. If it is set ``mkvirtualenv`` will run ``postmkvirtualenv.bat`` script from that directory.
+To run some commands after ``mkvirtualenv`` you can use hooks. First you need to define ``VIRTUALENVWRAPPER_HOOK_DIR`` variable. If it is set ``mkvirtualenv`` will run ``postmkvirtualenv.bat`` script and ``workon`` and ``deactivate`` will run ``postactivate.bat`` and ``postdeactivate.bat`` scripts from that directory.
+
+To run some commands after ``workon`` or ``deactivate`` that are specific to a virtual environment, you can create ``postactivate.bat`` or ``postdeactivate.bat`` scripts in the virtual environment's ``Scripts`` directory
