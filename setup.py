@@ -15,6 +15,7 @@ scripts = [
     'add2virtualenv.bat',
     'cd-.bat',
     'cdproject.bat',
+    'cdproject.ps1',
     'cdsitepackages.bat',
     'cdvirtualenv.bat',
     'folder_delete.bat',
@@ -27,6 +28,7 @@ scripts = [
     'toggleglobalsitepackages.bat',
     'whereis.bat',
     'workon.bat',
+    'workon.ps1',
     'virtualenvwrapper.bat',
     'vwenv.bat',
 ]
