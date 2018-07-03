@@ -43,7 +43,7 @@ echo.
 ::echo.   setvirtualenvproject: associate a project directory with a virtualenv
 ::echo.
 echo.   setprojectdir: associate a project directory with a virtualenv
-
+echo.
 :: https://bitbucket.org/virtualenvwrapper/virtualenvwrapper/src/36b8050a90192a087d1060f32083249d13d8a215/virtualenvwrapper.sh?at=master&fileviewer=file-view-default#virtualenvwrapper.sh-641
 ::echo.   showvirtualenv: show details of a single virtualenv
 ::echo.
