@@ -28,6 +28,7 @@
     if not defined WORKON_HOME  set "WORKON_HOME=%venvwrapper.default_workon_home%"
     set "venvwrapper.workon_home=%WORKON_HOME%"
 
+    :: TODO: make more effort in finding virtualenv executable.
     if defined VIRTUALENV_EXECUTABLE (
         set "venvwrapper.virtualenv_executable=%VIRTUALENV_EXECUTABLE%"
     ) else (
@@ -40,89 +41,91 @@ if [%1]==[] goto:usage
 
 setlocal 
 :: virtualenv options that take a paramter
-set "virualenv_param_options=-p --python --extra-search-dir --prompt"
+set "virtualenv_param_options=-p --python --extra-search-dir --prompt"
 
 set /a debug=0
 :getopts
     set /a ouropt=0
     :: --debug and ---stop xxx should be first on the command line to get most effect
-    if [%1]==[---stop]  set "stop=%2" & shift & shift
-    if [%1]==[--debug] (
+    if "%~1"=="---stop"  set "stop=%~2" & shift & shift
+
+    if "%~1"=="--debug" (
         echo time: %TIME%
         set /a ouropt=1
         set /a debug=1
         :: add verbose mode to virtualenv when in debug mode
-        set "venvargs=%venvargs% -v"
+        set venvargs=%venvargs% -v
     )
-    if [%1]==[-h]       goto:usage
-    if [%1]==[--help]   goto:usage
 
-    if [%1]==[-a] (
+    if "%~1"=="-h"       goto:usage
+    if "%~1"=="--help"   goto:usage
+
+    if "%~1"=="-a" (
         set /a ouropt=1
         set "project_path=%~2"
         shift
     )
 
-    if [%1]==[-r] (
+    if "%~1"=="-r" (
         set /a ouropt=1
         set "requirements_file=%~2"
         shift
     )
 
-    if [%1]==[-i] (
+    if "%~1"=="-i" (
         set /a ouropt=1
-        set "install_packages=%install_packages% %2"
+        set "install_packages=%install_packages% %~2"
         shift
     )
 
+    echo first is %1
+    echo second is %2
     set "cur=%1"
-    set "quotelesscur=%~1"
     if %debug% equ 1 (
-        echo DEBUG cur=%cur% quotelesscur=%quotelesscur%
+        echo DEBUG cur=%cur%
     )
-    :: is cur in virualenv_param_options?
-    call set filteredvar=%%virualenv_param_options:*%cur%=%%
+    :: is cur in virtualenv_param_options?
+    call set filteredvar=%%virtualenv_param_options:*%cur%=%%
     if %debug% equ 1 (
         echo DEBUG filteredvar=%filteredvar%
     )
 
     if %ouropt% equ 0 (
-        if "%quotelesscur:~0,1%"=="-" (
+        if "%cur:~0,1%"=="-" (
             :: starts with a dash (we found an option)
-            if not "%filteredvar%"=="%virualenv_param_options%" (
+            if not "%filteredvar%"=="%virtualenv_param_options%" (
                 :: this is one of virtualenv's options that take a parameter
-                set "venvargs=%venvargs% %1 %2"
+                set venvargs=%venvargs% %~1 "%~2"
                 shift
             ) else (
-                set "venvargs=%venvargs% %1"
+                set venvargs=%venvargs% %1
             )
         ) else (
-            set "envname=%cur%"
-            set "qlenvname=%quotelesscur%"
+            set "envname=%~1"
         )
     )
 
     shift
-    if not [%1]==[] goto:getopts
+    if not "%~1"=="" goto:getopts
+
 (endlocal & rem export from setlocal block
     set "venvwrapper.project_path=%project_path%"
     set "venvwrapper.requirements_file=%requirements_file%"
     set "venvwrapper.install_packages=%install_packages%"
-    set "venvwrapper.virtualenv_args=%venvargs%"
+    set venvwrapper.virtualenv_args=%venvargs%
     set "venvwrapper.envname=%envname%"
-    set "venvwrapper.quoteless_envname=%qlenvname%"
     set "venvwrapper.stop=%stop%"
     set /a venvwrapper.debug=%debug%
 )
 
 if %venvwrapper.debug% equ 1 (
-    echo ^<DEBUG options="%venvwrapper.original_args%"^>
+    echo ^<DEBUG options=%venvwrapper.original_args%^>
     set venvwrapper.
     echo ^</DEBUG^>
     if "%venvwrapper.stop%"=="after-argparse" goto:cleanup
 )
 
-if "%venvwrapper.quoteless_envname%"=="" (
+if "%venvwrapper.envname%"=="" (
     call :error_message You must specify a name for the virtualenv
     call :cleanup
     exit /b 1
@@ -130,9 +133,12 @@ if "%venvwrapper.quoteless_envname%"=="" (
 
 :: exit any current virtualenv..
 if defined VIRTUAL_ENV (
-    if exist "%VIRTUAL_ENV%\Scripts\deactivate.bat" (
-        call "%VIRTUAL_ENV%\Scripts\deactivate.bat"
+    call virtualenvwrapper_run_hook "predeactivate"
+    set VIRTUALENVWRAPPER_LAST_VIRTUALENV=%ENVNAME%
+    if exist "%VIRTUAL_ENV%\%venvwrapper.scriptsdir%\deactivate.bat" (
+        call "%VIRTUAL_ENV%\%venvwrapper.scriptsdir%\deactivate.bat"
     )
+    call virtualenvwrapper_run_hook "postdeactivate"
     set VIRTUAL_ENV=
 )
 
@@ -157,12 +163,14 @@ if not exist "%WORKON_HOME%\*" (
     )
 
 :: Check if venv exists (could be a file name, but don't care - still can't use it)
-if exist "%WORKON_HOME%\%venvwrapper.quoteless_envname%" (
+if exist "%WORKON_HOME%\%venvwrapper.envname%" (
     call :error_message virtualenv "%venvwrapper.envname%" already exists
     call :cleanup
     exit /b 3
 )
 
+
+:: call virtualenv
 if %venvwrapper.debug% equ 1 (
     echo ^<DEBUG calling-virtualenv^>
     set venvwrapper.
@@ -170,15 +178,26 @@ if %venvwrapper.debug% equ 1 (
     echo ^</DEBUG^>
     if "%venvwrapper.stop%"=="before-virtualenv" goto:cleanup
 )
-:: call virtualenv
 pushd "%WORKON_HOME%"
-    "%venvwrapper.virtualenv_executable%" %venvwrapper.virtualenv_args% %venvwrapper.envname%
+
+    %venvwrapper.virtualenv_executable% %venvwrapper.virtualenv_args% %venvwrapper.envname%
+    if errorlevel 2 popd & goto:cleanup
+    
+    :: $VIRTUALENVWRAPPER_HOOK_DIR/premkvirtualenv is run as an external
+    :: program after the virtual environment is created but before the
+    :: current environment is switched to point to the new env. The
+    :: current working directory for the script is $WORKON_HOME and the
+    :: name of the new environment is passed as an argument to the
+    :: script.
+    :: (virtualenv doesn't change directory or activate the new venv).
+    call virtualenvwrapper_run_hook "premkvirtualenv" %venvwrapper.envname%
+
 popd
-if errorlevel 2 goto:cleanup
+
 
 :: In activate.bat, keep track of PYTHONPATH.
 :: This should be a change adopted by virtualenv.
->>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\activate.bat" (
+>>"%WORKON_HOME%\%venvwrapper.envname%\Scripts\activate.bat" (
     echo.:: In case user makes changes to PYTHONPATH
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
@@ -188,20 +207,25 @@ if errorlevel 2 goto:cleanup
 )
 
 :: In deactivate.bat, reset PYTHONPATH to its former value
->>"%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\deactivate.bat" (
+>>"%WORKON_HOME%\%venvwrapper.envname%\Scripts\deactivate.bat" (
     echo.
     echo.if defined _OLD_VIRTUAL_PYTHONPATH (
     echo.    set "PYTHONPATH=%%_OLD_VIRTUAL_PYTHONPATH%%"
     echo.^)
 )
 
-call "%WORKON_HOME%\%venvwrapper.quoteless_envname%\Scripts\activate.bat"
+call virtualenvwrapper_run_hook "preactivate" "%ENVNAME%"
+call "%WORKON_HOME%\%venvwrapper.envname%\Scripts\activate.bat"
+call virtualenvwrapper_run_hook "postactivate"
 
-if %venvwrapper.debug% equ 1 (
-    echo DEBUG call setprojectdir.bat "%venvwrapper.project_path%"
-)
 :: handle -a
 if not "%venvwrapper.project_path%"=="" call setprojectdir.bat "%venvwrapper.project_path%"
+
+:: $VIRTUALENVWRAPPER_HOOK_DIR/postmkvirtualenv is sourced after the
+:: new environment is created and activated. If the -a
+:: <project_path> flag was used, the link to the project directory
+:: is set up before this script is sourced.
+call virtualenvwrapper_run_hook "postmkvirtualenv"
 
 :: handle -i (can be multiple)
 if not "%venvwrapper.install_packages%"=="" call :pipinstall "%venvwrapper.install_packages%"
@@ -211,20 +235,9 @@ if not "%venvwrapper.requirements_file%"=="" (
     call "%VIRTUAL_ENV%\Scripts\pip" install -r "%venvwrapper.requirements_file%"
 )
 
-:: Run postmkvirtualenv.bat
-if defined VIRTUALENVWRAPPER_HOOK_DIR (
-    if exist "%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat" (
-    	call "%VIRTUALENVWRAPPER_HOOK_DIR%\postmkvirtualenv.bat"
-    )
-)
 
 
 goto:cleanup
-
-:dequote
-    :: https://ss64.com/nt/syntax-dequote.html
-    for /f "delims=" %%A in ('echo %%%1%%') do set %1=%%~A
-    goto:eof
 
 :pipinstall
     setlocal
