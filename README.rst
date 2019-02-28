@@ -68,7 +68,11 @@ Main Commands
                             pip install -r requirements_file
 
     any other options are passed on to the ``virtualenv`` command.                
-
+    For recent versions of ``virtualenv``, the ``-p`` / ``--python`` 
+    can take version numbers instead of the full path to the interpreter,
+    e.g. ``mkvirtualenv -p3.5 <name>`` (assuming you have a Python 3.5.x
+    interpreter installed).
+    
 ``lsvirtualenv``
     List all of the enviornments stored in WORKON_HOME.
 
