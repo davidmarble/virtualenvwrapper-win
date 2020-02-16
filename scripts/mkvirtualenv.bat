@@ -172,7 +172,7 @@ if %venvwrapper.debug% equ 1 (
 )
 :: call virtualenv
 pushd "%WORKON_HOME%"
-    "%venvwrapper.virtualenv_executable%" %venvwrapper.virtualenv_args% %venvwrapper.envname%
+    "%venvwrapper.virtualenv_executable%" %venvwrapper.virtualenv_args% %venvwrapper.envname% --prompt="(%venvwrapper.envname%) "
 popd
 if errorlevel 2 goto:cleanup
 
