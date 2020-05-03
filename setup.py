@@ -89,7 +89,7 @@ setup(
 
     scripts=[scripts_loc + script for script in scripts],
 
-    install_requires=['virtualenv', ],
+    install_requires=['virtualenv', 'wheel'],
 
     # extras
     # pywin==0.2
