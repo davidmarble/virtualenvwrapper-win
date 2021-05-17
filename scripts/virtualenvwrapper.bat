@@ -32,6 +32,8 @@ echo.   lssitepackages: list contents of the site-packages directory
 echo.
 echo.   lsvirtualenv: list virtualenvs
 echo.
+echo.   mkjupyter: create a new virtualenv with an ipykernel and add it to jupyter
+echo.
 echo.   mkproject: create a new project directory and its associated virtualenv
 echo.
 ::echo.   mktmpenv: create a temporary virtualenv
