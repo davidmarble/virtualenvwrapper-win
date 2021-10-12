@@ -58,7 +58,7 @@ if not exist "%WORKON_HOME%\%VENV%\Scripts\activate.bat" (
     goto END
 )
 
-call "%WORKON_HOME%\%VENV%\Scripts\activate.bat"
+cmd /K  "%WORKON_HOME%\%VENV%\Scripts\activate.bat"
 if defined WORKON_OLDTITLE (
     title %1 ^(VirtualEnv^)
 )
