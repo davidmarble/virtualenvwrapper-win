@@ -1,11 +1,11 @@
 @echo off
 :: 
-::  verify that the two parameters are equal (case insensitively)
+::  verify that the parameter exists
 ::  provide the result on stderr
 ::
 
 if "%1" == "" (
-    echo assertEquals requires a filename parameters^, got %*  1>&2
+    echo assertExists requires a filename parameters^, got %*  1>&2
     exit /b 99
 )
 

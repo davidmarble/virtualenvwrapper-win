@@ -166,7 +166,7 @@ if exist "%WORKON_HOME%\%venvwrapper.quoteless_envname%" (
 if %venvwrapper.debug% equ 1 (
     echo ^<DEBUG calling-virtualenv^>
     set venvwrapper.
-    echo %venvwrapper.virtualenv_executable% %venvwrapper.virtualenv_args% %venvwrapper.envname%  --prompt="(%venvwrapper.quoteless_envname%) "
+    echo. %venvwrapper.virtualenv_executable% %venvwrapper.virtualenv_args% %venvwrapper.envname%  --prompt="(%venvwrapper.quoteless_envname%) "
     echo ^</DEBUG^>
     if "%venvwrapper.stop%"=="before-virtualenv" goto:cleanup
 )

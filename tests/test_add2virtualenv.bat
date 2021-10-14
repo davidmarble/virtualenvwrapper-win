@@ -44,7 +44,7 @@ call _start_test add2virtualenv_other_drive_direxists
     call assertErrorlevel 1
 
 
-call _start_test add2virtualenv_other_dirve_newdir
+call _start_test add2virtualenv_other_drive_newdir
     set fname=%config.output%\%config.current_test%.output
 
     set "dname=w:\nospace\pdir\new"

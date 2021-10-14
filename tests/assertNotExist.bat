@@ -1,6 +1,6 @@
 @echo off
 :: 
-::  verify that the two parameters are equal (case insensitively)
+::  verify that the parameters does not exist
 ::  provide the result on stderr
 ::
 
