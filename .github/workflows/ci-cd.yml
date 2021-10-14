@@ -1,0 +1,86 @@
+name: CI/CD Pipeline
+
+on: [ push, pull_request, workflow_dispatch ]
+
+env:
+  PIP_CACHE_DIR: /tmp/pipcache
+  HOME_REPO: davidmarble/virtualenvwrapper-win
+
+jobs:
+  ci-test:
+    name: CI:Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+
+        # 2.7, 3.5-9  (current matrix)
+        # python-version: [ '2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
+      
+        # 2.7, 3.6-10 (next matrix)
+        # python-version: [ '2.7', '3.6', '3.7', '3.8', '3.9', '3.10' ]
+
+        # for debugging
+        python-version: [ '3.9' ]
+
+        os: [windows-latest]
+
+    steps:
+      # setup environment
+      - uses: actions/checkout@v2
+      - name: setup global directories
+        shell: bash
+        run: mkdir -p $PIP_CACHE_DIR
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - run: pip install -r requirements.txt
+      - run: pip list
+      - run: |
+          cd tests && run_tests.bat
+
+  cd:
+    name: CD
+    needs: ci-test
+    runs-on: windows-latest
+    steps:
+      # setup environment
+      - uses: actions/checkout@v2
+      - name: setup directories
+        shell: bash
+        run: mkdir -p $PIP_CACHE_DIR
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Cleanup
+        run: |
+          rm -rf dist
+          rm -rf build
+
+      - run: pip install -U wheel packaging twine
+      - run: pip install -r requirements.txt
+      - run: python setup.py sdist bdist_wheel
+      - run: twine check dist/*
+
+      - name: Upload packages as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Packages
+          path: dist/
+
+      # 
+      # - name: Deploy to PyPI
+      #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.repository == env.HOME_REPO
+      #   shell: bash
+      #   run: |
+      #     twine upload -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} dist/*      
+
+      - name: Create Github release
+        uses: ncipollo/release-action@v1
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.repository == env.HOME_REPO
+        with:
+          artifacts: "dist/*"
+          owner: davidmarble
+          repo: virtualenvwrapper-win
+          token: ${{ secrets.GITHUB_TOKEN }}
