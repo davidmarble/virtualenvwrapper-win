@@ -25,8 +25,7 @@ call _start_test venv_with_space
         call cdvirtualenv
         set "CURDIR=%CD%"
     popd
-    echo.call assertEquals "%CURDIR%" "%WORKON_HOME%\venv with spaces"
-    call assertEquals "%CURDIR%" "%WORKON_HOME%\venv with spaces"
+    call assertSamePath "%CURDIR%" "%WORKON_HOME%\venv with spaces"
 
 
 :teardown_space_dir

@@ -12,7 +12,7 @@ call _start_test mkvirtualenv_r
     echo requirements file: "%fname%.requirements"
     type %fname%.requirements
     pushd .
-        call mkvirtualenv venv_r -r %fname%.requirements --no-download --no-wheel --no-setuptools
+        call mkvirtualenv venv_r -r %fname%.requirements --no-download --no-wheel
     popd
     call %VIRTUAL_ENV%\Scripts\pip freeze > %fname%.pipfreeze
     echo fname [%fname%.pipfreeze] contents:
@@ -23,7 +23,7 @@ call _start_test mkvirtualenv_r
 call _start_test mkvirtualenv_i
     set fname=%config.output%\%config.current_test%.output
     pushd .
-        call mkvirtualenv venv_i -i virtualenv-clone -i virtualenv-api --no-download --no-wheel --no-setuptools
+        call mkvirtualenv venv_i -i virtualenv-clone -i virtualenv-api --no-download --no-wheel
     popd
     call %VIRTUAL_ENV%\Scripts\pip freeze > %fname%.pipfreeze
     echo fname [%fname%.pipfreeze] contents:

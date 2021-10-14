@@ -13,16 +13,16 @@ jobs:
     strategy:
       matrix:
 
-        # 2.7, 3.5-9  (current matrix)
-        # python-version: [ '2.7', '3.5', '3.6', '3.7', '3.8', '3.9']
+        # 2.7, 3.8-9  (current matrix)
+        python-version: [ '2.7', '3.8', '3.9']
       
-        # 2.7, 3.6-10 (next matrix)
-        # python-version: [ '2.7', '3.6', '3.7', '3.8', '3.9', '3.10' ]
+        # 2.7, 3.9-10 (next matrix)
+        # python-version: [ '2.7', '3.9', '3.10' ]
 
         # for debugging
-        python-version: [ '3.9' ]
+        # python-version: [ '3.9' ]
 
-        os: [windows-latest]
+        os: [windows-latest, windows-2022]
 
     steps:
       # setup environment
@@ -39,7 +39,7 @@ jobs:
       - name: Run tests
         shell: cmd
         run: |
-          cd tests && run_tests.bat -k test_workon_home_with_spaces.bat
+          cd tests && run_tests.bat
 
   cd:
     name: CD
@@ -56,6 +56,7 @@ jobs:
           python-version: '3.9'
 
       - name: Cleanup
+        shell: bash
         run: |
           rm -rf dist
           rm -rf build
