@@ -12,7 +12,7 @@ call _start_test space_dir_test
     call assertEquals "%ERRORLEVEL%" "0"
 
 
-call _start_test space_dir_test
+call _start_test space_dir_test2
     call mkvirtualenv regular_space_env
     call assertEquals "%ERRORLEVEL%" "0"
 

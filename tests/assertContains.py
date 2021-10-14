@@ -19,7 +19,7 @@ def log(cmd, args=''):
 def assert_contains(fname, text, NOT=''):
     """Returns True if ``text`` occurs in ``fname``.
     """
-    with open(fname, 'rb') as fp:
+    with open(fname) as fp:
         contents = fp.read()
         if NOT == 'NOT':
             if text not in contents:
