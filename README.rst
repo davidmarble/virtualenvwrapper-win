@@ -1,3 +1,10 @@
+.. image:: https://github.com/davidmarble/virtualenvwrapper-win/actions/workflows/ci-cd.yml/badge.svg
+   :target: https://github.com/davidmarble/virtualenvwrapper-win/actions/workflows/ci-cd.yml
+
+.. image:: https://pepy.tech/badge/virtualenvwrapper-win/month
+   :target: https://pepy.tech/project/virtualenvwrapper-win
+
+
 virtualenvwrapper-win
 =====================
 
@@ -40,7 +47,7 @@ By default, this is ``%USERPROFILE%\Envs``.
 **pywin (Optional)**
 ~~~~~~~~~~~~~~~~~~~~
 **pywin** python version switcher (not included)
-      
+
 If you use several versions of python, you can switch between them
 using a separate project `pywin
 <https://github.com/davidmarble/pywin>`_. It's a lightweight
