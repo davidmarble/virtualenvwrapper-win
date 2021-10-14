@@ -39,7 +39,7 @@ jobs:
       - name: Run tests
         shell: cmd
         run: |
-          cd tests && run_tests.bat
+          cd tests && run_tests.bat -k test_workon_home_with_spaces.bat
 
   cd:
     name: CD

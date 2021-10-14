@@ -5,6 +5,8 @@ mkdir %config.output%
 
 :setup_space_dir
     set "WORKON_HOME=%TMP%\workon_home%RANDOM% with spaces"
+    echo WORKON_HOME=%WORKON_HOME%
+    echo "%WORKON_HOME%\venv with spaces"
 
 
 call _start_test space_dir_test
@@ -23,6 +25,7 @@ call _start_test venv_with_space
         call cdvirtualenv
         set "CURDIR=%CD%"
     popd
+    echo.call assertEquals "%CURDIR%" "%WORKON_HOME%\venv with spaces"
     call assertEquals "%CURDIR%" "%WORKON_HOME%\venv with spaces"
 
 

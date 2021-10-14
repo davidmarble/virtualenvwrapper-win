@@ -15,6 +15,6 @@ if [%~s1]==[%~s2] (
     exit /b 0
 ) else (
     rem echo.  ^>^> FAIL %config.current_module%:%config.current_test%  [%1] and [%2] are not equal  1>&2
-    call _log FAIL %config.current_module%:%config.current_test%  [%1] and [%2] are not equal
+    call _log FAIL %config.current_module%:%config.current_test%  [%1] and [%2] are not the same path
     exit /b 1
 )
