@@ -141,6 +141,12 @@ Convenience Commands
     directory in PROJECT_HOME and a virtualenv in WORKON_HOME.  The project path
     will automatically be associated with the virtualenv on creation.
 
+``mkjupyter <name>``
+    Create a new virtualenv environment named *<name>* and add it to the
+    user's jupyter environment. Calls `mkvirtualenv -i ipykernel <name>` and
+    then, from the activated virtualenv,
+    `python -m ipykernel install --user --name <name>`.
+
 ``setprojectdir <full or relative path>``
     If a virtualenv environment is active, define *<path>* as project
     directory containing the source code.  This allows the use of ``cdproject``
