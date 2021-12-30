@@ -34,10 +34,10 @@ def setversion(ctx, version):
     """Set the version number
     """
     os.chdir(DIRNAME)
-    with open('setup.py', 'rb') as fp:
+    with open('setup.py', 'r') as fp:
         txt = fp.read()
 
-    with open('setup.py', 'wb') as fp:
+    with open('setup.py', 'w') as fp:
         fp.write(re.sub(
             r'^VERSION\s*=\s*.*?$', "VERSION = '%s'" % version,
             txt,
