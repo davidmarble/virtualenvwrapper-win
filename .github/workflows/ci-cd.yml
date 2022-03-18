@@ -14,11 +14,8 @@ jobs:
       matrix:
 
         # 2.7, 3.8-9  (current matrix)
-        python-version: [ '2.7', '3.8', '3.9']
+        python-version: [ '2.7', '3.6', '3.7', '3.8', '3.9', '3.10']
       
-        # 2.7, 3.9-10 (next matrix)
-        # python-version: [ '2.7', '3.9', '3.10' ]
-
         # for debugging
         # python-version: [ '3.9' ]
 
